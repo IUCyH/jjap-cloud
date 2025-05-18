@@ -4,6 +4,7 @@ import com.iucyh.jjapcloud.domain.user.User;
 import org.springframework.stereotype.Repository;
 
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
@@ -13,8 +14,8 @@ public class UserRepositoryMemoryImpl implements UserRepository {
     private static Integer sequence = 0;
 
     @Override
-    public User find(int id) {
-        return userStore.get(id);
+    public Optional<User> find(int id) {
+        return Optional.ofNullable(userStore.get(id));
     }
 
     @Override

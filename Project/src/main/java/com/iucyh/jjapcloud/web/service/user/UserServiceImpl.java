@@ -10,6 +10,8 @@ import com.iucyh.jjapcloud.web.dto.user.UserDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
@@ -18,22 +20,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto getUserById(int id) {
-        User user = userRepository.find(id);
-        if(user == null) {
-            return null;
-        }
-
-        return UserDto.from(user);
+        Optional<User> user = userRepository.find(id);
+        return user.map(UserDto::from).orElse(null);
     }
 
     @Override
     public MyUserDto getMyUserById(int id) {
-        User user = userRepository.find(id);
-        if(user == null) {
-            return null;
-        }
-
-        return MyUserDto.from(user);
+        Optional<User> user = userRepository.find(id);
+        return user.map(MyUserDto::from).orElse(null);
     }
 
     @Override

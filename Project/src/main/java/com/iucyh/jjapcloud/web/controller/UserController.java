@@ -6,6 +6,8 @@ import com.iucyh.jjapcloud.web.dto.user.UpdateUserDto;
 import com.iucyh.jjapcloud.web.dto.user.UserDto;
 import com.iucyh.jjapcloud.web.service.user.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,21 +19,29 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/{id}")
-    public UserDto getUserById(@PathVariable int id) {
-        return userService.getUserById(id);
+    public ResponseEntity<UserDto> getUserById(@PathVariable int id) {
+        UserDto user = userService.getUserById(id);
+        if(user == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(user);
     }
 
     @PostMapping
-    public IdDto createUser(@Validated @RequestBody CreateUserDto userDto) {
-        return userService.createUser(userDto);
+    public ResponseEntity<IdDto> createUser(@Validated @RequestBody CreateUserDto userDto) {
+        IdDto result = userService.createUser(userDto);
+        return new ResponseEntity<>(result, HttpStatus.CREATED);
     }
 
     @PatchMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
     public void updateUser(@PathVariable int id, @Validated @RequestBody UpdateUserDto userDto) {
         userService.updateUser(id, userDto);
     }
 
     @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
     public void deleteUser(@PathVariable int id) {
         userService.deleteUser(id);
     }
