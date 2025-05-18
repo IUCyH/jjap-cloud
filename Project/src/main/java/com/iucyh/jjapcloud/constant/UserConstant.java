@@ -1,4 +1,4 @@
-package com.iucyh.constant;
+package com.iucyh.jjapcloud.constant;
 
 public interface UserConstant {
 

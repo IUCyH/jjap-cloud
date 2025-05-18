@@ -1,6 +1,6 @@
 package com.iucyh.jjapcloud.web.dto.user;
 
-import com.iucyh.constant.UserConstant;
+import com.iucyh.jjapcloud.constant.UserConstant;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
