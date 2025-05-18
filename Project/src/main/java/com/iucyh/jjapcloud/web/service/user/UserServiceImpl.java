@@ -2,6 +2,7 @@ package com.iucyh.jjapcloud.web.service.user;
 
 import com.iucyh.jjapcloud.domain.user.User;
 import com.iucyh.jjapcloud.domain.user.repository.UserRepository;
+import com.iucyh.jjapcloud.web.dto.IdDto;
 import com.iucyh.jjapcloud.web.dto.user.CreateUserDto;
 import com.iucyh.jjapcloud.web.dto.user.MyUserDto;
 import com.iucyh.jjapcloud.web.dto.user.UpdateUserDto;
@@ -18,23 +19,32 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto getUserById(int id) {
         User user = userRepository.find(id);
+        if(user == null) {
+            return null;
+        }
+
         return UserDto.from(user);
     }
 
     @Override
     public MyUserDto getMyUserById(int id) {
         User user = userRepository.find(id);
+        if(user == null) {
+            return null;
+        }
+
         return MyUserDto.from(user);
     }
 
     @Override
-    public int createUser(CreateUserDto userDto) {
+    public IdDto createUser(CreateUserDto userDto) {
         User user = new User();
         user.setNickname(userDto.getNickname());
         user.setEmail(userDto.getEmail());
         user.setPassword(userDto.getPassword());
 
-        return userRepository.create(user);
+        int id = userRepository.create(user);
+        return new IdDto(id);
     }
 
     @Override
