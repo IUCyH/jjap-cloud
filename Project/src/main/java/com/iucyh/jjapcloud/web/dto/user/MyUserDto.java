@@ -1,11 +1,9 @@
 package com.iucyh.jjapcloud.web.dto.user;
 
 import com.iucyh.jjapcloud.domain.user.User;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
-@AllArgsConstructor
 public class MyUserDto {
 
     private Integer id;
