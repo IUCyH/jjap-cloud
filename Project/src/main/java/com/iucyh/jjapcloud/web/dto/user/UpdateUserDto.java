@@ -10,11 +10,9 @@ import org.hibernate.validator.constraints.Length;
 @Setter
 public class UpdateUserDto {
 
-    @NotBlank
     @Length(max = UserConstant.NICKNAME_MAX)
     private String nickname;
 
-    @NotBlank
     @Length(min = UserConstant.PASSWORD_MIN, max = UserConstant.PASSWORD_MAX)
     private String password;
 

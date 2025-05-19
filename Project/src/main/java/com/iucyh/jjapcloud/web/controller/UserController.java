@@ -34,17 +34,17 @@ public class UserController {
         return userService.createUser(userDto);
     }
 
-    @PatchMapping("/{id}")
+    @PatchMapping("/me")
     @ResponseStatus(HttpStatus.OK)
-    public RequestSuccessDto updateUser(@PathVariable int id, @Validated @RequestBody UpdateUserDto userDto) {
-        userService.updateUser(id, userDto);
+    public RequestSuccessDto updateUser(@LoginUser UserInfoDto user, @Validated @RequestBody UpdateUserDto userDto) {
+        userService.updateUser(user.getId(), userDto);
         return new RequestSuccessDto("User Update Success");
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/me")
     @ResponseStatus(HttpStatus.OK)
-    public RequestSuccessDto deleteUser(@PathVariable int id) {
-        userService.deleteUser(id);
+    public RequestSuccessDto deleteUser(@LoginUser UserInfoDto user) {
+        userService.deleteUser(user.getId());
         return new RequestSuccessDto("User Delete Success");
     }
 }
