@@ -1,5 +1,6 @@
 package com.iucyh.jjapcloud.web.controller;
 
+import com.iucyh.jjapcloud.web.dto.RequestSuccessDto;
 import com.iucyh.jjapcloud.web.dto.auth.LoginDto;
 import com.iucyh.jjapcloud.web.dto.user.UserInfoDto;
 import com.iucyh.jjapcloud.web.service.auth.AuthService;
@@ -32,5 +33,11 @@ public class AuthController {
         newSession.setAttribute("user", user);
 
         return user;
+    }
+
+    @PostMapping("/logout")
+    public RequestSuccessDto logout(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        return authService.logout(session);
     }
 }

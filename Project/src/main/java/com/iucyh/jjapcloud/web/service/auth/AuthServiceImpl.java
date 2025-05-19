@@ -4,7 +4,9 @@ import com.iucyh.jjapcloud.domain.user.User;
 import com.iucyh.jjapcloud.domain.user.repository.UserRepository;
 import com.iucyh.jjapcloud.web.common.exception.ServiceException;
 import com.iucyh.jjapcloud.web.common.exception.errorcode.ServiceErrorCode;
+import com.iucyh.jjapcloud.web.dto.RequestSuccessDto;
 import com.iucyh.jjapcloud.web.dto.user.UserInfoDto;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -27,5 +29,11 @@ public class AuthServiceImpl implements AuthService {
         }
 
         throw new ServiceException(ServiceErrorCode.UNAUTHORIZED);
+    }
+
+    @Override
+    public RequestSuccessDto logout(HttpSession session) {
+        session.invalidate();
+        return new RequestSuccessDto("Logout Success");
     }
 }
