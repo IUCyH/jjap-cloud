@@ -19,6 +19,13 @@ public class UserRepositoryMemoryImpl implements UserRepository {
     }
 
     @Override
+    public Optional<User> findByEmail(String email) {
+        return userStore.values().stream()
+                .filter(user -> user.getEmail().equals(email))
+                .findFirst();
+    }
+
+    @Override
     public int create(User user) {
         user.setId(++sequence);
         userStore.put(user.getId(), user);
