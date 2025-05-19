@@ -2,9 +2,9 @@ package com.iucyh.jjapcloud.web.service.auth;
 
 import com.iucyh.jjapcloud.domain.user.User;
 import com.iucyh.jjapcloud.domain.user.repository.UserRepository;
+import com.iucyh.jjapcloud.web.common.exception.ServiceException;
+import com.iucyh.jjapcloud.web.common.exception.errorcode.ServiceErrorCode;
 import com.iucyh.jjapcloud.web.dto.user.UserInfoDto;
-import com.iucyh.jjapcloud.web.exception.BusinessException;
-import com.iucyh.jjapcloud.web.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +26,6 @@ public class AuthServiceImpl implements AuthService {
             }
         }
 
-        throw new BusinessException(ErrorCode.USER_NOT_FOUND);
+        throw new ServiceException(ServiceErrorCode.UNAUTHORIZED);
     }
 }

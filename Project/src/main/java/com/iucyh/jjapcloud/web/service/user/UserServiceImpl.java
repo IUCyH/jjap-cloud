@@ -2,13 +2,13 @@ package com.iucyh.jjapcloud.web.service.user;
 
 import com.iucyh.jjapcloud.domain.user.User;
 import com.iucyh.jjapcloud.domain.user.repository.UserRepository;
+import com.iucyh.jjapcloud.web.common.exception.ServiceException;
+import com.iucyh.jjapcloud.web.common.exception.errorcode.ServiceErrorCode;
 import com.iucyh.jjapcloud.web.dto.IdDto;
 import com.iucyh.jjapcloud.web.dto.user.CreateUserDto;
 import com.iucyh.jjapcloud.web.dto.user.MyUserDto;
 import com.iucyh.jjapcloud.web.dto.user.UpdateUserDto;
 import com.iucyh.jjapcloud.web.dto.user.UserDto;
-import com.iucyh.jjapcloud.web.exception.BusinessException;
-import com.iucyh.jjapcloud.web.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +25,7 @@ public class UserServiceImpl implements UserService {
         Optional<User> user = userRepository.find(id);
         return user
                 .map(UserDto::from)
-                .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
+                .orElseThrow(() -> new ServiceException(ServiceErrorCode.USER_NOT_FOUND));
     }
 
     @Override
@@ -33,7 +33,7 @@ public class UserServiceImpl implements UserService {
         Optional<User> user = userRepository.find(id);
         return user
                 .map(MyUserDto::from)
-                .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
+                .orElseThrow(() -> new ServiceException(ServiceErrorCode.USER_NOT_FOUND));
     }
 
     @Override

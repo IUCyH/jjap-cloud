@@ -8,9 +8,10 @@ import lombok.Getter;
 public class RequestFailedDto {
 
     private int status;
-    private String name;
     private String code;
     private String message;
 
-    public RequestFailedDto() {}
+    public static RequestFailedDto of(int status, String code, String message) {
+        return new RequestFailedDto(status, code, message);
+    }
 }
