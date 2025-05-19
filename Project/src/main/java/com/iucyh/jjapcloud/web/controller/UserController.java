@@ -1,6 +1,7 @@
 package com.iucyh.jjapcloud.web.controller;
 
 import com.iucyh.jjapcloud.web.dto.IdDto;
+import com.iucyh.jjapcloud.web.dto.RequestSuccessDto;
 import com.iucyh.jjapcloud.web.dto.user.CreateUserDto;
 import com.iucyh.jjapcloud.web.dto.user.UpdateUserDto;
 import com.iucyh.jjapcloud.web.dto.user.UserDto;
@@ -19,30 +20,26 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserDto> getUserById(@PathVariable int id) {
-        UserDto user = userService.getUserById(id);
-        if(user == null) {
-            return ResponseEntity.notFound().build();
-        }
-
-        return ResponseEntity.ok(user);
+    public UserDto getUserById(@PathVariable int id) {
+        return userService.getUserById(id);
     }
 
     @PostMapping
-    public ResponseEntity<IdDto> createUser(@Validated @RequestBody CreateUserDto userDto) {
-        IdDto result = userService.createUser(userDto);
-        return new ResponseEntity<>(result, HttpStatus.CREATED);
+    public IdDto createUser(@Validated @RequestBody CreateUserDto userDto) {
+        return userService.createUser(userDto);
     }
 
     @PatchMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void updateUser(@PathVariable int id, @Validated @RequestBody UpdateUserDto userDto) {
+    public RequestSuccessDto updateUser(@PathVariable int id, @Validated @RequestBody UpdateUserDto userDto) {
         userService.updateUser(id, userDto);
+        return new RequestSuccessDto("User Update Success");
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void deleteUser(@PathVariable int id) {
+    public RequestSuccessDto deleteUser(@PathVariable int id) {
         userService.deleteUser(id);
+        return new RequestSuccessDto("User Delete Success");
     }
 }

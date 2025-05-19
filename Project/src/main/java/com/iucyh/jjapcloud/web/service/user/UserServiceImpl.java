@@ -7,6 +7,8 @@ import com.iucyh.jjapcloud.web.dto.user.CreateUserDto;
 import com.iucyh.jjapcloud.web.dto.user.MyUserDto;
 import com.iucyh.jjapcloud.web.dto.user.UpdateUserDto;
 import com.iucyh.jjapcloud.web.dto.user.UserDto;
+import com.iucyh.jjapcloud.web.exception.BusinessException;
+import com.iucyh.jjapcloud.web.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -21,13 +23,17 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto getUserById(int id) {
         Optional<User> user = userRepository.find(id);
-        return user.map(UserDto::from).orElse(null);
+        return user
+                .map(UserDto::from)
+                .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
     }
 
     @Override
     public MyUserDto getMyUserById(int id) {
         Optional<User> user = userRepository.find(id);
-        return user.map(MyUserDto::from).orElse(null);
+        return user
+                .map(MyUserDto::from)
+                .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
     }
 
     @Override
