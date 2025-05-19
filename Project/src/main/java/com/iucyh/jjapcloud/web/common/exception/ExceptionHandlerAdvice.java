@@ -31,6 +31,7 @@ public class ExceptionHandlerAdvice extends ResponseEntityExceptionHandler {
                 .body(RequestFailedDto.of(ErrorCode.INVALID_PARAMETER.getHttpStatus().value(), ErrorCode.INVALID_PARAMETER.getCode(), "Missing Request Parameter: " + ex.getParameterName()));
     }
 
+    @ExceptionHandler
     public ResponseEntity<RequestFailedDto> handleBindException(BindException e) {
         return ResponseEntity
                 .status(ErrorCode.INVALID_PARAMETER.getHttpStatus())

@@ -1,11 +1,11 @@
 package com.iucyh.jjapcloud.web.controller;
 
+import com.iucyh.jjapcloud.web.common.annotation.LoginUser;
 import com.iucyh.jjapcloud.web.dto.IdDto;
 import com.iucyh.jjapcloud.web.dto.RequestSuccessDto;
-import com.iucyh.jjapcloud.web.dto.user.CreateUserDto;
-import com.iucyh.jjapcloud.web.dto.user.UpdateUserDto;
-import com.iucyh.jjapcloud.web.dto.user.UserDto;
+import com.iucyh.jjapcloud.web.dto.user.*;
 import com.iucyh.jjapcloud.web.service.user.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +18,11 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     private final UserService userService;
+
+    @GetMapping("/me")
+    public MyUserDto getMyUser(@LoginUser UserInfoDto user) {
+        return userService.getMyUserById(user.getId());
+    }
 
     @GetMapping("/{id}")
     public UserDto getUserById(@PathVariable int id) {
