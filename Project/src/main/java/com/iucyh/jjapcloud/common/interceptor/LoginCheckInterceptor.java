@@ -1,7 +1,7 @@
-package com.iucyh.jjapcloud.web.common.interceptor;
+package com.iucyh.jjapcloud.common.interceptor;
 
-import com.iucyh.jjapcloud.web.common.exception.ServiceException;
-import com.iucyh.jjapcloud.web.common.exception.errorcode.ServiceErrorCode;
+import com.iucyh.jjapcloud.common.exception.ServiceException;
+import com.iucyh.jjapcloud.common.exception.errorcode.ServiceErrorCode;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -12,7 +12,7 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         HttpSession session = request.getSession(false);
-        if(session == null) {
+        if(session == null || session.getAttribute("user") == null) {
             throw new ServiceException(ServiceErrorCode.UNAUTHORIZED);
         }
 

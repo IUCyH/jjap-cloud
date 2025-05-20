@@ -1,6 +1,6 @@
-package com.iucyh.jjapcloud.web.common.argumentresolver;
+package com.iucyh.jjapcloud.common.argumentresolver;
 
-import com.iucyh.jjapcloud.web.common.annotation.LoginUser;
+import com.iucyh.jjapcloud.common.annotation.LoginUser;
 import com.iucyh.jjapcloud.web.dto.user.UserInfoDto;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;

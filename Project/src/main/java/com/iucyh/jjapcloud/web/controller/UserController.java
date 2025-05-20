@@ -1,14 +1,12 @@
 package com.iucyh.jjapcloud.web.controller;
 
-import com.iucyh.jjapcloud.web.common.annotation.LoginUser;
+import com.iucyh.jjapcloud.common.annotation.LoginUser;
 import com.iucyh.jjapcloud.web.dto.IdDto;
 import com.iucyh.jjapcloud.web.dto.RequestSuccessDto;
 import com.iucyh.jjapcloud.web.dto.user.*;
 import com.iucyh.jjapcloud.web.service.user.UserService;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 

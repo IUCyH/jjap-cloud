@@ -1,6 +1,6 @@
-package com.iucyh.jjapcloud.web.common.exception;
+package com.iucyh.jjapcloud.common.exception;
 
-import com.iucyh.jjapcloud.web.common.exception.errorcode.ServiceErrorCode;
+import com.iucyh.jjapcloud.common.exception.errorcode.ServiceErrorCode;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

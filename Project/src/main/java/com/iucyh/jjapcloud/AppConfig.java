@@ -1,8 +1,8 @@
 package com.iucyh.jjapcloud;
 
-import com.iucyh.jjapcloud.web.common.argumentresolver.LoginUserArgumentResolver;
-import com.iucyh.jjapcloud.web.common.interceptor.LoggingInterceptor;
-import com.iucyh.jjapcloud.web.common.interceptor.LoginCheckInterceptor;
+import com.iucyh.jjapcloud.common.argumentresolver.LoginUserArgumentResolver;
+import com.iucyh.jjapcloud.common.interceptor.LoggingInterceptor;
+import com.iucyh.jjapcloud.common.interceptor.LoginCheckInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;

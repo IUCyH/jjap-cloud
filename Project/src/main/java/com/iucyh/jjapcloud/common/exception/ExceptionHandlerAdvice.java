@@ -1,7 +1,7 @@
-package com.iucyh.jjapcloud.web.common.exception;
+package com.iucyh.jjapcloud.common.exception;
 
-import com.iucyh.jjapcloud.web.common.exception.errorcode.ErrorCode;
-import com.iucyh.jjapcloud.web.common.exception.errorcode.ServiceErrorCode;
+import com.iucyh.jjapcloud.common.exception.errorcode.ErrorCode;
+import com.iucyh.jjapcloud.common.exception.errorcode.ServiceErrorCode;
 import com.iucyh.jjapcloud.web.dto.RequestFailedDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.TypeMismatchException;

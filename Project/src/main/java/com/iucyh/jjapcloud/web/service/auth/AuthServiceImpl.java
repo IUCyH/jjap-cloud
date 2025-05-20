@@ -2,8 +2,8 @@ package com.iucyh.jjapcloud.web.service.auth;
 
 import com.iucyh.jjapcloud.domain.user.User;
 import com.iucyh.jjapcloud.domain.user.repository.UserRepository;
-import com.iucyh.jjapcloud.web.common.exception.ServiceException;
-import com.iucyh.jjapcloud.web.common.exception.errorcode.ServiceErrorCode;
+import com.iucyh.jjapcloud.common.exception.ServiceException;
+import com.iucyh.jjapcloud.common.exception.errorcode.ServiceErrorCode;
 import com.iucyh.jjapcloud.web.dto.RequestSuccessDto;
 import com.iucyh.jjapcloud.web.dto.user.UserInfoDto;
 import jakarta.servlet.http.HttpSession;

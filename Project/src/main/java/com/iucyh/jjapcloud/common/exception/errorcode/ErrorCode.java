@@ -1,4 +1,4 @@
-package com.iucyh.jjapcloud.web.common.exception.errorcode;
+package com.iucyh.jjapcloud.common.exception.errorcode;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
