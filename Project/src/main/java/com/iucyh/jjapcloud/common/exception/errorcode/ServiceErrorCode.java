@@ -12,8 +12,11 @@ public enum ServiceErrorCode {
     USER_NOT_FOUND(HttpStatus.NOT_FOUND, "ACCOUNT-001", "User Not Found"),
     EMAIL_EXISTED(HttpStatus.BAD_REQUEST, "ACCOUNT-002", "Email Exists"),
     EMAIL_OR_PASSWORD_WRONG(HttpStatus.BAD_REQUEST, "ACCOUNT-003", "Email or Password Wrong"),
-    UNAUTHORIZED(HttpStatus.UNAUTHORIZED, "ACCOUNT-004", "Unauthorized");
-    
+    UNAUTHORIZED(HttpStatus.UNAUTHORIZED, "ACCOUNT-004", "Unauthorized"),
+
+    // MUSIC
+    MUSIC_NOT_FOUND(HttpStatus.NOT_FOUND, "MUSIC-001", "Music Not Found");
+
     private final HttpStatus httpStatus;
     private final String code;
     private final String message;
