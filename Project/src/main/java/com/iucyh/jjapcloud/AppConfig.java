@@ -37,6 +37,11 @@ public class AppConfig implements WebMvcConfigurer {
                 .excludePathPatterns("/ico/**", "/css", "/error");
         registry.addInterceptor(new LoginCheckInterceptor())
                 .order(2)
-                .addPathPatterns("/users/me", "/auth/logout");
+                .addPathPatterns(
+                        "/users/me",
+                        "/auth/logout",
+                        "/musics",
+                        "/musics/{id}"
+                );
     }
 }
