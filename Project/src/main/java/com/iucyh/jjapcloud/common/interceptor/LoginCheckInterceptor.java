@@ -24,7 +24,7 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        if(shouldIgnore(request)) {
+        if(shouldIgnore(request) || request.getMethod().equals("OPTIONS")) {
             return true;
         }
 
