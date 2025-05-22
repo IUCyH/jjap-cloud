@@ -1,6 +1,7 @@
 package com.iucyh.jjapcloud;
 
 import com.iucyh.jjapcloud.common.argumentresolver.LoginUserArgumentResolver;
+import com.iucyh.jjapcloud.common.interceptor.CsrfTokenCheckInterceptor;
 import com.iucyh.jjapcloud.common.interceptor.LoggingInterceptor;
 import com.iucyh.jjapcloud.common.interceptor.LoginCheckInterceptor;
 import org.springframework.context.annotation.Configuration;
@@ -34,8 +35,17 @@ public class AppConfig implements WebMvcConfigurer {
                 .order(1)
                 .addPathPatterns("/**")
                 .excludePathPatterns("/ico/**", "/css", "/error");
-        registry.addInterceptor(new LoginCheckInterceptor())
+        registry.addInterceptor(new CsrfTokenCheckInterceptor())
                 .order(2)
+                .addPathPatterns("/**")
+                .excludePathPatterns(
+                        "/auth/login",
+                        "/ico/**",
+                        "/css",
+                        "/error"
+                );
+        registry.addInterceptor(new LoginCheckInterceptor())
+                .order(3)
                 .addPathPatterns(
                         "/users/me",
                         "/auth/logout",
