@@ -35,22 +35,22 @@ public class AppConfig implements WebMvcConfigurer {
                 .order(1)
                 .addPathPatterns("/**")
                 .excludePathPatterns("/ico/**", "/css", "/error");
-        registry.addInterceptor(new CsrfTokenCheckInterceptor())
+        registry.addInterceptor(new LoginCheckInterceptor())
                 .order(2)
+                .addPathPatterns(
+                        "/users/me",
+                        "/auth/logout",
+                        "/musics",
+                        "/musics/{id}"
+                );
+        registry.addInterceptor(new CsrfTokenCheckInterceptor())
+                .order(3)
                 .addPathPatterns("/**")
                 .excludePathPatterns(
                         "/auth/login",
                         "/ico/**",
                         "/css",
                         "/error"
-                );
-        registry.addInterceptor(new LoginCheckInterceptor())
-                .order(3)
-                .addPathPatterns(
-                        "/users/me",
-                        "/auth/logout",
-                        "/musics",
-                        "/musics/{id}"
                 );
     }
 }
