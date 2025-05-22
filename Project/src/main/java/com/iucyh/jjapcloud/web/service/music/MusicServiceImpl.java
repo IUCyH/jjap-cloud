@@ -52,7 +52,7 @@ public class MusicServiceImpl implements MusicService {
         newMusic.setName(uniqueName);
         newMusic.setOriginalName(music.getName());
         newMusic.setSinger(music.getSinger());
-        newMusic.setRuntime(music.getRuntime());
+        newMusic.setCreateTime(music.getCreateTime());
 
         return new IdDto(musicRepository.create(newMusic));
     }
