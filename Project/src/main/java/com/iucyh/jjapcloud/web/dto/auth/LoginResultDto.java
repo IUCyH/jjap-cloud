@@ -6,8 +6,8 @@ import lombok.Getter;
 @Getter
 public class LoginResultDto {
 
-    private final UserInfoDto user;
-    private final String csrfToken;
+    private UserInfoDto user;
+    private String csrfToken;
 
     public LoginResultDto(UserInfoDto user, String csrfToken) {
         this.user = user;
