@@ -2,6 +2,7 @@ package com.iucyh.jjapcloud.web.service.music;
 
 import com.iucyh.jjapcloud.common.exception.ServiceException;
 import com.iucyh.jjapcloud.common.exception.errorcode.ServiceErrorCode;
+import com.iucyh.jjapcloud.common.util.FileManager;
 import com.iucyh.jjapcloud.domain.music.Music;
 import com.iucyh.jjapcloud.domain.music.repository.MusicRepository;
 import com.iucyh.jjapcloud.web.dto.RequestSuccessDto;
@@ -10,6 +11,7 @@ import com.iucyh.jjapcloud.web.dto.music.MusicDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -18,6 +20,7 @@ import java.util.List;
 public class MusicServiceImpl implements MusicService {
 
     private final MusicRepository musicRepository;
+    private final FileManager fileManager;
 
     @Override
     public List<MusicDto> getMusics(Date date) {
@@ -37,9 +40,16 @@ public class MusicServiceImpl implements MusicService {
     }
 
     @Override
-    public int createMusic(CreateMusicDto music) {
+    public int createMusic(CreateMusicDto music) throws IOException {
+        if(!fileManager.isCorrectMimeType(music.getMusicFile(), "audio/mpeg")) {
+            throw new ServiceException(ServiceErrorCode.NOT_VALID_MUSIC_FILE);
+        }
+
+        String uniqueName = fileManager.uploadFile(music.getMusicFile(), "music");
+
         Music newMusic = new Music();
-        newMusic.setName(music.getName());
+        newMusic.setName(uniqueName);
+        newMusic.setOriginalName(music.getName());
         newMusic.setSinger(music.getSinger());
         newMusic.setRuntime(music.getRuntime());
 

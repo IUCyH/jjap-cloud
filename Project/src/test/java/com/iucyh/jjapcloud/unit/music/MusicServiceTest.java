@@ -2,6 +2,7 @@ package com.iucyh.jjapcloud.unit.music;
 
 import com.iucyh.jjapcloud.common.exception.ServiceException;
 import com.iucyh.jjapcloud.common.exception.errorcode.ServiceErrorCode;
+import com.iucyh.jjapcloud.common.util.FileManager;
 import com.iucyh.jjapcloud.domain.music.Music;
 import com.iucyh.jjapcloud.domain.music.repository.MusicRepository;
 import com.iucyh.jjapcloud.web.dto.RequestSuccessDto;
@@ -15,7 +16,11 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.mock.web.MockMultipartFile;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -29,6 +34,7 @@ public class MusicServiceTest {
 
     @Mock
     private MusicRepository musicRepository;
+    private FileManager fileManager = new FileManager();
 
     private MusicService musicService;
 
@@ -39,7 +45,7 @@ public class MusicServiceTest {
 
     @BeforeEach
     void setUp() {
-        musicService = new MusicServiceImpl(musicRepository);
+        musicService = new MusicServiceImpl(musicRepository, fileManager);
     }
 
     @Test
@@ -86,21 +92,21 @@ public class MusicServiceTest {
     void getMusicsSuccess() {
         // Arrange
         Date testDate = new Date();
-        
+
         Music music1 = new Music();
         music1.setId(1);
         music1.setName("Song 1");
         music1.setSinger("Singer 1");
         music1.setRuntime(180);
-        
+
         Music music2 = new Music();
         music2.setId(2);
         music2.setName("Song 2");
         music2.setSinger("Singer 2");
         music2.setRuntime(240);
-        
+
         List<Music> musicList = Arrays.asList(music1, music2);
-        
+
         when(musicRepository.findMusics(testDate)).thenReturn(musicList);
 
         // Act
@@ -116,7 +122,7 @@ public class MusicServiceTest {
 
     @Test
     @DisplayName("createMusic should return new music ID")
-    void createMusicSuccess() {
+    void createMusicSuccess() throws IOException {
         // Arrange
         CreateMusicDto createMusicDto = new CreateMusicDto();
         createMusicDto.setName(TEST_NAME);

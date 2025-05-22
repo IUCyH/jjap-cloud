@@ -6,7 +6,9 @@ import com.iucyh.jjapcloud.web.dto.music.MusicDto;
 import com.iucyh.jjapcloud.web.service.music.MusicService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -28,7 +30,7 @@ public class MusicController {
     }
 
     @PostMapping
-    public int createMusic(@RequestBody CreateMusicDto music) {
+    public int createMusic(@ModelAttribute CreateMusicDto music) throws IOException {
         return musicService.createMusic(music);
     }
 

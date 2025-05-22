@@ -15,7 +15,8 @@ public enum ServiceErrorCode {
     UNAUTHORIZED(HttpStatus.UNAUTHORIZED, "ACCOUNT-004", "Unauthorized"),
 
     // MUSIC
-    MUSIC_NOT_FOUND(HttpStatus.NOT_FOUND, "MUSIC-001", "Music Not Found");
+    MUSIC_NOT_FOUND(HttpStatus.NOT_FOUND, "MUSIC-001", "Music Not Found"),
+    NOT_VALID_MUSIC_FILE(HttpStatus.BAD_REQUEST, "MUSIC-002", "Not Valid Music File");
 
     private final HttpStatus httpStatus;
     private final String code;
