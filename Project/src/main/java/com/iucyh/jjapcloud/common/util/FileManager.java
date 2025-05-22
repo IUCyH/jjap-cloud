@@ -21,6 +21,10 @@ public class FileManager {
         }
     }
 
+    public long getPlayTime(long fileSize, int bitRate) {
+        return fileSize * 8 / bitRate;
+    }
+
     public boolean isCorrectMimeType(MultipartFile file, String type) throws IOException {
         String mimeType = tika.detect(file.getInputStream());
         return mimeType.contains(type);

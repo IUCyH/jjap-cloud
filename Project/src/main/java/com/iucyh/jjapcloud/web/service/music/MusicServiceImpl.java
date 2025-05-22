@@ -46,12 +46,13 @@ public class MusicServiceImpl implements MusicService {
             throw new ServiceException(ServiceErrorCode.NOT_VALID_MUSIC_FILE);
         }
 
-        String uniqueName = fileManager.uploadFile(music.getMusicFile(), "music");
+        fileManager.uploadFile(music.getMusicFile(), "music");
+        long playTime = fileManager.getPlayTime(music.getMusicFile().getSize(), 320000);
 
         Music newMusic = new Music();
-        newMusic.setName(uniqueName);
         newMusic.setOriginalName(music.getName());
         newMusic.setSinger(music.getSinger());
+        newMusic.setPlayTime(playTime);
         newMusic.setCreateTime(music.getCreateTime());
 
         return new IdDto(musicRepository.create(newMusic));

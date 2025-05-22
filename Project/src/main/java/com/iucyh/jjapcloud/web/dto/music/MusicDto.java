@@ -9,14 +9,14 @@ public class MusicDto {
     private Integer id;
     private String originalName;
     private String singer;
-    private Integer runtime;
+    private Long playTime;
 
     public static MusicDto from(Music music) {
         MusicDto musicDto = new MusicDto();
         musicDto.id = music.getId();
         musicDto.originalName = music.getOriginalName();
         musicDto.singer = music.getSinger();
-        musicDto.runtime = music.getRuntime();
+        musicDto.playTime = music.getPlayTime();
         return musicDto;
     }
 }

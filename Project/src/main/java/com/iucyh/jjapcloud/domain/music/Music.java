@@ -10,10 +10,9 @@ import java.time.LocalDateTime;
 public class Music {
 
     private Integer id;
-    private String name;
     private String originalName;
     private String singer;
-    private Integer runtime;
+    private Long playTime;
     private LocalDateTime createTime;
 
     public Music() {}
