@@ -48,6 +48,7 @@ public class AppConfig implements WebMvcConfigurer {
                 .addPathPatterns("/**")
                 .excludePathPatterns(
                         "/auth/login",
+                        "/users",
                         "/ico/**",
                         "/css",
                         "/error"
