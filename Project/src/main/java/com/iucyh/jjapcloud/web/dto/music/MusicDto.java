@@ -8,7 +8,6 @@ public class MusicDto {
 
     private Integer id;
     private String originalName;
-    private String name;
     private String singer;
     private Integer runtime;
 
@@ -16,7 +15,6 @@ public class MusicDto {
         MusicDto musicDto = new MusicDto();
         musicDto.id = music.getId();
         musicDto.originalName = music.getOriginalName();
-        musicDto.name = music.getName();
         musicDto.singer = music.getSinger();
         musicDto.runtime = music.getRuntime();
         return musicDto;
