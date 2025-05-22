@@ -7,5 +7,6 @@ import jakarta.servlet.http.HttpSession;
 public interface AuthService {
 
     UserInfoDto login(String email, String password);
+    String createCsrfToken();
     RequestSuccessDto logout(HttpSession session);
 }
