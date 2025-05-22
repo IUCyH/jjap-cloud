@@ -1,5 +1,6 @@
 package com.iucyh.jjapcloud.web.controller;
 
+import com.iucyh.jjapcloud.web.dto.IdDto;
 import com.iucyh.jjapcloud.web.dto.RequestSuccessDto;
 import com.iucyh.jjapcloud.web.dto.music.CreateMusicDto;
 import com.iucyh.jjapcloud.web.dto.music.MusicDto;
@@ -30,7 +31,7 @@ public class MusicController {
     }
 
     @PostMapping
-    public int createMusic(@ModelAttribute CreateMusicDto music) throws IOException {
+    public IdDto createMusic(@ModelAttribute CreateMusicDto music) throws IOException {
         return musicService.createMusic(music);
     }
 

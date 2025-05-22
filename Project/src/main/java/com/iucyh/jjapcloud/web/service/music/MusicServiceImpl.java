@@ -5,6 +5,7 @@ import com.iucyh.jjapcloud.common.exception.errorcode.ServiceErrorCode;
 import com.iucyh.jjapcloud.common.util.FileManager;
 import com.iucyh.jjapcloud.domain.music.Music;
 import com.iucyh.jjapcloud.domain.music.repository.MusicRepository;
+import com.iucyh.jjapcloud.web.dto.IdDto;
 import com.iucyh.jjapcloud.web.dto.RequestSuccessDto;
 import com.iucyh.jjapcloud.web.dto.music.CreateMusicDto;
 import com.iucyh.jjapcloud.web.dto.music.MusicDto;
@@ -40,7 +41,7 @@ public class MusicServiceImpl implements MusicService {
     }
 
     @Override
-    public int createMusic(CreateMusicDto music) throws IOException {
+    public IdDto createMusic(CreateMusicDto music) throws IOException {
         if(!fileManager.isCorrectMimeType(music.getMusicFile(), "audio/mpeg")) {
             throw new ServiceException(ServiceErrorCode.NOT_VALID_MUSIC_FILE);
         }
@@ -53,7 +54,7 @@ public class MusicServiceImpl implements MusicService {
         newMusic.setSinger(music.getSinger());
         newMusic.setRuntime(music.getRuntime());
 
-        return musicRepository.create(newMusic);
+        return new IdDto(musicRepository.create(newMusic));
     }
 
     @Override
