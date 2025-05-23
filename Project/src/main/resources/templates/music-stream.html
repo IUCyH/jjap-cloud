@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Stream Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .music-list {
+            margin-top: 20px;
+        }
+        .music-item {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+            margin-bottom: 15px;
+            background-color: #f9f9f9;
+        }
+        .music-info {
+            margin-bottom: 10px;
+        }
+        .music-info p {
+            margin: 5px 0;
+        }
+        .music-controls {
+            margin-top: 10px;
+        }
+        audio {
+            width: 100%;
+        }
+        .no-music {
+            text-align: center;
+            color: #666;
+            margin-top: 30px;
+        }
+        .upload-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: #4CAF50;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .upload-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>Music Stream Test</h1>
+    
+    <div th:if="${musics != null and !musics.isEmpty()}" class="music-list">
+        <div th:each="music : ${musics}" class="music-item">
+            <div class="music-info">
+                <p><strong>Name:</strong> <span th:text="${music.originalName}"></span></p>
+                <p><strong>Artist:</strong> <span th:text="${music.singer}"></span></p>
+                <p><strong>Play Time:</strong> <span th:text="${music.playTime}"></span> seconds</p>
+            </div>
+            <div class="music-controls">
+                <audio controls>
+                    <source th:src="@{'/musics/stream/' + ${music.id}}" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+        </div>
+    </div>
+    
+    <div th:if="${musics == null or musics.isEmpty()}" class="no-music">
+        <p>No music files available. Please upload some music first.</p>
+    </div>
+    
+    <a href="/music-view/upload" class="upload-link">Upload New Music</a>
+</body>
+</html>
