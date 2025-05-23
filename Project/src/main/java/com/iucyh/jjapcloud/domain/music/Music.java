@@ -11,6 +11,7 @@ public class Music {
 
     private Integer id;
     private String originalName;
+    private String storeName;
     private String singer;
     private Long playTime;
     private LocalDateTime createTime;

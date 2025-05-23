@@ -1,11 +1,11 @@
 package com.iucyh.jjapcloud.common.util;
 
+import com.iucyh.jjapcloud.common.wrapper.LimitedInputStream;
 import org.apache.tika.Tika;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.UUID;
 
 @Component
@@ -41,6 +41,16 @@ public class FileManager {
 
         file.transferTo(new File(fullPath));
         return uniqueName;
+    }
+
+    public File getFile(String root, String name) {
+        return new File(fileDir + root + "/" + name);
+    }
+
+    public LimitedInputStream getLimitedInputStream(File file, long start, long end) throws IOException {
+        InputStream inputStream = new FileInputStream(file);
+        inputStream.skip(start);
+        return new LimitedInputStream(inputStream, end - start + 1);
     }
 
     private void createDir(File fileDir) {
