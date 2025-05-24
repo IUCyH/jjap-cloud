@@ -36,14 +36,12 @@ public class UserController {
     @PatchMapping("/me")
     @ResponseStatus(HttpStatus.OK)
     public RequestSuccessDto updateUser(@LoginUser UserInfo user, @Validated @RequestBody UpdateUserDto userDto) {
-        userService.updateUser(user.getId(), userDto);
-        return new RequestSuccessDto("User Update Success");
+        return userService.updateUser(user.getId(), userDto);
     }
 
     @DeleteMapping("/me")
     @ResponseStatus(HttpStatus.OK)
     public RequestSuccessDto deleteUser(@LoginUser UserInfo user) {
-        userService.deleteUser(user.getId());
-        return new RequestSuccessDto("User Delete Success");
+        return userService.deleteUser(user.getId());
     }
 }
