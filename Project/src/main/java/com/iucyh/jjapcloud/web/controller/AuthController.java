@@ -1,5 +1,6 @@
 package com.iucyh.jjapcloud.web.controller;
 
+import com.iucyh.jjapcloud.common.annotation.loginuser.UserInfo;
 import com.iucyh.jjapcloud.web.dto.RequestSuccessDto;
 import com.iucyh.jjapcloud.web.dto.auth.LoginDto;
 import com.iucyh.jjapcloud.web.dto.auth.LoginResultDto;
@@ -33,7 +34,9 @@ public class AuthController {
         String csrfToken = authService.createCsrfToken();
 
         HttpSession newSession = request.getSession();
-        newSession.setAttribute("user", user);
+        UserInfo userInfo = UserInfo.from(user);
+
+        newSession.setAttribute("user", userInfo);
         newSession.setAttribute("csrfToken", csrfToken);
 
         return new LoginResultDto(user, csrfToken);

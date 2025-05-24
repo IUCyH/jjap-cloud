@@ -5,6 +5,7 @@ import com.iucyh.jjapcloud.common.exception.errorcode.ServiceErrorCode;
 import com.iucyh.jjapcloud.domain.user.User;
 import com.iucyh.jjapcloud.domain.user.repository.UserRepository;
 import com.iucyh.jjapcloud.web.dto.RequestSuccessDto;
+import com.iucyh.jjapcloud.web.dto.user.UserDto;
 import com.iucyh.jjapcloud.web.service.auth.AuthService;
 import com.iucyh.jjapcloud.web.service.auth.AuthServiceImpl;
 import jakarta.servlet.http.HttpSession;
@@ -54,7 +55,7 @@ public class AuthServiceTest {
         when(userRepository.findByEmail(TEST_EMAIL)).thenReturn(Optional.of(user));
 
         // Act
-        UserInfoDto result = authService.login(TEST_EMAIL, TEST_PASSWORD);
+        UserDto result = authService.login(TEST_EMAIL, TEST_PASSWORD);
 
         // Assert
         assertNotNull(result);

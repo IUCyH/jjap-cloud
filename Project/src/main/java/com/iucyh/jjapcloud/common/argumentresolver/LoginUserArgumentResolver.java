@@ -1,7 +1,7 @@
 package com.iucyh.jjapcloud.common.argumentresolver;
 
-import com.iucyh.jjapcloud.common.annotation.LoginUser;
-import com.iucyh.jjapcloud.web.dto.user.UserDto;
+import com.iucyh.jjapcloud.common.annotation.loginuser.LoginUser;
+import com.iucyh.jjapcloud.common.annotation.loginuser.UserInfo;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.core.MethodParameter;
@@ -15,7 +15,7 @@ public class LoginUserArgumentResolver implements HandlerMethodArgumentResolver 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
         boolean hasAnnotation = parameter.hasParameterAnnotation(LoginUser.class);
-        boolean assignable = UserDto.class.isAssignableFrom(parameter.getParameterType());
+        boolean assignable = UserInfo.class.isAssignableFrom(parameter.getParameterType());
 
         return hasAnnotation && assignable;
     }
