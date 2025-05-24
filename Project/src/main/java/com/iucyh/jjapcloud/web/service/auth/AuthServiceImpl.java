@@ -5,7 +5,7 @@ import com.iucyh.jjapcloud.domain.user.repository.UserRepository;
 import com.iucyh.jjapcloud.common.exception.ServiceException;
 import com.iucyh.jjapcloud.common.exception.errorcode.ServiceErrorCode;
 import com.iucyh.jjapcloud.web.dto.RequestSuccessDto;
-import com.iucyh.jjapcloud.web.dto.user.UserInfoDto;
+import com.iucyh.jjapcloud.web.dto.user.UserDto;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,12 +20,12 @@ public class AuthServiceImpl implements AuthService {
     private final UserRepository userRepository;
 
     @Override
-    public UserInfoDto login(String email, String password) {
+    public UserDto login(String email, String password) {
         Optional<User> userOptional = userRepository.findByEmail(email);
         if(userOptional.isPresent()) {
             User user = userOptional.get();
             if(user.getPassword().equals(password)) {
-                return UserInfoDto.from(user);
+                return UserDto.from(user);
             }
         }
 

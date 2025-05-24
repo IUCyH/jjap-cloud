@@ -18,7 +18,7 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/me")
-    public MyUserDto getMyUser(@LoginUser UserInfoDto user) {
+    public MyUserDto getMyUser(@LoginUser UserDto user) {
         return userService.getMyUserById(user.getId());
     }
 
@@ -34,14 +34,14 @@ public class UserController {
 
     @PatchMapping("/me")
     @ResponseStatus(HttpStatus.OK)
-    public RequestSuccessDto updateUser(@LoginUser UserInfoDto user, @Validated @RequestBody UpdateUserDto userDto) {
+    public RequestSuccessDto updateUser(@LoginUser UserDto user, @Validated @RequestBody UpdateUserDto userDto) {
         userService.updateUser(user.getId(), userDto);
         return new RequestSuccessDto("User Update Success");
     }
 
     @DeleteMapping("/me")
     @ResponseStatus(HttpStatus.OK)
-    public RequestSuccessDto deleteUser(@LoginUser UserInfoDto user) {
+    public RequestSuccessDto deleteUser(@LoginUser UserDto user) {
         userService.deleteUser(user.getId());
         return new RequestSuccessDto("User Delete Success");
     }

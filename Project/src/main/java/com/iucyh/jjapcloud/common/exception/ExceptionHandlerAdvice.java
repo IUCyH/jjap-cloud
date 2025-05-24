@@ -28,21 +28,21 @@ public class ExceptionHandlerAdvice extends ResponseEntityExceptionHandler {
     protected ResponseEntity<Object> handleMissingServletRequestParameter(MissingServletRequestParameterException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         return ResponseEntity
                 .status(ErrorCode.INVALID_PARAMETER.getHttpStatus())
-                .body(RequestFailedDto.of(ErrorCode.INVALID_PARAMETER.getHttpStatus().value(), ErrorCode.INVALID_PARAMETER.getCode(), "Missing Request Parameter: " + ex.getParameterName()));
+                .body(new RequestFailedDto(ErrorCode.INVALID_PARAMETER.getHttpStatus().value(), ErrorCode.INVALID_PARAMETER.getCode(), "Missing Request Parameter: " + ex.getParameterName()));
     }
 
     @ExceptionHandler
     public ResponseEntity<RequestFailedDto> handleBindException(BindException e) {
         return ResponseEntity
                 .status(ErrorCode.INVALID_PARAMETER.getHttpStatus())
-                .body(RequestFailedDto.of(ErrorCode.INVALID_PARAMETER.getHttpStatus().value(), ErrorCode.INVALID_PARAMETER.getCode(), "Validation failed"));
+                .body(new RequestFailedDto(ErrorCode.INVALID_PARAMETER.getHttpStatus().value(), ErrorCode.INVALID_PARAMETER.getCode(), "Validation failed"));
     }
 
     @Override
     protected ResponseEntity<Object> handleServletRequestBindingException(ServletRequestBindingException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         return ResponseEntity
                 .status(ErrorCode.INVALID_PARAMETER.getHttpStatus())
-                .body(RequestFailedDto.of(ErrorCode.INVALID_PARAMETER.getHttpStatus().value(), ErrorCode.INVALID_PARAMETER.getCode(), "Invalid Request Parameter"));
+                .body(new RequestFailedDto(ErrorCode.INVALID_PARAMETER.getHttpStatus().value(), ErrorCode.INVALID_PARAMETER.getCode(), "Invalid Request Parameter"));
     }
 
     @Override
@@ -50,35 +50,35 @@ public class ExceptionHandlerAdvice extends ResponseEntityExceptionHandler {
         String propertyName = ex.getPropertyName() == null ? "NONE" : ex.getPropertyName();
         return ResponseEntity
                 .status(ErrorCode.INVALID_PROPERTY.getHttpStatus())
-                .body(RequestFailedDto.of(ErrorCode.INVALID_PROPERTY.getHttpStatus().value(), ErrorCode.INVALID_PROPERTY.getCode(), "Parameter Type Mismatch: " + propertyName));
+                .body(new RequestFailedDto(ErrorCode.INVALID_PROPERTY.getHttpStatus().value(), ErrorCode.INVALID_PROPERTY.getCode(), "Parameter Type Mismatch: " + propertyName));
     }
 
     @Override
     protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         return ResponseEntity
                 .status(ErrorCode.INVALID_PARAMETER.getHttpStatus())
-                .body(RequestFailedDto.of(ErrorCode.INVALID_PARAMETER.getHttpStatus().value(), ErrorCode.INVALID_PARAMETER.getCode(), "JSON Parse Error"));
+                .body(new RequestFailedDto(ErrorCode.INVALID_PARAMETER.getHttpStatus().value(), ErrorCode.INVALID_PARAMETER.getCode(), "JSON Parse Error"));
     }
 
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         return ResponseEntity
                 .status(ErrorCode.INVALID_PARAMETER.getHttpStatus())
-                .body(RequestFailedDto.of(ErrorCode.INVALID_PARAMETER.getHttpStatus().value(), ErrorCode.INVALID_PARAMETER.getCode(), "Validation failed"));
+                .body(new RequestFailedDto(ErrorCode.INVALID_PARAMETER.getHttpStatus().value(), ErrorCode.INVALID_PARAMETER.getCode(), "Validation failed"));
     }
 
     @Override
     protected ResponseEntity<Object> handleNoHandlerFoundException(NoHandlerFoundException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         return ResponseEntity
                 .status(ErrorCode.NO_HANDLER_FOUND.getHttpStatus())
-                .body(RequestFailedDto.of(ErrorCode.NO_HANDLER_FOUND.getHttpStatus().value(), ErrorCode.NO_HANDLER_FOUND.getCode(), "No Handler Found for Request URL: " + ex.getRequestURL()));
+                .body(new RequestFailedDto(ErrorCode.NO_HANDLER_FOUND.getHttpStatus().value(), ErrorCode.NO_HANDLER_FOUND.getCode(), "No Handler Found for Request URL: " + ex.getRequestURL()));
     }
 
     @Override
     protected ResponseEntity<Object> handleHttpMediaTypeNotSupported(HttpMediaTypeNotSupportedException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         return ResponseEntity
                 .status(ErrorCode.INVALID_METHOD.getHttpStatus())
-                .body(RequestFailedDto.of(ErrorCode.INVALID_METHOD.getHttpStatus().value(), ErrorCode.INVALID_METHOD.getCode(), "Unsupported method"));
+                .body(new RequestFailedDto(ErrorCode.INVALID_METHOD.getHttpStatus().value(), ErrorCode.INVALID_METHOD.getCode(), "Unsupported method"));
     }
 
     @ExceptionHandler
@@ -86,7 +86,7 @@ public class ExceptionHandlerAdvice extends ResponseEntityExceptionHandler {
         ServiceErrorCode errorCode = e.getErrorCode();
         return ResponseEntity
                 .status(errorCode.getHttpStatus())
-                .body(RequestFailedDto.of(errorCode.getHttpStatus().value(), errorCode.getCode(), errorCode.getMessage()));
+                .body(new RequestFailedDto(errorCode.getHttpStatus().value(), errorCode.getCode(), errorCode.getMessage()));
     }
 
     @ExceptionHandler
@@ -95,6 +95,6 @@ public class ExceptionHandlerAdvice extends ResponseEntityExceptionHandler {
 
         return ResponseEntity
                 .status(ErrorCode.SERVER_ERROR.getHttpStatus())
-                .body(RequestFailedDto.of(ErrorCode.SERVER_ERROR.getHttpStatus().value(), ErrorCode.SERVER_ERROR.getCode(), "Internal Server Error"));
+                .body(new RequestFailedDto(ErrorCode.SERVER_ERROR.getHttpStatus().value(), ErrorCode.SERVER_ERROR.getCode(), "Internal Server Error"));
     }
 }
