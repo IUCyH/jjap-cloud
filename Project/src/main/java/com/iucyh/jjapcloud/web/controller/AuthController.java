@@ -1,7 +1,7 @@
 package com.iucyh.jjapcloud.web.controller;
 
 import com.iucyh.jjapcloud.common.annotation.loginuser.UserInfo;
-import com.iucyh.jjapcloud.web.dto.RequestSuccessDto;
+import com.iucyh.jjapcloud.web.dto.ResponseDto;
 import com.iucyh.jjapcloud.web.dto.auth.LoginDto;
 import com.iucyh.jjapcloud.web.dto.auth.LoginResultDto;
 import com.iucyh.jjapcloud.web.dto.user.UserDto;
@@ -23,7 +23,7 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/login")
-    public LoginResultDto login(@Validated @RequestBody LoginDto loginDto, HttpServletRequest request) {
+    public ResponseDto<LoginResultDto> login(@Validated @RequestBody LoginDto loginDto, HttpServletRequest request) {
         UserDto user = authService.login(loginDto.getEmail(), loginDto.getPassword());
 
         HttpSession oldSession = request.getSession(false);
@@ -39,12 +39,15 @@ public class AuthController {
         newSession.setAttribute("user", userInfo);
         newSession.setAttribute("csrfToken", csrfToken);
 
-        return new LoginResultDto(user, csrfToken);
+        LoginResultDto result = new LoginResultDto(user, csrfToken);
+        return ResponseDto.success("Login success", result);
     }
 
     @PostMapping("/logout")
-    public RequestSuccessDto logout(HttpServletRequest request) {
+    public ResponseDto<Void> logout(HttpServletRequest request) {
         HttpSession session = request.getSession(false);
-        return authService.logout(session);
+        authService.logout(session);
+
+        return ResponseDto.success("Logout success", null);
     }
 }

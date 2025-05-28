@@ -4,7 +4,6 @@ import com.iucyh.jjapcloud.common.exception.ServiceException;
 import com.iucyh.jjapcloud.common.exception.errorcode.ServiceErrorCode;
 import com.iucyh.jjapcloud.domain.user.User;
 import com.iucyh.jjapcloud.domain.user.repository.UserRepository;
-import com.iucyh.jjapcloud.web.dto.RequestSuccessDto;
 import com.iucyh.jjapcloud.web.dto.user.UserDto;
 import com.iucyh.jjapcloud.web.service.auth.AuthService;
 import com.iucyh.jjapcloud.web.service.auth.AuthServiceImpl;
@@ -104,11 +103,9 @@ public class AuthServiceTest {
     @DisplayName("Logout should invalidate session and return success message")
     void logoutSuccess() {
         // Act
-        RequestSuccessDto result = authService.logout(httpSession);
+        authService.logout(httpSession);
 
         // Assert
-        assertNotNull(result);
-        assertEquals("Logout Success", result.getMessage());
         verify(httpSession, times(1)).invalidate();
     }
 }

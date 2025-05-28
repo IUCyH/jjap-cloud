@@ -1,8 +1,8 @@
 package com.iucyh.jjapcloud.common.exception;
 
-import com.iucyh.jjapcloud.common.exception.errorcode.ErrorCode;
+import com.iucyh.jjapcloud.common.exception.errorcode.CommonErrorCode;
 import com.iucyh.jjapcloud.common.exception.errorcode.ServiceErrorCode;
-import com.iucyh.jjapcloud.web.dto.RequestFailedDto;
+import com.iucyh.jjapcloud.web.dto.ResponseDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.HttpHeaders;
@@ -27,74 +27,74 @@ public class ExceptionHandlerAdvice extends ResponseEntityExceptionHandler {
     @Override
     protected ResponseEntity<Object> handleMissingServletRequestParameter(MissingServletRequestParameterException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         return ResponseEntity
-                .status(ErrorCode.INVALID_PARAMETER.getHttpStatus())
-                .body(new RequestFailedDto(ErrorCode.INVALID_PARAMETER.getHttpStatus().value(), ErrorCode.INVALID_PARAMETER.getCode(), "Missing Request Parameter: " + ex.getParameterName()));
+                .status(CommonErrorCode.INVALID_PARAMETER.getHttpStatus())
+                .body(ResponseDto.fail(CommonErrorCode.INVALID_PARAMETER, "Missing parameter: " + ex.getParameterName()));
     }
 
     @ExceptionHandler
-    public ResponseEntity<RequestFailedDto> handleBindException(BindException e) {
+    public ResponseEntity<ResponseDto<Void>> handleBindException(BindException e) {
         return ResponseEntity
-                .status(ErrorCode.INVALID_PARAMETER.getHttpStatus())
-                .body(new RequestFailedDto(ErrorCode.INVALID_PARAMETER.getHttpStatus().value(), ErrorCode.INVALID_PARAMETER.getCode(), "Validation failed"));
+                .status(CommonErrorCode.INVALID_PARAMETER.getHttpStatus())
+                .body(ResponseDto.fail(CommonErrorCode.INVALID_PARAMETER, "Validation failed"));
     }
 
     @Override
     protected ResponseEntity<Object> handleServletRequestBindingException(ServletRequestBindingException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         return ResponseEntity
-                .status(ErrorCode.INVALID_PARAMETER.getHttpStatus())
-                .body(new RequestFailedDto(ErrorCode.INVALID_PARAMETER.getHttpStatus().value(), ErrorCode.INVALID_PARAMETER.getCode(), "Invalid Request Parameter"));
+                .status(CommonErrorCode.INVALID_PARAMETER.getHttpStatus())
+                .body(ResponseDto.fail(CommonErrorCode.INVALID_PARAMETER, "Invalid Request Parameter"));
     }
 
     @Override
     protected ResponseEntity<Object> handleTypeMismatch(TypeMismatchException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         String propertyName = ex.getPropertyName() == null ? "NONE" : ex.getPropertyName();
         return ResponseEntity
-                .status(ErrorCode.INVALID_PROPERTY.getHttpStatus())
-                .body(new RequestFailedDto(ErrorCode.INVALID_PROPERTY.getHttpStatus().value(), ErrorCode.INVALID_PROPERTY.getCode(), "Parameter Type Mismatch: " + propertyName));
+                .status(CommonErrorCode.INVALID_PROPERTY.getHttpStatus())
+                .body(ResponseDto.fail(CommonErrorCode.INVALID_PROPERTY, "Parameter Type Mismatch: " + propertyName));
     }
 
     @Override
     protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         return ResponseEntity
-                .status(ErrorCode.INVALID_PARAMETER.getHttpStatus())
-                .body(new RequestFailedDto(ErrorCode.INVALID_PARAMETER.getHttpStatus().value(), ErrorCode.INVALID_PARAMETER.getCode(), "JSON Parse Error"));
+                .status(CommonErrorCode.INVALID_PARAMETER.getHttpStatus())
+                .body(ResponseDto.fail(CommonErrorCode.INVALID_PARAMETER, "JSON Parse Error"));
     }
 
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         return ResponseEntity
-                .status(ErrorCode.INVALID_PARAMETER.getHttpStatus())
-                .body(new RequestFailedDto(ErrorCode.INVALID_PARAMETER.getHttpStatus().value(), ErrorCode.INVALID_PARAMETER.getCode(), "Validation failed"));
+                .status(CommonErrorCode.INVALID_PARAMETER.getHttpStatus())
+                .body(ResponseDto.fail(CommonErrorCode.INVALID_PARAMETER, "Validation failed"));
     }
 
     @Override
     protected ResponseEntity<Object> handleNoHandlerFoundException(NoHandlerFoundException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         return ResponseEntity
-                .status(ErrorCode.NO_HANDLER_FOUND.getHttpStatus())
-                .body(new RequestFailedDto(ErrorCode.NO_HANDLER_FOUND.getHttpStatus().value(), ErrorCode.NO_HANDLER_FOUND.getCode(), "No Handler Found for Request URL: " + ex.getRequestURL()));
+                .status(CommonErrorCode.NO_HANDLER_FOUND.getHttpStatus())
+                .body(ResponseDto.fail(CommonErrorCode.NO_HANDLER_FOUND, "No Handler Found for Request URL: " + ex.getRequestURL()));
     }
 
     @Override
     protected ResponseEntity<Object> handleHttpMediaTypeNotSupported(HttpMediaTypeNotSupportedException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         return ResponseEntity
-                .status(ErrorCode.INVALID_METHOD.getHttpStatus())
-                .body(new RequestFailedDto(ErrorCode.INVALID_METHOD.getHttpStatus().value(), ErrorCode.INVALID_METHOD.getCode(), "Unsupported method"));
+                .status(CommonErrorCode.INVALID_METHOD.getHttpStatus())
+                .body(ResponseDto.fail(CommonErrorCode.INVALID_METHOD, "Unsupported method"));
     }
 
     @ExceptionHandler
-    public ResponseEntity<RequestFailedDto> handleServiceException(ServiceException e) {
+    public ResponseEntity<ResponseDto<Void>> handleServiceException(ServiceException e) {
         ServiceErrorCode errorCode = e.getErrorCode();
         return ResponseEntity
                 .status(errorCode.getHttpStatus())
-                .body(new RequestFailedDto(errorCode.getHttpStatus().value(), errorCode.getCode(), errorCode.getMessage()));
+                .body(ResponseDto.fail(errorCode, null));
     }
 
     @ExceptionHandler
-    public ResponseEntity<RequestFailedDto> handleException(Exception e) {
+    public ResponseEntity<ResponseDto<Void>> handleException(Exception e) {
         log.error("Exception: {}", e.getMessage()); // TODO: 더 자세히 기록
 
         return ResponseEntity
-                .status(ErrorCode.SERVER_ERROR.getHttpStatus())
-                .body(new RequestFailedDto(ErrorCode.SERVER_ERROR.getHttpStatus().value(), ErrorCode.SERVER_ERROR.getCode(), "Internal Server Error"));
+                .status(CommonErrorCode.SERVER_ERROR.getHttpStatus())
+                .body(ResponseDto.fail(CommonErrorCode.SERVER_ERROR, null));
     }
 }

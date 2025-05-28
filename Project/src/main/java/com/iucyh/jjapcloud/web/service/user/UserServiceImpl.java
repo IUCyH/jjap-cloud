@@ -5,7 +5,7 @@ import com.iucyh.jjapcloud.domain.user.repository.UserRepository;
 import com.iucyh.jjapcloud.common.exception.ServiceException;
 import com.iucyh.jjapcloud.common.exception.errorcode.ServiceErrorCode;
 import com.iucyh.jjapcloud.web.dto.IdDto;
-import com.iucyh.jjapcloud.web.dto.RequestSuccessDto;
+import com.iucyh.jjapcloud.web.dto.ResponseDto;
 import com.iucyh.jjapcloud.web.dto.user.CreateUserDto;
 import com.iucyh.jjapcloud.web.dto.user.MyUserDto;
 import com.iucyh.jjapcloud.web.dto.user.UpdateUserDto;
@@ -49,18 +49,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public RequestSuccessDto updateUser(int id, UpdateUserDto userDto) {
+    public void updateUser(int id, UpdateUserDto userDto) {
         User user = new User();
         user.setNickname(userDto.getNickname());
         user.setPassword(userDto.getPassword());
 
         userRepository.update(id, user);
-        return new RequestSuccessDto("User Update Success");
     }
 
     @Override
-    public RequestSuccessDto deleteUser(int id) {
+    public void deleteUser(int id) {
         userRepository.delete(id);
-        return new RequestSuccessDto("User Delete Success");
     }
 }

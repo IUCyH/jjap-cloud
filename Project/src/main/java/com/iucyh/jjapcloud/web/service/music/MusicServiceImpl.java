@@ -7,7 +7,7 @@ import com.iucyh.jjapcloud.common.wrapper.LimitedInputStream;
 import com.iucyh.jjapcloud.domain.music.Music;
 import com.iucyh.jjapcloud.domain.music.repository.MusicRepository;
 import com.iucyh.jjapcloud.web.dto.IdDto;
-import com.iucyh.jjapcloud.web.dto.RequestSuccessDto;
+import com.iucyh.jjapcloud.web.dto.ResponseDto;
 import com.iucyh.jjapcloud.web.dto.music.CreateMusicDto;
 import com.iucyh.jjapcloud.web.dto.music.MusicDto;
 import com.iucyh.jjapcloud.web.dto.music.RangeDto;
@@ -113,8 +113,7 @@ public class MusicServiceImpl implements MusicService {
     }
 
     @Override
-    public RequestSuccessDto deleteMusic(int id) {
+    public void deleteMusic(int id) {
         musicRepository.delete(id);
-        return new RequestSuccessDto("Music Delete Success");
     }
 }

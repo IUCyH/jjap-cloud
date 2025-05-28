@@ -6,7 +6,7 @@ import org.springframework.http.HttpStatus;
 
 @Getter
 @RequiredArgsConstructor
-public enum ServiceErrorCode {
+public enum ServiceErrorCode implements ErrorCode {
 
     // ACCOUNT
     USER_NOT_FOUND(HttpStatus.NOT_FOUND, "ACCOUNT-001", "User Not Found"),

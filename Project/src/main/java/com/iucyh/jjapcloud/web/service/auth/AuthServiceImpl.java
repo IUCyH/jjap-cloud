@@ -4,7 +4,7 @@ import com.iucyh.jjapcloud.domain.user.User;
 import com.iucyh.jjapcloud.domain.user.repository.UserRepository;
 import com.iucyh.jjapcloud.common.exception.ServiceException;
 import com.iucyh.jjapcloud.common.exception.errorcode.ServiceErrorCode;
-import com.iucyh.jjapcloud.web.dto.RequestSuccessDto;
+import com.iucyh.jjapcloud.web.dto.ResponseDto;
 import com.iucyh.jjapcloud.web.dto.user.UserDto;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -38,8 +38,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public RequestSuccessDto logout(HttpSession session) {
+    public void logout(HttpSession session) {
         session.invalidate();
-        return new RequestSuccessDto("Logout Success");
     }
 }

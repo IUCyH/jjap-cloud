@@ -1,8 +1,7 @@
 package com.iucyh.jjapcloud.web.controller;
 
-import com.iucyh.jjapcloud.common.wrapper.LimitedInputStream;
 import com.iucyh.jjapcloud.web.dto.IdDto;
-import com.iucyh.jjapcloud.web.dto.RequestSuccessDto;
+import com.iucyh.jjapcloud.web.dto.ResponseDto;
 import com.iucyh.jjapcloud.web.dto.music.CreateMusicDto;
 import com.iucyh.jjapcloud.web.dto.music.MusicDto;
 import com.iucyh.jjapcloud.web.dto.music.RangeDto;
@@ -27,13 +26,15 @@ public class MusicController {
     private final MusicService musicService;
 
     @GetMapping
-    public List<MusicDto> getMusics(@RequestParam(required = false) Date date) {
-        return musicService.getMusics(date);
+    public ResponseDto<List<MusicDto>> getMusics(@RequestParam(required = false) Date date) {
+        return ResponseDto
+                .success("Get musics success", musicService.getMusics(date));
     }
 
     @GetMapping("/{id}")
-    public MusicDto getMusicById(@PathVariable int id) {
-        return musicService.getMusicById(id);
+    public ResponseDto<MusicDto> getMusicById(@PathVariable int id) {
+        return ResponseDto
+                .success("Get music success", musicService.getMusicById(id));
     }
 
     @GetMapping("/stream/{id}")
@@ -41,8 +42,8 @@ public class MusicController {
             @PathVariable int id,
             @RequestParam(name = "Range", required = false) String rangeHeader
     ) throws IOException {
-        String fileName = musicService.getMusicStoreName(id);
-        File file = musicService.getFile(fileName);
+        String storeName = musicService.getMusicStoreName(id);
+        File file = musicService.getFile(storeName);
         RangeDto range = musicService.getRange(file, rangeHeader);
         InputStreamResource resource = musicService.streamMusic(file, range);
 
@@ -56,12 +57,16 @@ public class MusicController {
     }
 
     @PostMapping
-    public IdDto createMusic(@ModelAttribute CreateMusicDto music) throws IOException {
-        return musicService.createMusic(music);
+    public ResponseDto<IdDto> createMusic(@ModelAttribute CreateMusicDto music) throws IOException {
+        IdDto id = musicService.createMusic(music);
+        return ResponseDto
+                .success("Create music success", id);
     }
 
     @DeleteMapping("/{id}")
-    public RequestSuccessDto deleteMusic(@PathVariable int id) {
-        return musicService.deleteMusic(id);
+    public ResponseDto<Void> deleteMusic(@PathVariable int id) {
+        musicService.deleteMusic(id);
+        return ResponseDto
+                .success("Delete music success", null);
     }
 }

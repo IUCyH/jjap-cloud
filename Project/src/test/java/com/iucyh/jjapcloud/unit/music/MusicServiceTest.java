@@ -6,7 +6,6 @@ import com.iucyh.jjapcloud.common.util.FileManager;
 import com.iucyh.jjapcloud.domain.music.Music;
 import com.iucyh.jjapcloud.domain.music.repository.MusicRepository;
 import com.iucyh.jjapcloud.web.dto.IdDto;
-import com.iucyh.jjapcloud.web.dto.RequestSuccessDto;
 import com.iucyh.jjapcloud.web.dto.music.CreateMusicDto;
 import com.iucyh.jjapcloud.web.dto.music.MusicDto;
 import com.iucyh.jjapcloud.web.service.music.MusicService;
@@ -19,8 +18,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.mock.web.MockMultipartFile;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Date;
@@ -163,11 +160,9 @@ public class MusicServiceTest {
     @DisplayName("deleteMusic should call repository delete method and return success message")
     void deleteMusicSuccess() {
         // Act
-        RequestSuccessDto result = musicService.deleteMusic(TEST_ID);
+        musicService.deleteMusic(TEST_ID);
 
         // Assert
-        assertNotNull(result);
-        assertEquals("Music Delete Success", result.getMessage());
         verify(musicRepository, times(1)).delete(TEST_ID);
     }
     
