@@ -1,6 +1,6 @@
 package com.iucyh.jjapcloud.common.annotation.loginuser;
 
-import com.iucyh.jjapcloud.web.dto.user.UserDto;
+import com.iucyh.jjapcloud.dto.user.UserDto;
 import lombok.Getter;
 
 @Getter

@@ -4,12 +4,11 @@ import com.iucyh.jjapcloud.common.exception.ServiceException;
 import com.iucyh.jjapcloud.common.exception.errorcode.ServiceErrorCode;
 import com.iucyh.jjapcloud.common.util.FileManager;
 import com.iucyh.jjapcloud.domain.music.Music;
-import com.iucyh.jjapcloud.domain.music.repository.MusicRepository;
-import com.iucyh.jjapcloud.web.dto.IdDto;
-import com.iucyh.jjapcloud.web.dto.music.CreateMusicDto;
-import com.iucyh.jjapcloud.web.dto.music.MusicDto;
-import com.iucyh.jjapcloud.web.service.music.MusicService;
-import com.iucyh.jjapcloud.web.service.music.MusicServiceImpl;
+import com.iucyh.jjapcloud.repository.music.MusicRepository;
+import com.iucyh.jjapcloud.dto.IdDto;
+import com.iucyh.jjapcloud.dto.music.CreateMusicDto;
+import com.iucyh.jjapcloud.dto.music.MusicDto;
+import com.iucyh.jjapcloud.service.MusicService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -49,7 +48,7 @@ public class MusicServiceTest {
 
     @BeforeEach
     void setUp() {
-        musicService = new MusicServiceImpl(musicRepository, fileManager);
+        musicService = new MusicService(musicRepository, fileManager);
     }
 
     @Test

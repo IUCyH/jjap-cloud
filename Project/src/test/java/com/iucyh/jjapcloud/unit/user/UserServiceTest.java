@@ -3,14 +3,13 @@ package com.iucyh.jjapcloud.unit.user;
 import com.iucyh.jjapcloud.common.exception.ServiceException;
 import com.iucyh.jjapcloud.common.exception.errorcode.ServiceErrorCode;
 import com.iucyh.jjapcloud.domain.user.User;
-import com.iucyh.jjapcloud.domain.user.repository.UserRepository;
-import com.iucyh.jjapcloud.web.dto.IdDto;
-import com.iucyh.jjapcloud.web.dto.user.CreateUserDto;
-import com.iucyh.jjapcloud.web.dto.user.MyUserDto;
-import com.iucyh.jjapcloud.web.dto.user.UpdateUserDto;
-import com.iucyh.jjapcloud.web.dto.user.UserDto;
-import com.iucyh.jjapcloud.web.service.user.UserService;
-import com.iucyh.jjapcloud.web.service.user.UserServiceImpl;
+import com.iucyh.jjapcloud.repository.user.UserRepository;
+import com.iucyh.jjapcloud.dto.IdDto;
+import com.iucyh.jjapcloud.dto.user.CreateUserDto;
+import com.iucyh.jjapcloud.dto.user.MyUserDto;
+import com.iucyh.jjapcloud.dto.user.UpdateUserDto;
+import com.iucyh.jjapcloud.dto.user.UserDto;
+import com.iucyh.jjapcloud.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -38,7 +37,7 @@ public class UserServiceTest {
 
     @BeforeEach
     void setUp() {
-        userService = new UserServiceImpl(userRepository);
+        userService = new UserService(userRepository);
     }
 
     @Test
