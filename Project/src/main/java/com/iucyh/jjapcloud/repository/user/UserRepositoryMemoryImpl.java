@@ -13,6 +13,11 @@ public class UserRepositoryMemoryImpl implements UserRepository {
     private static final Map<Integer, User> userStore = new ConcurrentHashMap<>();
     private static Integer sequence = 0;
 
+    public void clearAll() {
+        userStore.clear();
+        sequence = 0;
+    }
+
     @Override
     public Optional<User> find(int id) {
         return Optional.ofNullable(userStore.get(id));
