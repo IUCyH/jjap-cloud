@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iucyh.jjapcloud.repository.mapper.user.UserMapper">
+
+    <select id="find" resultType="User">
+        select id, nickname, email
+        from users
+        where id = #{id}
+    </select>
+
+    <select id="findByEmail" resultType="User">
+        select id, nickname, email
+        from users
+        where email = #{email}
+    </select>
+
+    <insert id="create" useGeneratedKeys="true" keyProperty="id">
+        insert into users (nickname, email, password)
+        values (#{nickname}, #{email}, #{password})
+    </insert>
+
+    <update id="update">
+        update users
+        <set>
+            <if test="newUser.nickname != null and newUser.nickname != ''">
+                nickname = #{newUser.nickname}
+            </if>
+            <if test="newUser.password != null and newUser.password != ''">
+                and password = #{newUser.password}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="delete">
+        delete from users where id = #{id}
+    </delete>
+
+</mapper>
