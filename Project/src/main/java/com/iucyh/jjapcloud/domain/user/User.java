@@ -1,6 +1,5 @@
 package com.iucyh.jjapcloud.domain.user;
 
-import jakarta.annotation.Nullable;
 import lombok.Getter;
 import lombok.Setter;
 
