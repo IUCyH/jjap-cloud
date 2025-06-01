@@ -1,10 +1,10 @@
 package com.iucyh.jjapcloud;
 
-import com.iucyh.jjapcloud.repository.mapper.user.UserMapper;
 import com.iucyh.jjapcloud.repository.music.MusicRepository;
 import com.iucyh.jjapcloud.repository.music.MusicRepositoryMemoryImpl;
 import com.iucyh.jjapcloud.repository.user.UserRepository;
-import com.iucyh.jjapcloud.repository.user.UserRepositoryMyBatisImpl;
+import com.iucyh.jjapcloud.repository.user.UserRepositoryJpaImpl;
+import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,11 +13,11 @@ import org.springframework.context.annotation.Configuration;
 @RequiredArgsConstructor
 public class RepositoryConfig {
 
-    private final UserMapper userMapper;
+    private final EntityManager em;
 
     @Bean
     public UserRepository userRepository() {
-        return new UserRepositoryMyBatisImpl(userMapper);
+        return new UserRepositoryJpaImpl(em);
     }
 
     @Bean

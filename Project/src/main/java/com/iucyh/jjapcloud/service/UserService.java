@@ -11,11 +11,13 @@ import com.iucyh.jjapcloud.dto.user.UpdateUserDto;
 import com.iucyh.jjapcloud.dto.user.UserDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class UserService {
 
     private final UserRepository userRepository;

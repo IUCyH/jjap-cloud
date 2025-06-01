@@ -10,6 +10,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.sql.DataSource;
@@ -83,6 +84,7 @@ class UserRepositoryTest {
     void findByEmailFail() {
         String uniqueString = UUID.randomUUID().toString();
         int id = saveTestUser(uniqueString);
+
         Optional<User> foundUser = repository.findByEmail("fail@fail.com");
 
         assertThat(foundUser.isPresent()).isFalse();
