@@ -3,6 +3,7 @@ package com.iucyh.jjapcloud;
 import com.iucyh.jjapcloud.repository.music.MusicRepository;
 import com.iucyh.jjapcloud.repository.music.MusicRepositoryMemoryImpl;
 import com.iucyh.jjapcloud.repository.user.UserRepository;
+import com.iucyh.jjapcloud.repository.user.UserRepositoryDataJpa;
 import com.iucyh.jjapcloud.repository.user.UserRepositoryJpaImpl;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;

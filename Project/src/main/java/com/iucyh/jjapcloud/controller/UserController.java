@@ -29,7 +29,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseDto<UserDto> getUserById(@PathVariable int id) {
+    public ResponseDto<UserDto> getUserById(@PathVariable Integer id) {
         UserDto result = userService.getUserById(id);
         return ResponseDto
                 .success("Get user success", result);
