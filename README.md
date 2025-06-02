@@ -20,3 +20,54 @@
   - 현재는 인스턴스 내부 폴더에 저장하도록 구현
   - HTTP 범위 기반 요청 활용
   - 커스텀 InputStream + InputStreamResource 활용해 구현
+
+~~~
+src
+├── main
+│   ├── java
+│   │   └── com
+│   │       └── iucyh
+│   │           └── jjapcloud
+│   │               ├── common
+│   │               │   ├── annotation
+│   │               │   │   └── loginuser
+│   │               │   ├── argumentresolver
+│   │               │   ├── constant
+│   │               │   ├── exception
+│   │               │   │   └── errorcode
+│   │               │   ├── interceptor
+│   │               │   ├── util
+│   │               │   └── wrapper
+│   │               ├── controller
+│   │               ├── domain
+│   │               │   ├── music
+│   │               │   └── user
+│   │               ├── dto
+│   │               │   ├── auth
+│   │               │   ├── music
+│   │               │   └── user
+│   │               │       └── query
+│   │               ├── repository
+│   │               │   ├── mapper
+│   │               │   │   └── user
+│   │               │   ├── music
+│   │               │   └── user
+│   │               └── service
+│   └── resources
+│       ├── com
+│       │   └── iucyh
+│       │       └── jjapcloud
+│       │           └── repository
+│       │               └── mapper
+│       │                   └── user
+│       ├── static
+│       └── templates
+└── test
+    ├── java
+    │   └── com
+    │       └── iucyh
+    │           └── jjapcloud
+    │               └── repository
+    │                   └── music
+    └── resources
+~~~
