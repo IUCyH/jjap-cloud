@@ -5,14 +5,16 @@ import com.iucyh.jjapcloud.common.exception.errorcode.ServiceErrorCode;
 import com.iucyh.jjapcloud.common.util.FileManager;
 import com.iucyh.jjapcloud.common.wrapper.LimitedInputStream;
 import com.iucyh.jjapcloud.domain.music.Music;
-import com.iucyh.jjapcloud.repository.music.MusicRepository;
 import com.iucyh.jjapcloud.dto.IdDto;
 import com.iucyh.jjapcloud.dto.music.CreateMusicDto;
 import com.iucyh.jjapcloud.dto.music.MusicDto;
 import com.iucyh.jjapcloud.dto.music.RangeDto;
+import com.iucyh.jjapcloud.repository.music.MusicPagingRepository;
+import com.iucyh.jjapcloud.repository.music.MusicRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
 import java.io.IOException;
@@ -22,13 +24,15 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class MusicService {
 
     private final MusicRepository musicRepository;
+    private final MusicPagingRepository musicPagingRepository;
     private final FileManager fileManager;
 
     public List<MusicDto> getMusics(Date date) {
-        List<Music> musics = musicRepository.findMusics(date);
+        List<Music> musics = musicPagingRepository.findMusics(date);
         return musics
                 .stream()
                 .map(MusicDto::from)
@@ -101,10 +105,10 @@ public class MusicService {
         newMusic.setPlayTime(playTime);
         newMusic.setCreateTime(music.getCreateTime());
 
-        return new IdDto(musicRepository.create(newMusic));
+        return new IdDto(musicRepository.save(newMusic).getId());
     }
 
     public void deleteMusic(int id) {
-        musicRepository.delete(id);
+        musicRepository.deleteById(id);
     }
 }

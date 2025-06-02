@@ -1,15 +1,6 @@
 package com.iucyh.jjapcloud.repository.music;
 
 import com.iucyh.jjapcloud.domain.music.Music;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
-
-public interface MusicRepository {
-
-    List<Music> findMusics(Date date);
-    Optional<Music> findById(int id);
-    int create(Music music);
-    void delete(int id);
-}
+public interface MusicRepository extends JpaRepository<Music, Integer> {}
