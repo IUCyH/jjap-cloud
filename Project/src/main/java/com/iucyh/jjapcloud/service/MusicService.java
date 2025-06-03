@@ -9,7 +9,8 @@ import com.iucyh.jjapcloud.dto.IdDto;
 import com.iucyh.jjapcloud.dto.music.CreateMusicDto;
 import com.iucyh.jjapcloud.dto.music.MusicDto;
 import com.iucyh.jjapcloud.dto.music.RangeDto;
-import com.iucyh.jjapcloud.repository.music.MusicPagingRepository;
+import com.iucyh.jjapcloud.dto.music.SearchMusicCondition;
+import com.iucyh.jjapcloud.repository.music.MusicQueryRepository;
 import com.iucyh.jjapcloud.repository.music.MusicRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.InputStreamResource;
@@ -28,11 +29,19 @@ import java.util.Optional;
 public class MusicService {
 
     private final MusicRepository musicRepository;
-    private final MusicPagingRepository musicPagingRepository;
+    private final MusicQueryRepository musicQueryRepository;
     private final FileManager fileManager;
 
     public List<MusicDto> getMusics(Date date) {
-        List<Music> musics = musicPagingRepository.findMusics(date);
+        List<Music> musics = musicQueryRepository.findMusics(date);
+        return musics
+                .stream()
+                .map(MusicDto::from)
+                .toList();
+    }
+
+    public List<MusicDto> searchMusics(SearchMusicCondition condition, Date date) {
+        List<Music> musics = musicQueryRepository.searchMusics(condition.getField(), condition.getKeyword(), date);
         return musics
                 .stream()
                 .map(MusicDto::from)

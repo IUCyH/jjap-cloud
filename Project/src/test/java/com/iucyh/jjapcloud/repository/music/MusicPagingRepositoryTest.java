@@ -2,20 +2,13 @@ package com.iucyh.jjapcloud.repository.music;
 
 import com.iucyh.jjapcloud.domain.music.Music;
 import jakarta.persistence.EntityManager;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Commit;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.swing.text.DateFormatter;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
@@ -31,7 +24,7 @@ class MusicPagingRepositoryTest {
     @Autowired
     private MusicRepository musicRepository;
     @Autowired
-    private MusicPagingRepository musicPagingRepository;
+    private MusicQueryRepository musicPagingRepository;
     @Autowired
     private EntityManager em;
 
@@ -60,7 +53,7 @@ class MusicPagingRepositoryTest {
         musicRepository.save(music4);
 
         LocalDateTime ldt = LocalDateTime.of(9999, 12, 31, 11, 59, 59);
-        Date maxDate = Date.from(ldt.atZone(ZoneId.systemDefault()).toInstant());;
+        Date maxDate = Date.from(ldt.atZone(ZoneId.systemDefault()).toInstant());
 
         // 전체 음악 조회
         List<Music> musics = musicPagingRepository.findMusics(maxDate);

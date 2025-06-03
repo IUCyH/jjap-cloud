@@ -1,9 +1,7 @@
 package com.iucyh.jjapcloud;
 
-import com.iucyh.jjapcloud.repository.music.MusicPagingRepository;
-import com.iucyh.jjapcloud.repository.music.MusicRepository;
+import com.iucyh.jjapcloud.repository.music.MusicQueryRepository;
 import com.iucyh.jjapcloud.repository.user.UserRepository;
-import com.iucyh.jjapcloud.repository.user.UserRepositoryDataJpa;
 import com.iucyh.jjapcloud.repository.user.UserRepositoryJpaImpl;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +20,7 @@ public class RepositoryConfig {
     }
 
     @Bean
-    public MusicPagingRepository musicPagingRepository() {
-        return new MusicPagingRepository(em);
+    public MusicQueryRepository musicPagingRepository() {
+        return new MusicQueryRepository(em);
     }
 }
