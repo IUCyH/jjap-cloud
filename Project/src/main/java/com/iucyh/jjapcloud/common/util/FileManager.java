@@ -1,5 +1,6 @@
 package com.iucyh.jjapcloud.common.util;
 
+import com.iucyh.jjapcloud.common.exception.ServiceException;
 import com.iucyh.jjapcloud.common.wrapper.LimitedInputStream;
 import org.apache.tika.Tika;
 import org.springframework.stereotype.Component;
@@ -25,12 +26,19 @@ public class FileManager {
         return fileSize * 8 / bitRate;
     }
 
-    public boolean isCorrectMimeType(MultipartFile file, String type) throws IOException {
-        String mimeType = tika.detect(file.getInputStream());
+    public boolean isCorrectMimeType(MultipartFile file, String type) {
+        String mimeType = "";
+
+        try {
+            mimeType = tika.detect(file.getInputStream());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
         return mimeType.contains(type);
     }
 
-    public String uploadFile(MultipartFile file, String root) throws IOException {
+    public String uploadFile(MultipartFile file, String root) {
         File rootDir = new File(fileDir + root);
         if(!rootDir.exists()) {
             createDir(rootDir);
@@ -39,7 +47,12 @@ public class FileManager {
         String uniqueName = getUniqueName(file.getOriginalFilename());
         String fullPath = getFullPath(root, uniqueName);
 
-        file.transferTo(new File(fullPath));
+        try {
+            file.transferTo(new File(fullPath));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
         return uniqueName;
     }
 
@@ -47,9 +60,15 @@ public class FileManager {
         return new File(fileDir + root + "/" + name);
     }
 
-    public LimitedInputStream getLimitedInputStream(File file, long start, long end) throws IOException {
-        InputStream inputStream = new FileInputStream(file);
-        inputStream.skip(start);
+    public LimitedInputStream getLimitedInputStream(File file, long start, long end) {
+        InputStream inputStream = null;
+        try {
+            inputStream = new FileInputStream(file);
+            inputStream.skip(start);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
         return new LimitedInputStream(inputStream, end - start + 1);
     }
 

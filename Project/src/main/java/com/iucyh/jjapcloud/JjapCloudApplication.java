@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Import;
 @SpringBootApplication(scanBasePackages = {
 		"com.iucyh.jjapcloud.controller",
 		"com.iucyh.jjapcloud.service",
+		"com.iucyh.jjapcloud.facade",
 		"com.iucyh.jjapcloud.repository.mapper",
 		"com.iucyh.jjapcloud.common"
 })
