@@ -10,9 +10,9 @@ import com.iucyh.jjapcloud.dto.music.CreateMusicDto;
 import com.iucyh.jjapcloud.dto.music.MusicDto;
 import com.iucyh.jjapcloud.dto.music.SearchMusicCondition;
 import com.iucyh.jjapcloud.dto.music.query.MusicSimpleDto;
+import com.iucyh.jjapcloud.dtomapper.MusicDtoMapper;
 import com.iucyh.jjapcloud.repository.music.MusicQueryRepository;
 import com.iucyh.jjapcloud.repository.music.MusicRepository;
-import com.iucyh.jjapcloud.repository.user.UserRepository;
 import com.iucyh.jjapcloud.repository.user.UserRepositoryDataJpa;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -36,7 +36,7 @@ public class MusicService {
         List<MusicSimpleDto> musics = musicQueryRepository.findMusics(date);
         return musics
                 .stream()
-                .map(MusicDto::fromQueryDto)
+                .map(MusicDtoMapper::toMusicDto)
                 .toList();
     }
 
@@ -44,14 +44,14 @@ public class MusicService {
         List<Music> musics = musicQueryRepository.searchMusics(condition.getField(), condition.getKeyword(), date);
         return musics
                 .stream()
-                .map(MusicDto::from)
+                .map(MusicDtoMapper::toMusicDto)
                 .toList();
     }
 
     public MusicDto getMusicById(int id) {
         return musicRepository
                 .findById(id)
-                .map(MusicDto::from)
+                .map(MusicDtoMapper::toMusicDto)
                 .orElseThrow(() -> new ServiceException(ServiceErrorCode.MUSIC_NOT_FOUND));
     }
 

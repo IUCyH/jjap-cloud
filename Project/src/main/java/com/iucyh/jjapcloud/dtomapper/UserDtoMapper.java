@@ -7,6 +7,8 @@ import com.iucyh.jjapcloud.dto.user.query.JoinUserDto;
 
 public class UserDtoMapper {
 
+    private UserDtoMapper() {}
+
     public static UserDto toUserDto(User user) {
         return UserDto.builder()
                 .id(user.getId())
