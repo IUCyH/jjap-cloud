@@ -1,23 +1,16 @@
-package com.iucyh.jjapcloud.repository;
+package com.iucyh.jjapcloud.repository.user;
 
 import com.iucyh.jjapcloud.domain.user.User;
-import com.iucyh.jjapcloud.repository.user.UserRepository;
-import com.iucyh.jjapcloud.repository.user.UserRepositoryJDBCImpl;
-import com.iucyh.jjapcloud.repository.user.UserRepositoryMemoryImpl;
-import lombok.RequiredArgsConstructor;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.sql.DataSource;
 import java.util.Optional;
 import java.util.UUID;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @Transactional
@@ -26,23 +19,21 @@ class UserRepositoryTest {
     @Autowired
     private UserRepository repository;
 
-    @AfterEach
-    void afterEach() {
-        if(repository instanceof UserRepositoryMemoryImpl) {
-            ((UserRepositoryMemoryImpl)repository).clearAll();
-        }
-    }
-
     @Test
     @DisplayName("유저 저장 성공")
     void save() {
-        String uniqueString = UUID.randomUUID().toString();
-        int id = saveTestUser(uniqueString);
-        Optional<User> foundUser = repository.find(id);
+        User user = new User();
+        user.setNickname("test");
+        user.setEmail("abc@abc.com");
+        user.setPassword("1234");
 
+        User savedUser = repository.save(user);
+        int id = savedUser.getId();
+
+        Optional<User> foundUser = repository.findById(id);
         assertThat(foundUser.isPresent()).isTrue();
         assertThat(foundUser.get().getId()).isEqualTo(id);
-        assertThat(foundUser.get().getNickname()).isEqualTo(uniqueString);
+        assertThat(foundUser.get().getNickname()).isEqualTo("test");
     }
 
     @Test
@@ -50,7 +41,7 @@ class UserRepositoryTest {
     void find() {
         String uniqueString = UUID.randomUUID().toString();
         int id = saveTestUser(uniqueString);
-        Optional<User> foundUser = repository.find(id);
+        Optional<User> foundUser = repository.findById(id);
 
         assertThat(foundUser.isPresent()).isTrue();
         assertThat(foundUser.get().getId()).isEqualTo(id);
@@ -74,7 +65,7 @@ class UserRepositoryTest {
     void findFail() {
         String uniqueString = UUID.randomUUID().toString();
         int id = saveTestUser(uniqueString);
-        Optional<User> foundUser = repository.find(id + 1);
+        Optional<User> foundUser = repository.findById(id + 1);
 
         assertThat(foundUser.isPresent()).isFalse();
     }
@@ -95,15 +86,12 @@ class UserRepositoryTest {
     void update() {
         String uniqueString = UUID.randomUUID().toString();
         int id = saveTestUser(uniqueString);
-        Optional<User> foundUser = repository.find(id);
-        assertThat(foundUser.isPresent()).isTrue();
 
-        User updateUser = new User();
-        updateUser.setId(id);
-        updateUser.setNickname("update");
+        User foundUser = repository.findById(id).orElseThrow();
+        foundUser.setNickname("update");
+        foundUser.setPassword("1234");
 
-        repository.update(id, updateUser);
-        Optional<User> foundUpdateUser = repository.find(id);
+        Optional<User> foundUpdateUser = repository.findById(id);
 
         assertThat(foundUpdateUser.isPresent()).isTrue();
         assertThat(foundUpdateUser.get().getNickname()).isEqualTo("update");
@@ -114,12 +102,12 @@ class UserRepositoryTest {
     void delete() {
         String uniqueString = UUID.randomUUID().toString();
         int id = saveTestUser(uniqueString);
-        Optional<User> foundUser = repository.find(id);
+        Optional<User> foundUser = repository.findById(id);
         assertThat(foundUser.isPresent()).isTrue();
 
-        repository.delete(id);
+        repository.delete(foundUser.get());
 
-        Optional<User> deletedUser = repository.find(id);
+        Optional<User> deletedUser = repository.findById(id);
         assertThat(deletedUser.isPresent()).isFalse();
     }
 
@@ -129,6 +117,6 @@ class UserRepositoryTest {
         user.setPassword("123456");
         user.setEmail(uniqueString + "@abc.com");
 
-        return repository.create(user);
+        return repository.save(user).getId();
     }
 }

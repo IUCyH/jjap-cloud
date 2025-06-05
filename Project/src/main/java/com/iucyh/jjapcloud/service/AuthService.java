@@ -5,7 +5,7 @@ import com.iucyh.jjapcloud.common.exception.ServiceException;
 import com.iucyh.jjapcloud.common.exception.errorcode.ServiceErrorCode;
 import com.iucyh.jjapcloud.dto.user.UserDto;
 import com.iucyh.jjapcloud.dtomapper.UserDtoMapper;
-import com.iucyh.jjapcloud.repository.user.UserRepositoryDataJpa;
+import com.iucyh.jjapcloud.repository.user.UserRepository;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,7 +17,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class AuthService {
 
-    private final UserRepositoryDataJpa userRepository;
+    private final UserRepository userRepository;
 
     public UserDto login(String email, String password) {
         Optional<User> userOptional = userRepository.findByEmail(email);
