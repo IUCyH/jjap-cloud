@@ -41,7 +41,7 @@ public class MusicService {
     }
 
     public List<MusicDto> searchMusics(SearchMusicCondition condition, Date date) {
-        List<Music> musics = musicQueryRepository.searchMusics(condition.getField(), condition.getKeyword(), date);
+        List<MusicSimpleDto> musics = musicQueryRepository.searchMusics(condition.getField(), condition.getKeyword(), date);
         return musics
                 .stream()
                 .map(MusicDtoMapper::toMusicDto)
