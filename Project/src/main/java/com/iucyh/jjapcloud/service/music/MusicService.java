@@ -13,7 +13,7 @@ import com.iucyh.jjapcloud.dto.music.query.MusicSimpleDto;
 import com.iucyh.jjapcloud.dtomapper.MusicDtoMapper;
 import com.iucyh.jjapcloud.repository.music.MusicQueryRepository;
 import com.iucyh.jjapcloud.repository.music.MusicRepository;
-import com.iucyh.jjapcloud.repository.user.UserRepositoryDataJpa;
+import com.iucyh.jjapcloud.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,7 +28,7 @@ import java.util.Optional;
 public class MusicService {
 
     private final MusicRepository musicRepository;
-    private final UserRepositoryDataJpa userRepository;
+    private final UserRepository userRepository;
     private final MusicQueryRepository musicQueryRepository;
     private final FileManager fileManager;
 

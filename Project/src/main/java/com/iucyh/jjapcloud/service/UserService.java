@@ -9,7 +9,7 @@ import com.iucyh.jjapcloud.dto.user.MyUserDto;
 import com.iucyh.jjapcloud.dto.user.UpdateUserDto;
 import com.iucyh.jjapcloud.dto.user.UserDto;
 import com.iucyh.jjapcloud.dtomapper.UserDtoMapper;
-import com.iucyh.jjapcloud.repository.user.UserRepositoryDataJpa;
+import com.iucyh.jjapcloud.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,10 +18,10 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
+@Transactional(readOnly = true)
 public class UserService {
 
-    private final UserRepositoryDataJpa userRepository;
+    private final UserRepository userRepository;
 
     public UserDto getUserById(int id) {
         Optional<User> user = userRepository.findById(id);
@@ -37,6 +37,7 @@ public class UserService {
                 .orElseThrow(() -> new ServiceException(ServiceErrorCode.USER_NOT_FOUND));
     }
 
+    @Transactional
     public IdDto createUser(CreateUserDto userDto) {
         User user = new User();
         user.setNickname(userDto.getNickname());
@@ -47,12 +48,14 @@ public class UserService {
         return new IdDto(id);
     }
 
+    @Transactional
     public void updateUser(int id, UpdateUserDto userDto) {
         User foundUser = userRepository.findById(id).orElseThrow();
         foundUser.setNickname(userDto.getNickname());
         foundUser.setPassword(userDto.getPassword());
     }
 
+    @Transactional
     public void deleteUser(int id) {
         userRepository.deleteById(id);
     }

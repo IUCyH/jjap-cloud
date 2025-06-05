@@ -3,7 +3,7 @@ package com.iucyh.jjapcloud.repository.music;
 import com.iucyh.jjapcloud.domain.music.Music;
 import com.iucyh.jjapcloud.domain.user.User;
 import com.iucyh.jjapcloud.dto.music.query.MusicSimpleDto;
-import com.iucyh.jjapcloud.repository.user.UserRepositoryDataJpa;
+import com.iucyh.jjapcloud.repository.user.UserRepository;
 import jakarta.persistence.EntityManager;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
@@ -27,7 +27,7 @@ class MusicPagingRepositoryTest {
     @Autowired
     private MusicRepository musicRepository;
     @Autowired
-    private UserRepositoryDataJpa userRepository;
+    private UserRepository userRepository;
     @Autowired
     private MusicQueryRepository musicPagingRepository;
     @Autowired

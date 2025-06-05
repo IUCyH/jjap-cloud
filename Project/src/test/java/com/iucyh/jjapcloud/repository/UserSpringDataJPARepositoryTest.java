@@ -2,9 +2,6 @@ package com.iucyh.jjapcloud.repository;
 
 import com.iucyh.jjapcloud.domain.user.User;
 import com.iucyh.jjapcloud.repository.user.UserRepository;
-import com.iucyh.jjapcloud.repository.user.UserRepositoryDataJpa;
-import com.iucyh.jjapcloud.repository.user.UserRepositoryMemoryImpl;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class UserSpringDataJPARepositoryTest {
 
     @Autowired
-    private UserRepositoryDataJpa repository;
+    private UserRepository repository;
 
     @Test
     @DisplayName("유저 저장 성공")
