@@ -2,6 +2,9 @@ package com.iucyh.jjapcloud.repository.music;
 
 import com.iucyh.jjapcloud.domain.music.Music;
 import com.iucyh.jjapcloud.domain.music.QMusic;
+import com.iucyh.jjapcloud.dto.music.query.MusicSimpleDto;
+import com.iucyh.jjapcloud.dto.music.query.QMusicSimpleDto;
+import com.iucyh.jjapcloud.dto.user.query.QJoinUserDto;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -22,20 +25,23 @@ public class MusicQueryRepository {
         this.query = new JPAQueryFactory(em);
     }
 
-    public List<Music> findMusics(Date date) {
+    public List<MusicSimpleDto> findMusics(Date date) {
         LocalDateTime localDateTime = getDate(date);
+        QMusic music = QMusic.music;
 
         return query.select(
-                        Projections.fields(
-                                Music.class,
-                                QMusic.music.id,
-                                QMusic.music.name,
-                                QMusic.music.singer,
-                                QMusic.music.playTime
-                        ))
-                .from(QMusic.music)
-                .where(QMusic.music.createTime.lt(localDateTime))
-                .orderBy(QMusic.music.createTime.desc())
+                new QMusicSimpleDto(
+                        music.id,
+                        music.name,
+                        music.playTime,
+                        new QJoinUserDto(
+                                music.user.id,
+                                music.user.nickname
+                        )
+                ))
+                .from(music)
+                .where(music.createTime.lt(localDateTime))
+                .orderBy(music.createTime.desc())
                 .limit(20)
                 .fetch();
     }
@@ -44,7 +50,7 @@ public class MusicQueryRepository {
         LocalDateTime localDateTime = getDate(date);
         BooleanExpression keywordExpression = switch (field) {
             case MUSIC_NAME -> QMusic.music.name.like("%" + keyword + "%");
-            case SINGER_NAME -> QMusic.music.singer.like("%" + keyword + "%");
+            case SINGER_NAME -> QMusic.music.user.nickname.like("%" + keyword + "%");
         };
 
         return query
@@ -53,7 +59,7 @@ public class MusicQueryRepository {
                                 Music.class,
                                 QMusic.music.id,
                                 QMusic.music.name,
-                                QMusic.music.singer,
+                                QMusic.music.user,
                                 QMusic.music.playTime
                         ))
                 .from(QMusic.music)

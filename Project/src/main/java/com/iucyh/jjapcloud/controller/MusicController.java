@@ -1,5 +1,7 @@
 package com.iucyh.jjapcloud.controller;
 
+import com.iucyh.jjapcloud.common.annotation.loginuser.LoginUser;
+import com.iucyh.jjapcloud.common.annotation.loginuser.UserInfo;
 import com.iucyh.jjapcloud.dto.IdDto;
 import com.iucyh.jjapcloud.dto.ResponseDto;
 import com.iucyh.jjapcloud.dto.music.CreateMusicDto;
@@ -72,8 +74,8 @@ public class MusicController {
     }
 
     @PostMapping
-    public ResponseDto<IdDto> createMusic(@ModelAttribute CreateMusicDto music) throws IOException {
-        IdDto id = musicService.createMusic(music);
+    public ResponseDto<IdDto> createMusic(@LoginUser UserInfo user, @ModelAttribute CreateMusicDto music) {
+        IdDto id = musicService.createMusic(user.getId(), music);
         return ResponseDto
                 .success("Create music success", id);
     }

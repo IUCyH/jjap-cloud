@@ -15,9 +15,6 @@ public class CreateMusicDto {
     @NotBlank
     private String name;
 
-    @NotBlank
-    private String singer;
-
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createTime;
 

@@ -8,6 +8,7 @@ import com.iucyh.jjapcloud.dto.user.CreateUserDto;
 import com.iucyh.jjapcloud.dto.user.MyUserDto;
 import com.iucyh.jjapcloud.dto.user.UpdateUserDto;
 import com.iucyh.jjapcloud.dto.user.UserDto;
+import com.iucyh.jjapcloud.dtomapper.UserDtoMapper;
 import com.iucyh.jjapcloud.repository.user.UserRepositoryDataJpa;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -25,14 +26,14 @@ public class UserService {
     public UserDto getUserById(int id) {
         Optional<User> user = userRepository.findById(id);
         return user
-                .map(UserDto::from)
+                .map(UserDtoMapper::toUserDto)
                 .orElseThrow(() -> new ServiceException(ServiceErrorCode.USER_NOT_FOUND));
     }
 
     public MyUserDto getMyUserById(int id) {
         Optional<User> user = userRepository.findById(id);
         return user
-                .map(MyUserDto::from)
+                .map(UserDtoMapper::toMyUserDto)
                 .orElseThrow(() -> new ServiceException(ServiceErrorCode.USER_NOT_FOUND));
     }
 

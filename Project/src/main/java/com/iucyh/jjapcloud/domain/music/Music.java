@@ -1,5 +1,6 @@
 package com.iucyh.jjapcloud.domain.music;
 
+import com.iucyh.jjapcloud.domain.user.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,8 +14,7 @@ import java.time.LocalDateTime;
 @Table(
         name = "musics",
         indexes = {
-                @Index(name = "idx_name", columnList = "name"),
-                @Index(name = "idx_singer", columnList = "singer")
+                @Index(name = "idx_name", columnList = "name")
         }
 )
 public class Music {
@@ -28,8 +28,9 @@ public class Music {
     @Column(length = 64)
     private String storeName;
 
-    @Column(length = 20, nullable = false)
-    private String singer;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 
     private Long playTime;
 

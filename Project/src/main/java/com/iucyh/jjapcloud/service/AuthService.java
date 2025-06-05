@@ -4,6 +4,7 @@ import com.iucyh.jjapcloud.domain.user.User;
 import com.iucyh.jjapcloud.common.exception.ServiceException;
 import com.iucyh.jjapcloud.common.exception.errorcode.ServiceErrorCode;
 import com.iucyh.jjapcloud.dto.user.UserDto;
+import com.iucyh.jjapcloud.dtomapper.UserDtoMapper;
 import com.iucyh.jjapcloud.repository.user.UserRepositoryDataJpa;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +24,7 @@ public class AuthService {
         if(userOptional.isPresent()) {
             User user = userOptional.get();
             if(user.getPassword().equals(password)) {
-                return UserDto.from(user);
+                return UserDtoMapper.toUserDto(user);
             }
         }
 
