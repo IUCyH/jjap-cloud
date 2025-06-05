@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Table(
         name = "musics",
         indexes = {
-                @Index(name = "idx_original_name", columnList = "original_name"),
+                @Index(name = "idx_name", columnList = "name"),
                 @Index(name = "idx_singer", columnList = "singer")
         }
 )
@@ -23,7 +23,7 @@ public class Music {
     private Integer id;
 
     @Column(length = 100, nullable = false)
-    private String originalName;
+    private String name;
 
     @Column(length = 64)
     private String storeName;

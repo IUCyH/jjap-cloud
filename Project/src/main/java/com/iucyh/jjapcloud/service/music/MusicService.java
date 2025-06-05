@@ -59,7 +59,7 @@ public class MusicService {
         long playTime = fileManager.getPlayTime(music.getMusicFile().getSize(), 320000);
 
         Music newMusic = new Music();
-        newMusic.setOriginalName(music.getName());
+        newMusic.setName(music.getName());
         newMusic.setStoreName(storeName);
         newMusic.setSinger(music.getSinger());
         newMusic.setPlayTime(playTime);

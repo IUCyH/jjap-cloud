@@ -29,7 +29,7 @@ public class MusicQueryRepository {
                         Projections.fields(
                                 Music.class,
                                 QMusic.music.id,
-                                QMusic.music.originalName,
+                                QMusic.music.name,
                                 QMusic.music.singer,
                                 QMusic.music.playTime
                         ))
@@ -43,7 +43,7 @@ public class MusicQueryRepository {
     public List<Music> searchMusics(MusicSearchField field, String keyword, Date date) {
         LocalDateTime localDateTime = getDate(date);
         BooleanExpression keywordExpression = switch (field) {
-            case MUSIC_NAME -> QMusic.music.originalName.like("%" + keyword + "%");
+            case MUSIC_NAME -> QMusic.music.name.like("%" + keyword + "%");
             case SINGER_NAME -> QMusic.music.singer.like("%" + keyword + "%");
         };
 
@@ -52,7 +52,7 @@ public class MusicQueryRepository {
                         Projections.fields(
                                 Music.class,
                                 QMusic.music.id,
-                                QMusic.music.originalName,
+                                QMusic.music.name,
                                 QMusic.music.singer,
                                 QMusic.music.playTime
                         ))

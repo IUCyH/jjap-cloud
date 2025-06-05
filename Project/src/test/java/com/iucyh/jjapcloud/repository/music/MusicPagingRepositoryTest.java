@@ -32,19 +32,19 @@ class MusicPagingRepositoryTest {
     @DisplayName("페이징 성공")
     void paging() {
         Music music1 = new Music();
-        music1.setOriginalName("test1");
+        music1.setName("test1");
         music1.setSinger("testSinger1");
 
         Music music2 = new Music();
-        music2.setOriginalName("test2");
+        music2.setName("test2");
         music2.setSinger("testSinger2");
 
         Music music3 = new Music();
-        music3.setOriginalName("test3");
+        music3.setName("test3");
         music3.setSinger("testSinger3");
 
         Music music4 = new Music();
-        music4.setOriginalName("test4");
+        music4.setName("test4");
         music4.setSinger("testSinger4");
 
         musicRepository.save(music1);
@@ -57,15 +57,15 @@ class MusicPagingRepositoryTest {
 
         // 전체 음악 조회
         List<Music> musics = musicPagingRepository.findMusics(maxDate);
-        musics.forEach(m -> log.info("music: {}", m.getOriginalName()));
+        musics.forEach(m -> log.info("music: {}", m.getName()));
 
         assertThat(musics).isNotEmpty();
-        assertThat(musics.stream().map(Music::getOriginalName))
+        assertThat(musics.stream().map(Music::getName))
                 .containsExactly(
-                        music4.getOriginalName(),
-                        music3.getOriginalName(),
-                        music2.getOriginalName(),
-                        music1.getOriginalName()
+                        music4.getName(),
+                        music3.getName(),
+                        music2.getName(),
+                        music1.getName()
                 );
 
         // music2 이전에 등록된 음악만 조회
@@ -73,7 +73,7 @@ class MusicPagingRepositoryTest {
         List<Music> musics2 = musicPagingRepository.findMusics(music2Date);
 
         assertThat(musics2).isNotEmpty();
-        assertThat(musics2.stream().map(Music::getOriginalName))
-                .containsExactly(music1.getOriginalName());
+        assertThat(musics2.stream().map(Music::getName))
+                .containsExactly(music1.getName());
     }
 }
