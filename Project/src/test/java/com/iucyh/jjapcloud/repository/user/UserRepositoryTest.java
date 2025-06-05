@@ -1,7 +1,6 @@
-package com.iucyh.jjapcloud.repository;
+package com.iucyh.jjapcloud.repository.user;
 
 import com.iucyh.jjapcloud.domain.user.User;
-import com.iucyh.jjapcloud.repository.user.UserRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +14,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @Transactional
-class UserSpringDataJPARepositoryTest {
+class UserRepositoryTest {
 
     @Autowired
     private UserRepository repository;
@@ -23,13 +22,18 @@ class UserSpringDataJPARepositoryTest {
     @Test
     @DisplayName("유저 저장 성공")
     void save() {
-        String uniqueString = UUID.randomUUID().toString();
-        int id = saveTestUser(uniqueString);
-        Optional<User> foundUser = repository.findById(id);
+        User user = new User();
+        user.setNickname("test");
+        user.setEmail("abc@abc.com");
+        user.setPassword("1234");
 
+        User savedUser = repository.save(user);
+        int id = savedUser.getId();
+
+        Optional<User> foundUser = repository.findById(id);
         assertThat(foundUser.isPresent()).isTrue();
         assertThat(foundUser.get().getId()).isEqualTo(id);
-        assertThat(foundUser.get().getNickname()).isEqualTo(uniqueString);
+        assertThat(foundUser.get().getNickname()).isEqualTo("test");
     }
 
     @Test
