@@ -23,6 +23,7 @@ import java.util.Optional;
 public class MusicFileServiceImpl implements MusicFileService, MusicStreamService {
 
     private static final int MUSIC_BITRATE = 320000;
+    private static final String FILE_ROOT = "music";
     private final MusicRepository musicRepository;
     private final FileManager fileManager;
 
@@ -38,7 +39,7 @@ public class MusicFileServiceImpl implements MusicFileService, MusicStreamServic
 
     @Override
     public File getFile(String fileName) {
-        File file = fileManager.getFile("music", fileName);
+        File file = fileManager.getFile(FILE_ROOT, fileName);
         if(!file.exists()) {
             throw new ServiceException(ServiceErrorCode.MUSIC_NOT_FOUND);
         }
@@ -80,10 +81,20 @@ public class MusicFileServiceImpl implements MusicFileService, MusicStreamServic
             throw new ServiceException(ServiceErrorCode.NOT_VALID_MUSIC_FILE);
         }
 
-        String storeName = fileManager.uploadFile(musicFile, "music");
+        String storeName = fileManager.uploadFile(musicFile, FILE_ROOT);
         long playTime = getPlayTime(musicFile.getSize());
 
         return new MusicUploadResult(storeName, playTime);
+    }
+
+    @Override
+    public void deleteMusic(String fileName) {
+        File file = fileManager.getFile(FILE_ROOT, fileName);
+
+        boolean isSuccess = fileManager.deleteFile(file);
+        if(!isSuccess) {
+            throw new ServiceException(ServiceErrorCode.MUSIC_NOT_FOUND);
+        }
     }
 
     private long getPlayTime(long fileSize) {

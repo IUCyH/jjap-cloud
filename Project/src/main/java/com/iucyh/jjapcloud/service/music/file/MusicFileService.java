@@ -5,4 +5,5 @@ import org.springframework.web.multipart.MultipartFile;
 public interface MusicFileService {
 
     MusicUploadResult uploadMusic(MultipartFile musicFile);
+    void deleteMusic(String fileName);
 }

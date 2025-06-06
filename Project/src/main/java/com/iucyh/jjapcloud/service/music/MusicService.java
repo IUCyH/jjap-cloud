@@ -74,7 +74,24 @@ public class MusicService {
     }
 
     @Transactional
-    public void deleteMusic(int id) {
+    public String deleteMusic(int userId, int id) {
+        Optional<User> user = userRepository.findById(userId);
+        if (user.isEmpty()) {
+            throw new ServiceException(ServiceErrorCode.USER_NOT_FOUND);
+        }
+
+        Optional<Music> music = musicRepository.findById(id);
+        if (music.isEmpty()) {
+            throw new ServiceException(ServiceErrorCode.MUSIC_NOT_FOUND);
+        }
+
+        User singer = music.get().getUser();
+        if (singer.getId() != userId) {
+            throw new ServiceException(ServiceErrorCode.MUSIC_PERMISSION_DENIED);
+        }
+
+        String storeName = music.get().getStoreName();
         musicRepository.deleteById(id);
+        return storeName;
     }
 }

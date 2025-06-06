@@ -52,6 +52,14 @@ public class FileManager {
         return uniqueName;
     }
 
+    public boolean deleteFile(File file) {
+        if(!file.exists() || file.isDirectory()) {
+            return false;
+        }
+
+        return file.delete();
+    }
+
     public File getFile(String root, String name) {
         return new File(fileDir + root + "/" + name);
     }

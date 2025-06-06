@@ -9,6 +9,7 @@ import com.iucyh.jjapcloud.service.music.file.MusicFileService;
 import com.iucyh.jjapcloud.service.music.file.MusicUploadResult;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -18,12 +19,20 @@ public class MusicFileFacade {
     private final MusicService musicService;
 
     public IdDto uploadMusic(int userId, CreateMusicDto musicDto) {
+        MusicUploadResult uploadResult = null;
         try {
-            MusicUploadResult uploadResult = musicFileService.uploadMusic(musicDto.getMusicFile());
+            uploadResult = musicFileService.uploadMusic(musicDto.getMusicFile());
             return musicService.createMusic(userId, musicDto, uploadResult);
         } catch (ServiceException e) {
-            // TODO: 파일 존재 시 삭제
+            if (uploadResult != null) {
+                musicFileService.deleteMusic(uploadResult.getStoreName());
+            }
             throw e;
         }
+    }
+
+    public void deleteMusic(int userId, int musicId) {
+        String storeName = musicService.deleteMusic(userId, musicId);
+        musicFileService.deleteMusic(storeName);
     }
 }

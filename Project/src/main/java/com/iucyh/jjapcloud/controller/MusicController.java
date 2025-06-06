@@ -85,8 +85,8 @@ public class MusicController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseDto<Void> deleteMusic(@PathVariable int id) {
-        musicService.deleteMusic(id);
+    public ResponseDto<Void> deleteMusic(@LoginUser UserInfo user, @PathVariable int id) {
+        musicFileFacade.deleteMusic(user.getId(), id);
         return ResponseDto
                 .success("Delete music success", null);
     }
