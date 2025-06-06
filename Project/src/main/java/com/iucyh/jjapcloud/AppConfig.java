@@ -4,17 +4,13 @@ import com.iucyh.jjapcloud.common.argumentresolver.LoginUserArgumentResolver;
 import com.iucyh.jjapcloud.common.interceptor.CsrfTokenCheckInterceptor;
 import com.iucyh.jjapcloud.common.interceptor.LoggingInterceptor;
 import com.iucyh.jjapcloud.common.interceptor.LoginCheckInterceptor;
-import com.iucyh.jjapcloud.repository.user.UserRepository;
-import com.iucyh.jjapcloud.repository.user.UserRepositoryJDBCImpl;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import javax.sql.DataSource;
 import java.util.List;
 
 @Configuration
