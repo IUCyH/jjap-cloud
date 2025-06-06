@@ -1,4 +1,4 @@
-package com.iucyh.jjapcloud.service.music;
+package com.iucyh.jjapcloud.service.music.file;
 
 import com.iucyh.jjapcloud.common.exception.ServiceException;
 import com.iucyh.jjapcloud.common.exception.errorcode.ServiceErrorCode;
@@ -7,9 +7,6 @@ import com.iucyh.jjapcloud.common.wrapper.LimitedInputStream;
 import com.iucyh.jjapcloud.domain.music.Music;
 import com.iucyh.jjapcloud.dto.music.RangeDto;
 import com.iucyh.jjapcloud.repository.music.MusicRepository;
-import com.iucyh.jjapcloud.service.music.file.MusicFileService;
-import com.iucyh.jjapcloud.service.music.file.MusicStreamService;
-import com.iucyh.jjapcloud.service.music.file.MusicUploadResult;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.stereotype.Service;

@@ -1,7 +1,6 @@
 package com.iucyh.jjapcloud.facade.music.file;
 
 import com.iucyh.jjapcloud.common.exception.ServiceException;
-import com.iucyh.jjapcloud.domain.music.Music;
 import com.iucyh.jjapcloud.dto.IdDto;
 import com.iucyh.jjapcloud.dto.music.CreateMusicDto;
 import com.iucyh.jjapcloud.service.music.MusicService;
@@ -9,7 +8,6 @@ import com.iucyh.jjapcloud.service.music.file.MusicFileService;
 import com.iucyh.jjapcloud.service.music.file.MusicUploadResult;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
