@@ -77,8 +77,4 @@ public class MusicService {
     public void deleteMusic(int id) {
         musicRepository.deleteById(id);
     }
-
-    private long getPlayTime(long fileSize, int bitRate) {
-        return fileSize * 8 / bitRate;
-    }
 }
