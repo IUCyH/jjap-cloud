@@ -1,7 +1,7 @@
 package com.iucyh.jjapcloud.facade.music.stream;
 
 import com.iucyh.jjapcloud.dto.music.RangeDto;
-import com.iucyh.jjapcloud.service.music.MusicStreamService;
+import com.iucyh.jjapcloud.service.music.file.MusicStreamService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.stereotype.Service;

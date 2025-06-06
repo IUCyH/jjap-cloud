@@ -2,15 +2,18 @@ package com.iucyh.jjapcloud.controller;
 
 import com.iucyh.jjapcloud.common.annotation.loginuser.LoginUser;
 import com.iucyh.jjapcloud.common.annotation.loginuser.UserInfo;
+import com.iucyh.jjapcloud.domain.music.Music;
 import com.iucyh.jjapcloud.dto.IdDto;
 import com.iucyh.jjapcloud.dto.ResponseDto;
 import com.iucyh.jjapcloud.dto.music.CreateMusicDto;
 import com.iucyh.jjapcloud.dto.music.MusicDto;
 import com.iucyh.jjapcloud.dto.music.RangeDto;
 import com.iucyh.jjapcloud.dto.music.SearchMusicCondition;
+import com.iucyh.jjapcloud.facade.music.file.MusicFileFacade;
 import com.iucyh.jjapcloud.facade.music.stream.MusicStreamFacade;
 import com.iucyh.jjapcloud.facade.music.stream.MusicStreamResult;
 import com.iucyh.jjapcloud.service.music.MusicService;
+import com.iucyh.jjapcloud.service.music.file.MusicFileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpStatus;
@@ -30,6 +33,7 @@ import java.util.List;
 public class MusicController {
 
     private final MusicService musicService;
+    private final MusicFileFacade musicFileFacade;
     private final MusicStreamFacade musicStreamFacade;
 
     @GetMapping
@@ -75,7 +79,7 @@ public class MusicController {
 
     @PostMapping
     public ResponseDto<IdDto> createMusic(@LoginUser UserInfo user, @ModelAttribute CreateMusicDto music) {
-        IdDto id = musicService.createMusic(user.getId(), music);
+        IdDto id = musicFileFacade.uploadMusic(user.getId(), music);
         return ResponseDto
                 .success("Create music success", id);
     }

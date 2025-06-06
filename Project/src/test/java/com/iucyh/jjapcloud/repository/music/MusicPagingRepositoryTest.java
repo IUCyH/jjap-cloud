@@ -36,45 +36,55 @@ class MusicPagingRepositoryTest {
     @Test
     @DisplayName("페이징 성공")
     void paging() {
-        Music music1 = new Music();
         User user1 = new User();
-
         user1.setNickname("testSinger1");
         user1.setEmail("abc@abc.com");
         user1.setPassword("abc");
 
-        music1.setName("test1");
-        music1.setUser(user1);
+        Music music1 = new Music(
+                "test1",
+                "storename",
+                user1,
+                1000L
+        );
 
-        Music music2 = new Music();
 
         User user2 = new User();
         user2.setNickname("testSinger2");
         user2.setEmail("abc@abc.com");
         user2.setPassword("abc");
 
-        music2.setName("test2");
-        music2.setUser(user2);
+        Music music2 = new Music(
+                "test2",
+                "storename",
+                user2,
+                1000L
+        );
 
-        Music music3 = new Music();
+
         User user3 = new User();
-
         user3.setNickname("testSinger3");
         user3.setEmail("abc@abc.com");
         user3.setPassword("abc");
 
-        music3.setName("test3");
-        music3.setUser(user3);
+        Music music3 = new Music(
+                "test3",
+                "storename",
+                user3,
+                1000L
+        );
 
-        Music music4 = new Music();
         User user4 = new User();
-
         user4.setNickname("testSinger4");
         user4.setEmail("abc@abc.com");
         user4.setPassword("abc");
 
-        music4.setName("test4");
-        music4.setUser(user4);
+        Music music4 = new Music(
+                "test4",
+                "storename",
+                user4,
+                1000L
+        );
 
         userRepository.save(user1);
         userRepository.save(user2);

@@ -1,4 +1,4 @@
-package com.iucyh.jjapcloud.service.music;
+package com.iucyh.jjapcloud.service.music.file;
 
 import com.iucyh.jjapcloud.dto.music.RangeDto;
 import org.springframework.core.io.InputStreamResource;

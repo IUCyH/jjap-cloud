@@ -7,17 +7,22 @@ import com.iucyh.jjapcloud.common.wrapper.LimitedInputStream;
 import com.iucyh.jjapcloud.domain.music.Music;
 import com.iucyh.jjapcloud.dto.music.RangeDto;
 import com.iucyh.jjapcloud.repository.music.MusicRepository;
+import com.iucyh.jjapcloud.service.music.file.MusicFileService;
+import com.iucyh.jjapcloud.service.music.file.MusicStreamService;
+import com.iucyh.jjapcloud.service.music.file.MusicUploadResult;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class MusicFileServiceImpl implements MusicStreamService {
+public class MusicFileServiceImpl implements MusicFileService, MusicStreamService {
 
+    private static final int MUSIC_BITRATE = 320000;
     private final MusicRepository musicRepository;
     private final FileManager fileManager;
 
@@ -67,5 +72,21 @@ public class MusicFileServiceImpl implements MusicStreamService {
     public InputStreamResource streamMusic(File file, RangeDto range) {
         LimitedInputStream limitedInputStream = fileManager.getLimitedInputStream(file, range.getStart(), range.getEnd());
         return new InputStreamResource(limitedInputStream);
+    }
+
+    @Override
+    public MusicUploadResult uploadMusic(MultipartFile musicFile) {
+        if(!fileManager.isCorrectMimeType(musicFile, "audio/mpeg")) {
+            throw new ServiceException(ServiceErrorCode.NOT_VALID_MUSIC_FILE);
+        }
+
+        String storeName = fileManager.uploadFile(musicFile, "music");
+        long playTime = getPlayTime(musicFile.getSize());
+
+        return new MusicUploadResult(storeName, playTime);
+    }
+
+    private long getPlayTime(long fileSize) {
+        return fileSize * 8 / MUSIC_BITRATE;
     }
 }

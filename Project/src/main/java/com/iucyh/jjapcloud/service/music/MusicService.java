@@ -14,6 +14,7 @@ import com.iucyh.jjapcloud.dtomapper.MusicDtoMapper;
 import com.iucyh.jjapcloud.repository.music.MusicQueryRepository;
 import com.iucyh.jjapcloud.repository.music.MusicRepository;
 import com.iucyh.jjapcloud.repository.user.UserRepository;
+import com.iucyh.jjapcloud.service.music.file.MusicUploadResult;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -56,31 +57,28 @@ public class MusicService {
     }
 
     @Transactional
-    public IdDto createMusic(Integer userId, CreateMusicDto music) {
-        if(!fileManager.isCorrectMimeType(music.getMusicFile(), "audio/mpeg")) {
-            throw new ServiceException(ServiceErrorCode.NOT_VALID_MUSIC_FILE);
-        }
-
+    public IdDto createMusic(Integer userId, CreateMusicDto musicDto, MusicUploadResult uploadResult) {
         Optional<User> user = userRepository.findById(userId);
         if(user.isEmpty()) {
             throw new ServiceException(ServiceErrorCode.USER_NOT_FOUND);
         }
 
-        String storeName = fileManager.uploadFile(music.getMusicFile(), "music");
-        long playTime = fileManager.getPlayTime(music.getMusicFile().getSize(), 320000);
-
-        Music newMusic = new Music();
-        newMusic.setName(music.getName());
-        newMusic.setStoreName(storeName);
-        newMusic.setUser(user.get());
-        newMusic.setPlayTime(playTime);
-        newMusic.setCreateTime(music.getCreateTime());
-
-        return new IdDto(musicRepository.save(newMusic).getId());
+        Music music = new Music(
+                musicDto.getName(),
+                uploadResult.getStoreName(),
+                user.get(),
+                uploadResult.getPlaytime()
+        );
+        Music savedMusic = musicRepository.save(music);
+        return new IdDto(savedMusic.getId());
     }
 
     @Transactional
     public void deleteMusic(int id) {
         musicRepository.deleteById(id);
+    }
+
+    private long getPlayTime(long fileSize, int bitRate) {
+        return fileSize * 8 / bitRate;
     }
 }

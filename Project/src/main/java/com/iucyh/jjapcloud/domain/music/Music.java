@@ -3,13 +3,11 @@ package com.iucyh.jjapcloud.domain.music;
 import com.iucyh.jjapcloud.domain.user.User;
 import jakarta.persistence.*;
 import lombok.Getter;
-import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
 @Getter
-@Setter
 @Entity
 @Table(
         name = "musics",
@@ -38,4 +36,11 @@ public class Music {
     private LocalDateTime createTime;
 
     public Music() {}
+
+    public Music(String name, String storeName, User user, Long playTime) {
+        this.name = name;
+        this.storeName = storeName;
+        this.user = user;
+        this.playTime = playTime;
+    }
 }
