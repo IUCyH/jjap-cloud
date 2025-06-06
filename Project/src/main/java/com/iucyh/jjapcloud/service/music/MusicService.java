@@ -56,6 +56,13 @@ public class MusicService {
                 .orElseThrow(() -> new ServiceException(ServiceErrorCode.MUSIC_NOT_FOUND));
     }
 
+    /**
+     * Don't use it directly, Please use it through MusicFileFacade
+     * @param userId
+     * @param musicDto
+     * @param uploadResult
+     * @return
+     */
     @Transactional
     public IdDto createMusic(Integer userId, CreateMusicDto musicDto, MusicUploadResult uploadResult) {
         Optional<User> user = userRepository.findById(userId);
@@ -73,6 +80,12 @@ public class MusicService {
         return new IdDto(savedMusic.getId());
     }
 
+    /**
+     * Don't use it directly, please use it through MusicFileFacade
+     * @param userId
+     * @param id
+     * @return deleted music's file name
+     */
     @Transactional
     public String deleteMusic(int userId, int id) {
         Optional<User> user = userRepository.findById(userId);
