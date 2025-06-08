@@ -21,6 +21,10 @@
   - HTTP 범위 기반 요청 활용
   - 커스텀 InputStream + InputStreamResource 활용해 구현
 
+## ERD
+<img width="1079" alt="Screenshot 2025-06-08 at 9 47 01 AM" src="https://github.com/user-attachments/assets/038e5009-7622-48d1-ab08-60e3df074580" />
+
+## 폴더 구조
 ~~~
 src
 ├── main
