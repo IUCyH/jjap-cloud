@@ -6,7 +6,7 @@ import lombok.Getter;
 @Getter
 public class UserInfo {
 
-    private Integer id;
+    private Long id;
     private String nickname;
 
     public static UserInfo from(UserDto user) {

@@ -23,14 +23,14 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    public UserDto getUserById(int id) {
+    public UserDto getUserById(long id) {
         Optional<User> user = userRepository.findById(id);
         return user
                 .map(UserDtoMapper::toUserDto)
                 .orElseThrow(() -> new ServiceException(ServiceErrorCode.USER_NOT_FOUND));
     }
 
-    public MyUserDto getMyUserById(int id) {
+    public MyUserDto getMyUserById(long id) {
         Optional<User> user = userRepository.findById(id);
         return user
                 .map(UserDtoMapper::toMyUserDto)
@@ -44,19 +44,19 @@ public class UserService {
         user.setEmail(userDto.getEmail());
         user.setPassword(userDto.getPassword());
 
-        int id = userRepository.save(user).getId();
+        long id = userRepository.save(user).getId();
         return new IdDto(id);
     }
 
     @Transactional
-    public void updateUser(int id, UpdateUserDto userDto) {
+    public void updateUser(long id, UpdateUserDto userDto) {
         User foundUser = userRepository.findById(id).orElseThrow();
         foundUser.setNickname(userDto.getNickname());
         foundUser.setPassword(userDto.getPassword());
     }
 
     @Transactional
-    public void deleteUser(int id) {
+    public void deleteUser(long id) {
         userRepository.deleteById(id);
     }
 }

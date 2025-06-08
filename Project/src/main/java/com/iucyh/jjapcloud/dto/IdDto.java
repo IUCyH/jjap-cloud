@@ -5,9 +5,9 @@ import lombok.Getter;
 @Getter
 public class IdDto {
 
-    private int id;
+    private long id;
 
-    public IdDto(int id) {
+    public IdDto(long id) {
         this.id = id;
     }
 }

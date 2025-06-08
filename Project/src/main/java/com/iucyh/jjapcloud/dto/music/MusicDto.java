@@ -11,7 +11,7 @@ import lombok.Getter;
 @Builder
 public class MusicDto {
 
-    private Integer id;
+    private Long id;
     private String name;
     private UserDto singer;
     private Long playTime;

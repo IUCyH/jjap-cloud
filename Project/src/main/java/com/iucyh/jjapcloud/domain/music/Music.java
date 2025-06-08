@@ -3,11 +3,9 @@ package com.iucyh.jjapcloud.domain.music;
 import com.iucyh.jjapcloud.domain.user.User;
 import jakarta.persistence.*;
 import lombok.Getter;
-import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Entity
 @Table(
@@ -20,7 +18,7 @@ import java.util.UUID;
 public class Music {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Column(length = 32, unique = true, nullable = false)
     private String publicId;

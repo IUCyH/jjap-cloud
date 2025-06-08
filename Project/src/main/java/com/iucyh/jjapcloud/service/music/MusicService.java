@@ -64,7 +64,7 @@ public class MusicService {
      * @return
      */
     @Transactional
-    public IdDto createMusic(Integer userId, CreateMusicDto musicDto, MusicUploadResult uploadResult) {
+    public IdDto createMusic(Long userId, CreateMusicDto musicDto, MusicUploadResult uploadResult) {
         Optional<User> user = userRepository.findById(userId);
         if(user.isEmpty()) {
             throw new ServiceException(ServiceErrorCode.USER_NOT_FOUND);
@@ -87,7 +87,7 @@ public class MusicService {
      * @return deleted music's file name
      */
     @Transactional
-    public String deleteMusic(int userId, int id) {
+    public String deleteMusic(Long userId, int id) {
         Optional<User> user = userRepository.findById(userId);
         if (user.isEmpty()) {
             throw new ServiceException(ServiceErrorCode.USER_NOT_FOUND);

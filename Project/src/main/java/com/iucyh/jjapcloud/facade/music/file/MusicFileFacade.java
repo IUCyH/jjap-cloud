@@ -16,7 +16,7 @@ public class MusicFileFacade {
     private final MusicFileService musicFileService;
     private final MusicService musicService;
 
-    public IdDto uploadMusic(int userId, CreateMusicDto musicDto) {
+    public IdDto uploadMusic(long userId, CreateMusicDto musicDto) {
         MusicUploadResult uploadResult = null;
         try {
             uploadResult = musicFileService.uploadMusic(musicDto.getMusicFile());
@@ -29,7 +29,7 @@ public class MusicFileFacade {
         }
     }
 
-    public void deleteMusic(int userId, int musicId) {
+    public void deleteMusic(long userId, int musicId) {
         String storeName = musicService.deleteMusic(userId, musicId);
         musicFileService.deleteMusic(storeName);
     }
