@@ -22,7 +22,7 @@
   - 커스텀 InputStream + InputStreamResource 활용해 구현
 
 ## ERD
-![JJAPCloud](https://github.com/user-attachments/assets/edde773b-4bf6-4dc7-ac67-04004892d17f)
+![JJAPCloud](https://github.com/user-attachments/assets/e6f9308a-05ac-481c-92ff-504210e37589)
 
 ## 폴더 구조
 ~~~
