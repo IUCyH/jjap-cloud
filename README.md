@@ -21,6 +21,10 @@
   - HTTP 범위 기반 요청 활용
   - 커스텀 InputStream + InputStreamResource 활용해 구현
 
+## ERD
+![JJAPCloud](https://github.com/user-attachments/assets/e6f9308a-05ac-481c-92ff-504210e37589)
+
+## 폴더 구조
 ~~~
 src
 ├── main
