@@ -116,7 +116,7 @@ class MusicPagingRepositoryTest {
                 );
 
         // music2 이전에 등록된 음악만 조회
-        Date music2Date = Date.from(music2.getCreateTime().atZone(ZoneId.systemDefault()).toInstant());
+        Date music2Date = Date.from(music2.getCreatedAt().atZone(ZoneId.systemDefault()).toInstant());
         List<MusicSimpleDto> musics2 = musicPagingRepository.findMusics(music2Date);
 
         assertThat(musics2).isNotEmpty();

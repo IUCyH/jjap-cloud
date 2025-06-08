@@ -39,8 +39,8 @@ public class MusicQueryRepository {
                         )
                 )
                 .from(music)
-                .where(music.createTime.lt(localDateTime))
-                .orderBy(music.createTime.desc())
+                .where(music.createdAt.lt(localDateTime))
+                .orderBy(music.createdAt.desc())
                 .limit(20)
                 .fetch();
     }
@@ -66,10 +66,10 @@ public class MusicQueryRepository {
                 )
                 .from(QMusic.music)
                 .where(
-                        QMusic.music.createTime.lt(localDateTime),
+                        QMusic.music.createdAt.lt(localDateTime),
                         keywordExpression
                 )
-                .orderBy(QMusic.music.createTime.desc())
+                .orderBy(QMusic.music.createdAt.desc())
                 .limit(20)
                 .fetch();
     }
