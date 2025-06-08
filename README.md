@@ -22,7 +22,7 @@
   - 커스텀 InputStream + InputStreamResource 활용해 구현
 
 ## ERD
-<img width="1079" alt="Screenshot 2025-06-08 at 9 47 01 AM" src="https://github.com/user-attachments/assets/038e5009-7622-48d1-ab08-60e3df074580" />
+![JJAPCloud](https://github.com/user-attachments/assets/edde773b-4bf6-4dc7-ac67-04004892d17f)
 
 ## 폴더 구조
 ~~~
