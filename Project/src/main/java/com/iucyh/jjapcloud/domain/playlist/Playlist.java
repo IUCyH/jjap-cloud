@@ -45,4 +45,10 @@ public class Playlist {
         this.user = user;
         this.publicId = UUID.randomUUID().toString().replace("-", "");
     }
+
+    public void setName(String name) {
+        if(name != null) {
+            this.name = name;
+        }
+    }
 }

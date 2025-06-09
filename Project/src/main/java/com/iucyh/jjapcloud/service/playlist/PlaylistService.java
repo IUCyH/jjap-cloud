@@ -1,4 +1,4 @@
-package com.iucyh.jjapcloud.service;
+package com.iucyh.jjapcloud.service.playlist;
 
 import com.iucyh.jjapcloud.common.exception.ServiceException;
 import com.iucyh.jjapcloud.common.exception.errorcode.ServiceErrorCode;
@@ -13,10 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.rmi.ServerException;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -43,6 +40,13 @@ public class PlaylistService {
 
         Playlist savePlaylist = new Playlist(playlist.getName(), user);
         playlistRepository.save(savePlaylist);
+    }
+
+    @Transactional
+    public void updatePlaylistName(String publicId, String newName) {
+        Playlist playlist = playlistRepository.findByPublicId(publicId)
+                .orElseThrow(() -> new ServiceException(ServiceErrorCode.PLAYLIST_NOT_FOUND));
+        playlist.setName(newName);
     }
 
     @Transactional
