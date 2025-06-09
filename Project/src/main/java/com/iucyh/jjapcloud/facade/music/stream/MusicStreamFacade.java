@@ -14,8 +14,8 @@ public class MusicStreamFacade {
 
     private final MusicStreamService musicStreamService;
 
-    public MusicStreamResult stream(int id, String rangeHeader) {
-        String storeName = musicStreamService.getMusicStoreName(id);
+    public MusicStreamResult stream(String publicId, String rangeHeader) {
+        String storeName = musicStreamService.getMusicStoreName(publicId);
         File file = musicStreamService.getFile(storeName);
         RangeDto range = musicStreamService.getRange(file, rangeHeader);
         InputStreamResource resource = musicStreamService.streamMusic(file, range);

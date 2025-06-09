@@ -1,11 +1,10 @@
 package com.iucyh.jjapcloud.controller;
 
-import com.iucyh.jjapcloud.common.annotation.loginuser.UserInfo;
 import com.iucyh.jjapcloud.dto.ResponseDto;
 import com.iucyh.jjapcloud.dto.auth.LoginDto;
 import com.iucyh.jjapcloud.dto.auth.LoginResultDto;
-import com.iucyh.jjapcloud.dto.user.UserDto;
-import com.iucyh.jjapcloud.service.AuthService;
+import com.iucyh.jjapcloud.service.auth.AuthService;
+import com.iucyh.jjapcloud.service.auth.UserLoginResult;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +23,7 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseDto<LoginResultDto> login(@Validated @RequestBody LoginDto loginDto, HttpServletRequest request) {
-        UserDto user = authService.login(loginDto.getEmail(), loginDto.getPassword());
+        UserLoginResult loginResult = authService.login(loginDto.getEmail(), loginDto.getPassword());
 
         HttpSession oldSession = request.getSession(false);
         if(oldSession != null) {
@@ -34,12 +33,11 @@ public class AuthController {
         String csrfToken = authService.createCsrfToken();
 
         HttpSession newSession = request.getSession();
-        UserInfo userInfo = UserInfo.from(user);
 
-        newSession.setAttribute("user", userInfo);
+        newSession.setAttribute("userId", loginResult.getUserId());
         newSession.setAttribute("csrfToken", csrfToken);
 
-        LoginResultDto result = new LoginResultDto(user, csrfToken);
+        LoginResultDto result = new LoginResultDto(loginResult.getUser(), csrfToken);
         return ResponseDto.success("Login success", result);
     }
 

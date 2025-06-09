@@ -29,8 +29,8 @@ public class MusicFileFacade {
         }
     }
 
-    public void deleteMusic(long userId, int musicId) {
-        String storeName = musicService.deleteMusic(userId, musicId);
+    public void deleteMusic(long userId, String publicId) {
+        String storeName = musicService.deleteMusic(userId, publicId);
         musicFileService.deleteMusic(storeName);
     }
 }

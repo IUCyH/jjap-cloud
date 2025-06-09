@@ -31,7 +31,6 @@ public class MusicService {
     private final MusicRepository musicRepository;
     private final UserRepository userRepository;
     private final MusicQueryRepository musicQueryRepository;
-    private final FileManager fileManager;
 
     public List<MusicDto> getMusics(Date date) {
         List<MusicSimpleDto> musics = musicQueryRepository.findMusics(date);
@@ -49,9 +48,9 @@ public class MusicService {
                 .toList();
     }
 
-    public MusicDto getMusicById(int id) {
+    public MusicDto getMusicById(String publicId) {
         return musicRepository
-                .findById(id)
+                .findByPublicId(publicId)
                 .map(MusicDtoMapper::toMusicDto)
                 .orElseThrow(() -> new ServiceException(ServiceErrorCode.MUSIC_NOT_FOUND));
     }
@@ -83,28 +82,28 @@ public class MusicService {
     /**
      * Don't use it directly, please use it through MusicFileFacade
      * @param userId
-     * @param id
+     * @param publicId
      * @return deleted music's file name
      */
     @Transactional
-    public String deleteMusic(Long userId, int id) {
+    public String deleteMusic(Long userId, String publicId) {
         Optional<User> user = userRepository.findById(userId);
         if (user.isEmpty()) {
             throw new ServiceException(ServiceErrorCode.USER_NOT_FOUND);
         }
 
-        Optional<Music> music = musicRepository.findById(id);
+        Optional<Music> music = musicRepository.findByPublicId(publicId);
         if (music.isEmpty()) {
             throw new ServiceException(ServiceErrorCode.MUSIC_NOT_FOUND);
         }
 
         User singer = music.get().getUser();
-        if (singer.getId() != userId) {
+        if (!singer.getId().equals(userId)) {
             throw new ServiceException(ServiceErrorCode.MUSIC_PERMISSION_DENIED);
         }
 
         String storeName = music.get().getStoreName();
-        musicRepository.deleteById(id);
+        musicRepository.deleteById(music.get().getId());
         return storeName;
     }
 }

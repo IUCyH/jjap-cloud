@@ -25,8 +25,8 @@ public class MusicFileServiceImpl implements MusicFileService, MusicStreamServic
     private final FileManager fileManager;
 
     @Override
-    public String getMusicStoreName(int id) {
-        Optional<Music> music = musicRepository.findById(id);
+    public String getMusicStoreName(String publicId) {
+        Optional<Music> music = musicRepository.findByPublicId(publicId);
         if(music.isEmpty()) {
             throw new ServiceException(ServiceErrorCode.MUSIC_NOT_FOUND);
         }

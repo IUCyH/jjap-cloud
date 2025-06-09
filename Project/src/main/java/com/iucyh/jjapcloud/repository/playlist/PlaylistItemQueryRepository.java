@@ -41,13 +41,12 @@ public class PlaylistItemQueryRepository {
                                 playlistItem.id,
                                 playlistItem.position,
                                 new QJoinMusicDto(
-                                        music.id,
                                         music.publicId,
                                         music.name,
                                         music.playTime,
                                         music.createdAt,
                                         new QJoinUserDto(
-                                                user.id,
+                                                user.publicId,
                                                 user.nickname
                                         )
                                 )

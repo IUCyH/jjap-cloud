@@ -29,11 +29,11 @@ public class MusicQueryRepository {
 
         return query.select(
                         new QMusicSimpleDto(
-                                music.id,
+                                music.publicId,
                                 music.name,
                                 music.playTime,
                                 new QJoinUserDto(
-                                        music.user.id,
+                                        music.user.publicId,
                                         music.user.nickname
                                 )
                         )
@@ -55,11 +55,11 @@ public class MusicQueryRepository {
 
         return query.select(
                         new QMusicSimpleDto(
-                                music.id,
+                                music.publicId,
                                 music.name,
                                 music.playTime,
                                 new QJoinUserDto(
-                                        music.user.id,
+                                        music.user.publicId,
                                         music.user.nickname
                                 )
                         )

@@ -5,8 +5,8 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class MyUserDto {
+public class UserInfoDto {
 
+    private String publicId;
     private String nickname;
-    private String email;
 }

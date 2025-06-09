@@ -41,7 +41,7 @@ class UserRepositoryTest {
     @DisplayName("유저 조회 성공")
     void find() {
         String uniqueString = UUID.randomUUID().toString();
-        long id = saveTestUser(uniqueString);
+        long id = saveTestUser(uniqueString).getId();
         Optional<User> foundUser = repository.findById(id);
 
         assertThat(foundUser.isPresent()).isTrue();
@@ -53,7 +53,7 @@ class UserRepositoryTest {
     @DisplayName("유저 이메일로 조회 성공")
     void findByEmail() {
         String uniqueString = UUID.randomUUID().toString();
-        long id = saveTestUser(uniqueString);
+        long id = saveTestUser(uniqueString).getId();
         Optional<User> foundUser = repository.findByEmail(uniqueString + "@abc.com");
 
         assertThat(foundUser.isPresent()).isTrue();
@@ -62,10 +62,23 @@ class UserRepositoryTest {
     }
 
     @Test
+    @DisplayName("유저 외부 id로 조회 성공")
+    void findByPublicId() {
+        String uniqueString = UUID.randomUUID().toString();
+        User savedUser = saveTestUser(uniqueString);
+        String publicId = savedUser.getPublicId();
+        Optional<User> foundUser = repository.findByPublicId(publicId);
+
+        assertThat(foundUser.isPresent()).isTrue();
+        assertThat(foundUser.get().getId()).isEqualTo(savedUser.getId());
+        assertThat(foundUser.get().getNickname()).isEqualTo(uniqueString);
+    }
+
+    @Test
     @DisplayName("유저 조회 실패")
     void findFail() {
         String uniqueString = UUID.randomUUID().toString();
-        long id = saveTestUser(uniqueString);
+        long id = saveTestUser(uniqueString).getId();
         Optional<User> foundUser = repository.findById(id + 1);
 
         assertThat(foundUser.isPresent()).isFalse();
@@ -75,7 +88,7 @@ class UserRepositoryTest {
     @DisplayName("유저 이메일로 조회 실패")
     void findByEmailFail() {
         String uniqueString = UUID.randomUUID().toString();
-        long id = saveTestUser(uniqueString);
+        long id = saveTestUser(uniqueString).getId();
 
         Optional<User> foundUser = repository.findByEmail("fail@fail.com");
 
@@ -86,7 +99,7 @@ class UserRepositoryTest {
     @DisplayName("유저 업데이트 성공")
     void update() {
         String uniqueString = UUID.randomUUID().toString();
-        long id = saveTestUser(uniqueString);
+        long id = saveTestUser(uniqueString).getId();
 
         User foundUser = repository.findById(id).orElseThrow();
         foundUser.setNickname("update");
@@ -102,7 +115,7 @@ class UserRepositoryTest {
     @DisplayName("유저 삭제 성공")
     void delete() {
         String uniqueString = UUID.randomUUID().toString();
-        long id = saveTestUser(uniqueString);
+        long id = saveTestUser(uniqueString).getId();
         Optional<User> foundUser = repository.findById(id);
         assertThat(foundUser.isPresent()).isTrue();
 
@@ -112,13 +125,13 @@ class UserRepositoryTest {
         assertThat(deletedUser.isPresent()).isFalse();
     }
 
-    private long saveTestUser(String uniqueString) {
+    private User saveTestUser(String uniqueString) {
         User user = new User(
                 uniqueString,
                 uniqueString + "@abc.com",
                 "abc"
         );
 
-        return repository.save(user).getId();
+        return repository.save(user);
     }
 }

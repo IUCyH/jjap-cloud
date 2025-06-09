@@ -15,11 +15,12 @@ import java.util.Map;
 public class LoginCheckInterceptor implements HandlerInterceptor {
 
     private final PathMatcher pathMatcher = new AntPathMatcher();
-    private final Map<String, String> blackList = new HashMap<>();
+    private final Map<String, String> whiteList = new HashMap<>();
 
     public LoginCheckInterceptor() {
-        blackList.put("/musics", "GET");
-        blackList.put("/musics/{id}", "GET");
+        whiteList.put("/musics", "GET");
+        whiteList.put("/musics/{publicId}", "GET");
+        whiteList.put("/musics/stream/{publicId}", "GET");
     }
 
     @Override
@@ -41,8 +42,8 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
         String method = request.getMethod();
         boolean ignore = false;
 
-        for(String key : blackList.keySet()) {
-            if(pathMatcher.match(key, uri) && blackList.get(key).equals(method)) {
+        for(String key : whiteList.keySet()) {
+            if(pathMatcher.match(key, uri) && whiteList.get(key).equals(method)) {
                 ignore = true;
                 break;
             }
