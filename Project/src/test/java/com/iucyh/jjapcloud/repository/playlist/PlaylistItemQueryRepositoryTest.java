@@ -53,9 +53,9 @@ public class PlaylistItemQueryRepositoryTest {
 
         userRepository.save(user1);
 
-        Music music1 = new Music("music1", "abc", user1, 111L, UUID.randomUUID().toString().replace("-", ""));
-        Music music2 = new Music("music2", "abc", user1, 111L, UUID.randomUUID().toString().replace("-", ""));
-        Music music3 = new Music("music3", "abc", user1, 111L, UUID.randomUUID().toString().replace("-", ""));
+        Music music1 = new Music("music1", "abc", user1, 111L);
+        Music music2 = new Music("music2", "abc", user1, 111L);
+        Music music3 = new Music("music3", "abc", user1, 111L);
 
         musicRepository.save(music1);
         musicRepository.save(music2);
@@ -96,9 +96,9 @@ public class PlaylistItemQueryRepositoryTest {
 
         userRepository.save(user1);
 
-        Music music1 = new Music("music1", "abc", user1, 111L, UUID.randomUUID().toString().replace("-", ""));
-        Music music2 = new Music("music2", "abc", user1, 111L, UUID.randomUUID().toString().replace("-", ""));
-        Music music3 = new Music("music3", "abc", user1, 111L, UUID.randomUUID().toString().replace("-", ""));
+        Music music1 = new Music("music1", "abc", user1, 111L);
+        Music music2 = new Music("music2", "abc", user1, 111L);
+        Music music3 = new Music("music3", "abc", user1, 111L);
 
         musicRepository.save(music1);
         musicRepository.save(music2);
