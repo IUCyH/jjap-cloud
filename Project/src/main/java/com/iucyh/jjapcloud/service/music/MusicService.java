@@ -70,7 +70,7 @@ public class MusicService {
         }
 
         Music music = new Music(
-                musicDto.getName(),
+                musicDto.getTitle(),
                 uploadResult.getStoreName(),
                 user.get(),
                 uploadResult.getPlaytime()

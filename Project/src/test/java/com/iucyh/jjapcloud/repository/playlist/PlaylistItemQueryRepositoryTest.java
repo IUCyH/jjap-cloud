@@ -77,9 +77,9 @@ public class PlaylistItemQueryRepositoryTest {
 
         assertThat(results).isNotEmpty();
         assertThat(results.stream().map(r -> r.getMusic().getTitle())).containsExactly(
-                music1.getName(),
-                music2.getName(),
-                music3.getName()
+                music1.getTitle(),
+                music2.getTitle(),
+                music3.getTitle()
         );
     }
 

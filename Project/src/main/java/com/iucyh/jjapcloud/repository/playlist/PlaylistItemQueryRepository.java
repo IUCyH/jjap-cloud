@@ -42,7 +42,7 @@ public class PlaylistItemQueryRepository {
                                 playlistItem.position,
                                 new QJoinMusicDto(
                                         music.publicId,
-                                        music.name,
+                                        music.title,
                                         music.playTime,
                                         music.createdAt,
                                         new QJoinUserDto(

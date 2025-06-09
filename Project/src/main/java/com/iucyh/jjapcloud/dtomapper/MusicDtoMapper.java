@@ -14,7 +14,7 @@ public class MusicDtoMapper {
         UserInfoDto userDto = UserDtoMapper.toUserInfoDto(music.getUser());
         return MusicDto.builder()
                 .publicId(music.getPublicId())
-                .name(music.getName())
+                .name(music.getTitle())
                 .singer(userDto)
                 .playTime(music.getPlayTime())
                 .build();
@@ -24,7 +24,7 @@ public class MusicDtoMapper {
         UserInfoDto userDto = UserDtoMapper.toUserInfoDto(music.getUser());
         return MusicDto.builder()
                 .publicId(music.getPublicId())
-                .name(music.getName())
+                .name(music.getTitle())
                 .singer(userDto)
                 .playTime(music.getPlayTime())
                 .build();

@@ -8,14 +8,14 @@ import lombok.Getter;
 public class MusicSimpleDto {
 
     private String publicId;
-    private String name;
+    private String title;
     private Long playTime;
     private JoinUserDto user;
 
     @QueryProjection
-    public MusicSimpleDto(String publicId, String name, Long playTime, JoinUserDto user) {
+    public MusicSimpleDto(String publicId, String title, Long playTime, JoinUserDto user) {
         this.publicId = publicId;
-        this.name = name;
+        this.title = title;
         this.playTime = playTime;
         this.user = user;
     }

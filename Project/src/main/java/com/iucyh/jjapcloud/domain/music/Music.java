@@ -26,7 +26,7 @@ public class Music {
     private String publicId;
 
     @Column(length = 100, nullable = false)
-    private String name;
+    private String title;
 
     @Column(length = 64)
     private String storeName;
@@ -43,8 +43,8 @@ public class Music {
 
     protected Music() {}
 
-    public Music(String name, String storeName, User user, Long playTime) {
-        this.name = name;
+    public Music(String title, String storeName, User user, Long playTime) {
+        this.title = title;
         this.storeName = storeName;
         this.user = user;
         this.playTime = playTime;
