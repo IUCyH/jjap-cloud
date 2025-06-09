@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class PlaylistItemQueryRepository {
@@ -26,8 +27,8 @@ public class PlaylistItemQueryRepository {
     }
 
     public List<PlaylistItemSimpleDto> findPlaylistItems(String playlistPublicId) {
-        Long id = playlistRepository.findIdByPublicId(playlistPublicId);
-        if(id == null) {
+        Optional<Long> id = playlistRepository.findIdByPublicId(playlistPublicId);
+        if(id.isEmpty()) {
             return new ArrayList<>();
         }
 
@@ -56,7 +57,7 @@ public class PlaylistItemQueryRepository {
                 .from(playlistItem)
                 .join(playlistItem.music, music)
                 .join(music.user, user)
-                .where(playlistItem.playlist.id.eq(id))
+                .where(playlistItem.playlist.id.eq(id.get()))
                 .orderBy(playlistItem.position.asc())
                 .fetch();
     }

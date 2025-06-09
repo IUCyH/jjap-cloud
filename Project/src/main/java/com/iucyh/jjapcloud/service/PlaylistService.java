@@ -27,10 +27,8 @@ public class PlaylistService {
     private final UserRepository userRepository;
 
     public List<PlaylistDto> findPlaylists(Long userId) {
-        List<Playlist> results = playlistRepository.findByUserId(userId);
-        if(results == null || results.isEmpty()) {
-            throw new ServiceException(ServiceErrorCode.PLAYLIST_NOT_FOUND);
-        }
+        List<Playlist> results = playlistRepository.findByUserId(userId)
+                .orElseThrow(() -> new ServiceException(ServiceErrorCode.PLAYLIST_NOT_FOUND));
 
         return results
                 .stream()
