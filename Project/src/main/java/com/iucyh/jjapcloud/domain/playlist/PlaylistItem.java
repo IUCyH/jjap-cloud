@@ -23,7 +23,7 @@ public class PlaylistItem {
     @JoinColumn(name = "playlist_id")
     private Playlist playlist;
 
-    public PlaylistItem() {}
+    protected PlaylistItem() {}
 
     public PlaylistItem(Integer position, Music music, Playlist playlist) {
         this.position = position;

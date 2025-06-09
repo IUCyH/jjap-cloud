@@ -37,7 +37,7 @@ public class Playlist {
     @JoinColumn(name = "user_id")
     private User user;
 
-    public Playlist() {}
+    protected Playlist() {}
 
     public Playlist(String publicId, String name, User user) {
         this.publicId = publicId;
