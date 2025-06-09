@@ -11,7 +11,5 @@ public class CreatePlaylistDto {
     @NotBlank
     private String name;
 
-    public CreatePlaylistDto(String name) {
-        this.name = name;
-    }
+    public CreatePlaylistDto() {}
 }
