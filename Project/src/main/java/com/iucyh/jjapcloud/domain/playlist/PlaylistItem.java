@@ -22,4 +22,12 @@ public class PlaylistItem {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "playlist_id")
     private Playlist playlist;
+
+    public PlaylistItem() {}
+
+    public PlaylistItem(Integer position, Music music, Playlist playlist) {
+        this.position = position;
+        this.music = music;
+        this.playlist = playlist;
+    }
 }

@@ -36,4 +36,12 @@ public class Playlist {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
+
+    public Playlist() {}
+
+    public Playlist(String publicId, String name, User user) {
+        this.publicId = publicId;
+        this.name = name;
+        this.user = user;
+    }
 }

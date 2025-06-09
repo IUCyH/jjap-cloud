@@ -3,9 +3,11 @@ package com.iucyh.jjapcloud.domain.music;
 import com.iucyh.jjapcloud.domain.user.User;
 import jakarta.persistence.*;
 import lombok.Getter;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity
 @Table(
@@ -46,5 +48,13 @@ public class Music {
         this.storeName = storeName;
         this.user = user;
         this.playTime = playTime;
+    }
+
+    public Music(String name, String storeName, User user, Long playTime, String publicId) {
+        this.name = name;
+        this.storeName = storeName;
+        this.user = user;
+        this.playTime = playTime;
+        this.publicId = publicId;
     }
 }

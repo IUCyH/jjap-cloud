@@ -11,6 +11,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -26,6 +27,10 @@ public class PlaylistItemQueryRepository {
 
     public List<PlaylistItemSimpleDto> findPlaylistItems(String playlistPublicId) {
         Long id = playlistRepository.findIdByPublicId(playlistPublicId);
+        if(id == null) {
+            return new ArrayList<>();
+        }
+
         QPlaylistItem playlistItem = QPlaylistItem.playlistItem;
         QMusic music = QMusic.music;
         QUser user = QUser.user;
