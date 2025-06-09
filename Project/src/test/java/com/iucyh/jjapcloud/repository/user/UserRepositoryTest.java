@@ -22,10 +22,11 @@ class UserRepositoryTest {
     @Test
     @DisplayName("유저 저장 성공")
     void save() {
-        User user = new User();
-        user.setNickname("test");
-        user.setEmail("abc@abc.com");
-        user.setPassword("1234");
+        User user = new User(
+                "test",
+                "abc@abc.com",
+                "1234"
+        );
 
         User savedUser = repository.save(user);
         long id = savedUser.getId();
@@ -112,10 +113,11 @@ class UserRepositoryTest {
     }
 
     private long saveTestUser(String uniqueString) {
-        User user = new User();
-        user.setNickname(uniqueString);
-        user.setPassword("123456");
-        user.setEmail(uniqueString + "@abc.com");
+        User user = new User(
+                uniqueString,
+                uniqueString + "@abc.com",
+                "123456"
+        );
 
         return repository.save(user).getId();
     }
