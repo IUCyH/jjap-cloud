@@ -39,10 +39,7 @@ public class UserService {
 
     @Transactional
     public IdDto createUser(CreateUserDto userDto) {
-        User user = new User();
-        user.setNickname(userDto.getNickname());
-        user.setEmail(userDto.getEmail());
-        user.setPassword(userDto.getPassword());
+        User user = new User(userDto.getNickname(), userDto.getEmail(), userDto.getPassword());
 
         long id = userRepository.save(user).getId();
         return new IdDto(id);
@@ -50,7 +47,8 @@ public class UserService {
 
     @Transactional
     public void updateUser(long id, UpdateUserDto userDto) {
-        User foundUser = userRepository.findById(id).orElseThrow();
+        User foundUser = userRepository.findById(id)
+                .orElseThrow(() -> new ServiceException(ServiceErrorCode.USER_NOT_FOUND));
         foundUser.setNickname(userDto.getNickname());
         foundUser.setPassword(userDto.getPassword());
     }

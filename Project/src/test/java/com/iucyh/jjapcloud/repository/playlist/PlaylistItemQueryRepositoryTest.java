@@ -45,11 +45,11 @@ public class PlaylistItemQueryRepositoryTest {
     void findPlaylistItems() {
         String publicId = UUID.randomUUID().toString().replace("-", "");
 
-        User user1 = new User();
-        user1.setNickname("user1");
-        user1.setEmail("abc@abc.com");
-        user1.setPassword("abc123");
-        user1.setPublicId(publicId);
+        User user1 = new User(
+                "testSinger1",
+                "abc@abc.com",
+                "abc"
+        );
 
         userRepository.save(user1);
 
@@ -88,11 +88,11 @@ public class PlaylistItemQueryRepositoryTest {
     void findPlaylistItemsFail() {
         String publicId = UUID.randomUUID().toString().replace("-", "");
 
-        User user1 = new User();
-        user1.setNickname("user1");
-        user1.setEmail("abc@abc.com");
-        user1.setPassword("abc123");
-        user1.setPublicId(publicId);
+        User user1 = new User(
+                "testSinger1",
+                "abc@abc.com",
+                "abc"
+        );
 
         userRepository.save(user1);
 

@@ -36,10 +36,11 @@ class MusicPagingRepositoryTest {
     @Test
     @DisplayName("페이징 성공")
     void paging() {
-        User user1 = new User();
-        user1.setNickname("testSinger1");
-        user1.setEmail("abc@abc.com");
-        user1.setPassword("abc");
+        User user1 = new User(
+                "testSinger1",
+                "abc@abc.com",
+                "abc"
+        );
 
         Music music1 = new Music(
                 "test1",
@@ -49,10 +50,11 @@ class MusicPagingRepositoryTest {
         );
 
 
-        User user2 = new User();
-        user2.setNickname("testSinger2");
-        user2.setEmail("abc@abc.com");
-        user2.setPassword("abc");
+        User user2 = new User(
+                "testSinger2",
+                "abc@abc.com",
+                "abc"
+        );
 
         Music music2 = new Music(
                 "test2",
@@ -61,11 +63,11 @@ class MusicPagingRepositoryTest {
                 1000L
         );
 
-
-        User user3 = new User();
-        user3.setNickname("testSinger3");
-        user3.setEmail("abc@abc.com");
-        user3.setPassword("abc");
+        User user3 = new User(
+                "testSinger3",
+                "abc@abc.com",
+                "abc"
+        );
 
         Music music3 = new Music(
                 "test3",
@@ -74,10 +76,11 @@ class MusicPagingRepositoryTest {
                 1000L
         );
 
-        User user4 = new User();
-        user4.setNickname("testSinger4");
-        user4.setEmail("abc@abc.com");
-        user4.setPassword("abc");
+        User user4 = new User(
+                "testSinger4",
+                "abc@abc.com",
+                "abc"
+        );
 
         Music music4 = new Music(
                 "test4",

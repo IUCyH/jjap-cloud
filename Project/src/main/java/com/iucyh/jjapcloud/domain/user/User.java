@@ -4,8 +4,9 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.UUID;
+
 @Getter
-@Setter
 @Entity
 @Table(
         name = "users",
@@ -31,5 +32,24 @@ public class User {
     @Column(length = 128, nullable = false)
     private String password;
 
-    public User() {}
+    protected User() {}
+
+    public User(String nickname, String email, String password) {
+        this.nickname = nickname;
+        this.email = email;
+        this.password = password;
+        this.publicId = UUID.randomUUID().toString().replace("-", "");
+    }
+
+    public void setNickname(String nickname) {
+        if(nickname != null) {
+            this.nickname = nickname;
+        }
+    }
+
+    public void setPassword(String password) {
+        if(password != null) {
+            this.password = password;
+        }
+    }
 }
