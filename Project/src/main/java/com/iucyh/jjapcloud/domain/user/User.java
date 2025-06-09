@@ -7,7 +7,6 @@ import lombok.Setter;
 import java.util.UUID;
 
 @Getter
-@Setter
 @Entity
 @Table(
         name = "users",
@@ -25,12 +24,14 @@ public class User {
     private String publicId;
 
     @Column(length = 64, unique = true, nullable = false)
+    @Setter
     private String nickname;
 
     @Column(length = 128, nullable = false)
     private String email;
 
     @Column(length = 128, nullable = false)
+    @Setter
     private String password;
 
     protected User() {}
