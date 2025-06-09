@@ -7,6 +7,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity
 @Table(
@@ -39,9 +40,9 @@ public class Playlist {
 
     protected Playlist() {}
 
-    public Playlist(String publicId, String name, User user) {
-        this.publicId = publicId;
+    public Playlist(String name, User user) {
         this.name = name;
         this.user = user;
+        this.publicId = UUID.randomUUID().toString().replace("-", "");
     }
 }

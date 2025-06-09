@@ -61,7 +61,7 @@ public class PlaylistItemQueryRepositoryTest {
         musicRepository.save(music2);
         musicRepository.save(music3);
 
-        Playlist playlist1 = new Playlist(publicId, "playlist1", user1);
+        Playlist playlist1 = new Playlist("playlist1", user1);
         PlaylistItem item1 = new PlaylistItem(1, music1, playlist1);
         PlaylistItem item2 = new PlaylistItem(2, music2, playlist1);
         PlaylistItem item3 = new PlaylistItem(3, music3, playlist1);
@@ -73,7 +73,7 @@ public class PlaylistItemQueryRepositoryTest {
 
         log.info("==================================");
 
-        List<PlaylistItemSimpleDto> results = playlistItemQueryRepository.findPlaylistItems(publicId);
+        List<PlaylistItemSimpleDto> results = playlistItemQueryRepository.findPlaylistItems(playlist1.getPublicId());
 
         assertThat(results).isNotEmpty();
         assertThat(results.stream().map(r -> r.getMusic().getTitle())).containsExactly(
@@ -104,7 +104,7 @@ public class PlaylistItemQueryRepositoryTest {
         musicRepository.save(music2);
         musicRepository.save(music3);
 
-        Playlist playlist1 = new Playlist(publicId, "playlist1", user1);
+        Playlist playlist1 = new Playlist("playlist1", user1);
         PlaylistItem item1 = new PlaylistItem(1, music1, playlist1);
         PlaylistItem item2 = new PlaylistItem(2, music2, playlist1);
         PlaylistItem item3 = new PlaylistItem(3, music3, playlist1);
