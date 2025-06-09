@@ -41,7 +41,7 @@ public class Music {
     @JoinColumn(name = "user_id")
     private User user;
 
-    public Music() {}
+    protected Music() {}
 
     public Music(String name, String storeName, User user, Long playTime) {
         this.name = name;
