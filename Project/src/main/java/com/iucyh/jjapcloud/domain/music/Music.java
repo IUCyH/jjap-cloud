@@ -23,7 +23,6 @@ public class Music {
     private Long id;
 
     @Column(length = 32, unique = true, nullable = false)
-    @ColumnDefault("'3f4a1c9b8d6e2a7f90b1d5c4e3f0a9b2'") // 테스트용
     private String publicId;
 
     @Column(length = 100, nullable = false)
