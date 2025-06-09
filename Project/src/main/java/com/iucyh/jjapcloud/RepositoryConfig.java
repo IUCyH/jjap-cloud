@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
 public class RepositoryConfig {
 
     @Bean
-    public MusicQueryRepository musicPagingRepository(EntityManager em) {
+    public MusicQueryRepository musicQueryRepository(EntityManager em) {
         return new MusicQueryRepository(em);
     }
 

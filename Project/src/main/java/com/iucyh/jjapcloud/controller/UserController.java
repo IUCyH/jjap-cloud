@@ -4,8 +4,7 @@ import com.iucyh.jjapcloud.dto.user.CreateUserDto;
 import com.iucyh.jjapcloud.dto.user.MyUserDto;
 import com.iucyh.jjapcloud.dto.user.UpdateUserDto;
 import com.iucyh.jjapcloud.dto.user.UserDto;
-import com.iucyh.jjapcloud.common.annotation.loginuser.LoginUser;
-import com.iucyh.jjapcloud.common.annotation.loginuser.UserInfo;
+import com.iucyh.jjapcloud.common.annotation.loginuser.LoginUserId;
 import com.iucyh.jjapcloud.dto.IdDto;
 import com.iucyh.jjapcloud.dto.ResponseDto;
 import com.iucyh.jjapcloud.service.UserService;
@@ -22,15 +21,15 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/me")
-    public ResponseDto<MyUserDto> getMyUser(@LoginUser UserInfo user) {
-        MyUserDto result = userService.getMyUserById(user.getId());
+    public ResponseDto<MyUserDto> getMyUser(@LoginUserId Long userId) {
+        MyUserDto result = userService.getMyUserById(userId);
         return ResponseDto
                 .success("Get my user success", result);
     }
 
-    @GetMapping("/{id}")
-    public ResponseDto<UserDto> getUserById(@PathVariable Integer id) {
-        UserDto result = userService.getUserById(id);
+    @GetMapping("/{publicId}")
+    public ResponseDto<UserDto> getUserById(@PathVariable String publicId) {
+        UserDto result = userService.getUserById(publicId);
         return ResponseDto
                 .success("Get user success", result);
     }
@@ -44,16 +43,16 @@ public class UserController {
 
     @PatchMapping("/me")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseDto<Void> updateUser(@LoginUser UserInfo user, @Validated @RequestBody UpdateUserDto userDto) {
-        userService.updateUser(user.getId(), userDto);
+    public ResponseDto<Void> updateUser(@LoginUserId Long userId, @Validated @RequestBody UpdateUserDto userDto) {
+        userService.updateUser(userId, userDto);
         return ResponseDto
                 .success("Update user success", null);
     }
 
     @DeleteMapping("/me")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseDto<Void> deleteUser(@LoginUser UserInfo user) {
-        userService.deleteUser(user.getId());
+    public ResponseDto<Void> deleteUser(@LoginUserId Long userId) {
+        userService.deleteUser(userId);
         return ResponseDto
                 .success("Delete user success", null);
     }

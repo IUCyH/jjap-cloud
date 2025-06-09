@@ -1,7 +1,6 @@
 package com.iucyh.jjapcloud.common.argumentresolver;
 
-import com.iucyh.jjapcloud.common.annotation.loginuser.LoginUser;
-import com.iucyh.jjapcloud.common.annotation.loginuser.UserInfo;
+import com.iucyh.jjapcloud.common.annotation.loginuser.LoginUserId;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.core.MethodParameter;
@@ -14,8 +13,8 @@ public class LoginUserArgumentResolver implements HandlerMethodArgumentResolver 
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
-        boolean hasAnnotation = parameter.hasParameterAnnotation(LoginUser.class);
-        boolean assignable = UserInfo.class.isAssignableFrom(parameter.getParameterType());
+        boolean hasAnnotation = parameter.hasParameterAnnotation(LoginUserId.class);
+        boolean assignable = Long.class.isAssignableFrom(parameter.getParameterType());
 
         return hasAnnotation && assignable;
     }
@@ -28,6 +27,6 @@ public class LoginUserArgumentResolver implements HandlerMethodArgumentResolver 
             throw new RuntimeException("Session is null");
         }
 
-        return session.getAttribute("user");
+        return session.getAttribute("userId");
     }
 }

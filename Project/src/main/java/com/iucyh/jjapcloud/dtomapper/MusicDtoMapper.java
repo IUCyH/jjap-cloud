@@ -4,26 +4,27 @@ import com.iucyh.jjapcloud.domain.music.Music;
 import com.iucyh.jjapcloud.dto.music.MusicDto;
 import com.iucyh.jjapcloud.dto.music.query.MusicSimpleDto;
 import com.iucyh.jjapcloud.dto.user.UserDto;
+import com.iucyh.jjapcloud.dto.user.UserInfoDto;
 
 public class MusicDtoMapper {
 
     private MusicDtoMapper() {}
 
     public static MusicDto toMusicDto(Music music) {
-        UserDto userDto = UserDtoMapper.toUserDto(music.getUser());
+        UserInfoDto userDto = UserDtoMapper.toUserInfoDto(music.getUser());
         return MusicDto.builder()
-                .id(music.getId())
-                .name(music.getName())
+                .publicId(music.getPublicId())
+                .name(music.getTitle())
                 .singer(userDto)
                 .playTime(music.getPlayTime())
                 .build();
     }
 
     public static MusicDto toMusicDto(MusicSimpleDto music) {
-        UserDto userDto = UserDtoMapper.toUserDto(music.getUser());
+        UserInfoDto userDto = UserDtoMapper.toUserInfoDto(music.getUser());
         return MusicDto.builder()
-                .id(music.getId())
-                .name(music.getName())
+                .publicId(music.getPublicId())
+                .name(music.getTitle())
                 .singer(userDto)
                 .playTime(music.getPlayTime())
                 .build();

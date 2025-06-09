@@ -107,15 +107,15 @@ class MusicPagingRepositoryTest {
 
         // 전체 음악 조회
         List<MusicSimpleDto> musics = musicPagingRepository.findMusics(maxDate);
-        musics.forEach(m -> log.info("music: {}", m.getName()));
+        musics.forEach(m -> log.info("music: {}", m.getTitle()));
 
         assertThat(musics).isNotEmpty();
-        assertThat(musics.stream().map(MusicSimpleDto::getName))
+        assertThat(musics.stream().map(MusicSimpleDto::getTitle))
                 .containsExactly(
-                        music4.getName(),
-                        music3.getName(),
-                        music2.getName(),
-                        music1.getName()
+                        music4.getTitle(),
+                        music3.getTitle(),
+                        music2.getTitle(),
+                        music1.getTitle()
                 );
 
         // music2 이전에 등록된 음악만 조회
@@ -123,7 +123,7 @@ class MusicPagingRepositoryTest {
         List<MusicSimpleDto> musics2 = musicPagingRepository.findMusics(music2Date);
 
         assertThat(musics2).isNotEmpty();
-        assertThat(musics2.stream().map(MusicSimpleDto::getName))
-                .containsExactly(music1.getName());
+        assertThat(musics2.stream().map(MusicSimpleDto::getTitle))
+                .containsExactly(music1.getTitle());
     }
 }

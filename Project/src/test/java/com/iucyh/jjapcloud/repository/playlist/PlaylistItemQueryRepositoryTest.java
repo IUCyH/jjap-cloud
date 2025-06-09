@@ -46,9 +46,9 @@ public class PlaylistItemQueryRepositoryTest {
         String publicId = UUID.randomUUID().toString().replace("-", "");
 
         User user1 = new User(
-                "user1",
+                "testSinger1",
                 "abc@abc.com",
-                "abc123"
+                "abc"
         );
 
         userRepository.save(user1);
@@ -77,9 +77,9 @@ public class PlaylistItemQueryRepositoryTest {
 
         assertThat(results).isNotEmpty();
         assertThat(results.stream().map(r -> r.getMusic().getTitle())).containsExactly(
-                music1.getName(),
-                music2.getName(),
-                music3.getName()
+                music1.getTitle(),
+                music2.getTitle(),
+                music3.getTitle()
         );
     }
 
@@ -89,9 +89,9 @@ public class PlaylistItemQueryRepositoryTest {
         String publicId = UUID.randomUUID().toString().replace("-", "");
 
         User user1 = new User(
-                "user1",
+                "testSinger1",
                 "abc@abc.com",
-                "abc123"
+                "abc"
         );
 
         userRepository.save(user1);

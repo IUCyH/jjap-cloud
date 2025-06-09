@@ -7,7 +7,7 @@ import java.io.File;
 
 public interface MusicStreamService {
 
-    String getMusicStoreName(int id);
+    String getMusicStoreName(String publicId);
     File getFile(String fileName);
     RangeDto getRange(File file, String rangeHeader);
     InputStreamResource streamMusic(File file, RangeDto range);

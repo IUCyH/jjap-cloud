@@ -6,12 +6,12 @@ import lombok.Getter;
 @Getter
 public class JoinUserDto {
 
-    private Long id;
+    private String publicId;
     private String nickname;
 
     @QueryProjection
-    public JoinUserDto(Long id, String nickname) {
-        this.id = id;
+    public JoinUserDto(String publicId, String nickname) {
+        this.publicId = publicId;
         this.nickname = nickname;
     }
 }

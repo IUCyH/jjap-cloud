@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 public class CreateMusicDto {
 
     @NotBlank
-    private String name;
+    private String title;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createTime;

@@ -45,7 +45,7 @@ public class MusicQueryRepositoryTest {
         // 'test' 가 이름으로 포함된 음악 전체 조회
         List<MusicSimpleDto> results = musicQueryRepository.searchMusics(MusicSearchField.MUSIC_NAME, "test", maxDate);
         assertThat(results).isNotEmpty();
-        assertThat(results.stream().map(MusicSimpleDto::getName))
+        assertThat(results.stream().map(MusicSimpleDto::getTitle))
                 .containsExactly(
                         "testc3",
                         "test2",
@@ -55,7 +55,7 @@ public class MusicQueryRepositoryTest {
         // 'a' 가 이름으로 포함된 음악만 조회
         List<MusicSimpleDto> results2 = musicQueryRepository.searchMusics(MusicSearchField.MUSIC_NAME, "a", maxDate);
         assertThat(results2).isNotEmpty();
-        assertThat(results2.stream().map(MusicSimpleDto::getName))
+        assertThat(results2.stream().map(MusicSimpleDto::getTitle))
                 .containsExactly("aes4");
     }
 
@@ -73,7 +73,7 @@ public class MusicQueryRepositoryTest {
         // 'testSinger1' 이름의 유저가 올린 모든 음악 조회
         List<MusicSimpleDto> results = musicQueryRepository.searchMusics(MusicSearchField.SINGER_NAME, "testSinger1", maxDate);
         assertThat(results).isNotEmpty();
-        assertThat(results.stream().map(MusicSimpleDto::getName))
+        assertThat(results.stream().map(MusicSimpleDto::getTitle))
                 .containsExactly("test1");
     }
 

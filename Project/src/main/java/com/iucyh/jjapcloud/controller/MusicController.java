@@ -1,8 +1,6 @@
 package com.iucyh.jjapcloud.controller;
 
-import com.iucyh.jjapcloud.common.annotation.loginuser.LoginUser;
-import com.iucyh.jjapcloud.common.annotation.loginuser.UserInfo;
-import com.iucyh.jjapcloud.domain.music.Music;
+import com.iucyh.jjapcloud.common.annotation.loginuser.LoginUserId;
 import com.iucyh.jjapcloud.dto.IdDto;
 import com.iucyh.jjapcloud.dto.ResponseDto;
 import com.iucyh.jjapcloud.dto.music.CreateMusicDto;
@@ -13,7 +11,6 @@ import com.iucyh.jjapcloud.facade.music.file.MusicFileFacade;
 import com.iucyh.jjapcloud.facade.music.stream.MusicStreamFacade;
 import com.iucyh.jjapcloud.facade.music.stream.MusicStreamResult;
 import com.iucyh.jjapcloud.service.music.MusicService;
-import com.iucyh.jjapcloud.service.music.file.MusicFileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpStatus;
@@ -21,7 +18,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
@@ -54,18 +50,18 @@ public class MusicController {
                 .success("Search musics success", musicService.searchMusics(condition, date));
     }
 
-    @GetMapping("/{id}")
-    public ResponseDto<MusicDto> getMusicById(@PathVariable int id) {
+    @GetMapping("/{publicId}")
+    public ResponseDto<MusicDto> getMusicById(@PathVariable String publicId) {
         return ResponseDto
-                .success("Get music success", musicService.getMusicById(id));
+                .success("Get music success", musicService.getMusicById(publicId));
     }
 
-    @GetMapping("/stream/{id}")
+    @GetMapping("/stream/{publicId}")
     public ResponseEntity<InputStreamResource> streamMusic(
-            @PathVariable int id,
+            @PathVariable String publicId,
             @RequestHeader(name = "Range", required = false) String rangeHeader
     ) {
-        MusicStreamResult result = musicStreamFacade.stream(id, rangeHeader);
+        MusicStreamResult result = musicStreamFacade.stream(publicId, rangeHeader);
         RangeDto range = result.getRange();
 
         return ResponseEntity
@@ -78,15 +74,15 @@ public class MusicController {
     }
 
     @PostMapping
-    public ResponseDto<IdDto> createMusic(@LoginUser UserInfo user, @ModelAttribute CreateMusicDto music) {
-        IdDto id = musicFileFacade.uploadMusic(user.getId(), music);
+    public ResponseDto<IdDto> createMusic(@LoginUserId Long userId, @ModelAttribute CreateMusicDto music) {
+        IdDto id = musicFileFacade.uploadMusic(userId, music);
         return ResponseDto
                 .success("Create music success", id);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseDto<Void> deleteMusic(@LoginUser UserInfo user, @PathVariable int id) {
-        musicFileFacade.deleteMusic(user.getId(), id);
+    @DeleteMapping("/{publicId}")
+    public ResponseDto<Void> deleteMusic(@LoginUserId Long userId, @PathVariable String publicId) {
+        musicFileFacade.deleteMusic(userId, publicId);
         return ResponseDto
                 .success("Delete music success", null);
     }

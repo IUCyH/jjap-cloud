@@ -25,7 +25,7 @@ class UserRepositoryTest {
         User user = new User(
                 "test",
                 "abc@abc.com",
-                "1234"
+                "abc"
         );
 
         User savedUser = repository.save(user);

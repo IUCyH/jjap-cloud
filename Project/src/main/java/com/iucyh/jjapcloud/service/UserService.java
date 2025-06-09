@@ -23,14 +23,14 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    public UserDto getUserById(long id) {
-        Optional<User> user = userRepository.findById(id);
+    public UserDto getUserById(String publicId) {
+        Optional<User> user = userRepository.findByPublicId(publicId);
         return user
                 .map(UserDtoMapper::toUserDto)
                 .orElseThrow(() -> new ServiceException(ServiceErrorCode.USER_NOT_FOUND));
     }
 
-    public MyUserDto getMyUserById(long id) {
+    public MyUserDto getMyUserById(Long id) {
         Optional<User> user = userRepository.findById(id);
         return user
                 .map(UserDtoMapper::toMyUserDto)
@@ -39,25 +39,22 @@ public class UserService {
 
     @Transactional
     public IdDto createUser(CreateUserDto userDto) {
-        User user = new User(
-                userDto.getNickname(),
-                userDto.getEmail(),
-                userDto.getPassword()
-        );
+        User user = new User(userDto.getNickname(), userDto.getEmail(), userDto.getPassword());
 
         long id = userRepository.save(user).getId();
         return new IdDto(id);
     }
 
     @Transactional
-    public void updateUser(long id, UpdateUserDto userDto) {
-        User foundUser = userRepository.findById(id).orElseThrow();
+    public void updateUser(Long id, UpdateUserDto userDto) {
+        User foundUser = userRepository.findById(id)
+                .orElseThrow(() -> new ServiceException(ServiceErrorCode.USER_NOT_FOUND));
         foundUser.setNickname(userDto.getNickname());
         foundUser.setPassword(userDto.getPassword());
     }
 
     @Transactional
-    public void deleteUser(long id) {
+    public void deleteUser(Long id) {
         userRepository.deleteById(id);
     }
 }

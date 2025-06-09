@@ -9,16 +9,14 @@ import java.time.LocalDateTime;
 @Getter
 public class JoinMusicDto {
 
-    private Long id;
-    private JoinUserDto user;
     private String publicId;
+    private JoinUserDto user;
     private String title;
     private Long playTime;
     private LocalDateTime createdAt;
 
     @QueryProjection
-    public JoinMusicDto(Long id, String publicId, String title, Long playTime, LocalDateTime createdAt, JoinUserDto user) {
-        this.id = id;
+    public JoinMusicDto(String publicId, String title, Long playTime, LocalDateTime createdAt, JoinUserDto user) {
         this.user = user;
         this.publicId = publicId;
         this.title = title;

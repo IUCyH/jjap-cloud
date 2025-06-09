@@ -29,11 +29,11 @@ public class MusicQueryRepository {
 
         return query.select(
                         new QMusicSimpleDto(
-                                music.id,
-                                music.name,
+                                music.publicId,
+                                music.title,
                                 music.playTime,
                                 new QJoinUserDto(
-                                        music.user.id,
+                                        music.user.publicId,
                                         music.user.nickname
                                 )
                         )
@@ -49,17 +49,17 @@ public class MusicQueryRepository {
         QMusic music = QMusic.music;
         LocalDateTime localDateTime = getDate(date);
         BooleanExpression keywordExpression = switch (field) {
-            case MUSIC_NAME -> QMusic.music.name.like("%" + keyword + "%");
+            case MUSIC_NAME -> QMusic.music.title.like("%" + keyword + "%");
             case SINGER_NAME -> QMusic.music.user.nickname.like(keyword);
         };
 
         return query.select(
                         new QMusicSimpleDto(
-                                music.id,
-                                music.name,
+                                music.publicId,
+                                music.title,
                                 music.playTime,
                                 new QJoinUserDto(
-                                        music.user.id,
+                                        music.user.publicId,
                                         music.user.nickname
                                 )
                         )
