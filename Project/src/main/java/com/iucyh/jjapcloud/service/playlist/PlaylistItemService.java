@@ -43,6 +43,7 @@ public class PlaylistItemService {
                 .toList();
     }
 
+    @Transactional
     public void addMusicToPlaylist(PlaylistInfo playlistInfo, Long musicId) {
         int position = playlistInfo.getItemCount() + 1;
         Playlist playlist = em.getReference(Playlist.class, playlistInfo.getId());
