@@ -32,6 +32,11 @@ public class MusicService {
     private final UserRepository userRepository;
     private final MusicQueryRepository musicQueryRepository;
 
+    public Long getMusicId(String publicId) {
+        return musicRepository.findIdByPublicId(publicId)
+                .orElseThrow(() -> new ServiceException(ServiceErrorCode.MUSIC_NOT_FOUND));
+    }
+
     public List<MusicDto> getMusics(Date date) {
         List<MusicSimpleDto> musics = musicQueryRepository.findMusics(date);
         return musics

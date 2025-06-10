@@ -28,6 +28,8 @@ public class Playlist {
     @Column(length = 50, nullable = false)
     private String name;
 
+    private Integer itemCount;
+
     @CreationTimestamp
     private LocalDateTime createdAt;
 

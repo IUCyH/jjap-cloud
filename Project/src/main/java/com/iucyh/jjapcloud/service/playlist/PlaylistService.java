@@ -2,11 +2,14 @@ package com.iucyh.jjapcloud.service.playlist;
 
 import com.iucyh.jjapcloud.common.exception.ServiceException;
 import com.iucyh.jjapcloud.common.exception.errorcode.ServiceErrorCode;
+import com.iucyh.jjapcloud.domain.music.Music;
 import com.iucyh.jjapcloud.domain.playlist.Playlist;
+import com.iucyh.jjapcloud.domain.playlist.PlaylistItem;
 import com.iucyh.jjapcloud.domain.user.User;
 import com.iucyh.jjapcloud.dto.playlist.CreatePlaylistDto;
 import com.iucyh.jjapcloud.dto.playlist.PlaylistDto;
 import com.iucyh.jjapcloud.dtomapper.PlaylistDtoMapper;
+import com.iucyh.jjapcloud.repository.playlist.PlaylistInfo;
 import com.iucyh.jjapcloud.repository.playlist.PlaylistRepository;
 import com.iucyh.jjapcloud.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +34,11 @@ public class PlaylistService {
                 .stream()
                 .map(PlaylistDtoMapper::toPlaylistDto)
                 .toList();
+    }
+
+    public PlaylistInfo getPlaylistInfo(Long userId, String publicId) {
+        return playlistRepository.findByUserIdAndPublicId(userId, publicId)
+                .orElseThrow(() -> new ServiceException(ServiceErrorCode.PLAYLIST_NOT_FOUND));
     }
 
     @Transactional

@@ -1,6 +1,8 @@
 package com.iucyh.jjapcloud.repository.playlist;
 
 import com.iucyh.jjapcloud.domain.music.QMusic;
+import com.iucyh.jjapcloud.domain.playlist.PlaylistItem;
+import com.iucyh.jjapcloud.domain.playlist.QPlaylist;
 import com.iucyh.jjapcloud.domain.playlist.QPlaylistItem;
 import com.iucyh.jjapcloud.domain.user.QUser;
 import com.iucyh.jjapcloud.dto.music.query.QJoinMusicDto;

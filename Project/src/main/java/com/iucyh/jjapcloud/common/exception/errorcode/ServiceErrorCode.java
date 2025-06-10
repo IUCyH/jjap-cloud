@@ -20,7 +20,9 @@ public enum ServiceErrorCode implements ErrorCode {
     MUSIC_PERMISSION_DENIED(HttpStatus.FORBIDDEN, "MUSIC-003", "Permission Denied"),
 
     // PLAYLIST
-    PLAYLIST_NOT_FOUND(HttpStatus.NOT_FOUND, "PLAYLIST-001", "Playlist Not Found");
+    PLAYLIST_NOT_FOUND(HttpStatus.NOT_FOUND, "PLAYLIST-001", "Playlist Not Found"),
+    PLAYLIST_ITEM_NOT_FOUND(HttpStatus.NOT_FOUND, "PLAYLIST-002", "Playlist Item Not Found"),
+    PLAYLIST_MUSIC_EXISTS(HttpStatus.BAD_REQUEST, "PLAYLIST-003", "Music Already Exists In Playlist");
 
     private final HttpStatus httpStatus;
     private final String code;
