@@ -3,6 +3,7 @@ package com.iucyh.jjapcloud.repository.playlist;
 import com.iucyh.jjapcloud.domain.playlist.Playlist;
 import com.iucyh.jjapcloud.domain.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -22,5 +23,7 @@ public interface PlaylistRepository extends JpaRepository<Playlist, Long> {
 
     Optional<List<Playlist>> findByUserId(Long userId);
 
-    Long user(User user);
+    @Modifying(clearAutomatically = true)
+    @Query(value = "update playlists pl set pl.item_count = pl.item_count + 1 where pl.id = :id returning item_count", nativeQuery = true)
+    int increaseItemCount(@Param("id") Long id);
 }

@@ -58,6 +58,11 @@ public class PlaylistService {
     }
 
     @Transactional
+    public int increaseItemCount(Long id) {
+        return playlistRepository.increaseItemCount(id);
+    }
+
+    @Transactional
     public void deletePlaylist(Long userId, String publicId) {
         Long id = playlistRepository.findIdByUserIdAndPublicId(userId, publicId)
                         .orElseThrow(() -> new ServiceException(ServiceErrorCode.PLAYLIST_NOT_FOUND));

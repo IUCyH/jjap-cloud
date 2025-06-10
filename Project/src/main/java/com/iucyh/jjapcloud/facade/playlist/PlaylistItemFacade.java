@@ -6,16 +6,23 @@ import com.iucyh.jjapcloud.repository.playlist.PlaylistInfo;
 import com.iucyh.jjapcloud.service.music.MusicService;
 import com.iucyh.jjapcloud.service.playlist.PlaylistItemService;
 import com.iucyh.jjapcloud.service.playlist.PlaylistService;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityTransaction;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionManager;
+import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.DefaultTransactionAttribute;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
 public class PlaylistItemFacade {
 
+    private final PlatformTransactionManager txManager;
     private final PlaylistService playlistService;
     private final PlaylistItemService playlistItemService;
     private final MusicService musicService;
@@ -29,6 +36,15 @@ public class PlaylistItemFacade {
             throw new ServiceException(ServiceErrorCode.PLAYLIST_MUSIC_EXISTS);
         }
 
-        playlistItemService.addMusicToPlaylist(playlistInfo, musicId);
+        TransactionStatus status = txManager.getTransaction(new DefaultTransactionAttribute());
+        try {
+            int count = playlistService.increaseItemCount(playlistInfo.getId());
+            playlistItemService.addMusicToPlaylist(playlistInfo.getId(), musicId, count);
+
+            txManager.commit(status);
+        } catch (RuntimeException e) {
+            txManager.rollback(status);
+            throw e;
+        }
     }
 }
