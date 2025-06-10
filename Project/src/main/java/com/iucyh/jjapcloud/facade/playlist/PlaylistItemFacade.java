@@ -25,7 +25,7 @@ public class PlaylistItemFacade {
         PlaylistInfo playlistInfo = playlistService.getPlaylistInfo(userId, playlistPublicId);
 
         boolean exists = playlistItemService.isMusicExistsInPlaylist(musicId, playlistInfo.getId());
-        if (!exists) {
+        if (exists) {
             throw new ServiceException(ServiceErrorCode.PLAYLIST_MUSIC_EXISTS);
         }
 
