@@ -10,6 +10,7 @@ import com.iucyh.jjapcloud.dto.playlist.query.PlaylistItemSimpleDto;
 import com.iucyh.jjapcloud.dtomapper.PlaylistDtoMapper;
 import com.iucyh.jjapcloud.repository.playlist.PlaylistItemQueryRepository;
 import com.iucyh.jjapcloud.repository.playlist.PlaylistItemRepository;
+import com.iucyh.jjapcloud.repository.playlist.projection.PlaylistIdAndMusicIdProjection;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -42,6 +43,12 @@ public class PlaylistItemService {
                 .toList();
     }
 
+    public PlaylistIdWithMusicIdResult getPlaylistIdAndMusicId(Long userId, String publicPlaylistId, String publicMusicId) {
+        PlaylistIdAndMusicIdProjection result = plItemRepository.findIdAndMusicId(userId, publicPlaylistId, publicMusicId)
+                .orElseThrow(() -> new ServiceException(ServiceErrorCode.PLAYLIST_ITEM_NOT_FOUND));
+        return new PlaylistIdWithMusicIdResult(result.getPlaylistId(), result.getMusicId());
+    }
+
     @Transactional
     public void addMusicToPlaylist(Long playlistId, Long musicId, int position) {
         Playlist playlist = em.getReference(Playlist.class, playlistId);
@@ -49,5 +56,10 @@ public class PlaylistItemService {
 
         PlaylistItem playlistItem = new PlaylistItem(position, music, playlist);
         plItemRepository.save(playlistItem);
+    }
+
+    @Transactional
+    public void deleteMusicFromPlaylist(Long playlistId, Long musicId) {
+        plItemRepository.deleteByPlaylistIdAndMusicId(playlistId, musicId);
     }
 }

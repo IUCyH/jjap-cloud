@@ -3,6 +3,7 @@ package com.iucyh.jjapcloud.facade.playlist;
 import com.iucyh.jjapcloud.common.exception.ServiceException;
 import com.iucyh.jjapcloud.common.exception.errorcode.ServiceErrorCode;
 import com.iucyh.jjapcloud.service.music.MusicService;
+import com.iucyh.jjapcloud.service.playlist.PlaylistIdWithMusicIdResult;
 import com.iucyh.jjapcloud.service.playlist.PlaylistItemService;
 import com.iucyh.jjapcloud.service.playlist.PlaylistService;
 import lombok.RequiredArgsConstructor;
@@ -23,8 +24,9 @@ public class PlaylistItemFacade {
     private final MusicService musicService;
 
     public void addMusicToPlaylist(Long userId, String playlistPublicId, String musicPublicId) {
+        // 유저가 해당 플레이리스트를 소유하고 있는 지 확인 및 id 반환
+        Long playlistId = playlistService.getPlaylistId(userId, playlistPublicId);
         Long musicId = musicService.getMusicId(musicPublicId);
-        Long playlistId = playlistService.getPlaylistId(playlistPublicId);
 
         boolean exists = playlistItemService.isMusicExistsInPlaylist(musicId, playlistId);
         if (exists) {
@@ -37,6 +39,22 @@ public class PlaylistItemFacade {
             playlistItemService.addMusicToPlaylist(playlistId, musicId, count);
 
             txManager.commit(status);
+        } catch (RuntimeException e) {
+            txManager.rollback(status);
+            throw e;
+        }
+    }
+
+    public void removeMusicFromPlaylist(Long userId, String playlistPublicId, String musicPublicId) {
+        // 아이템들 중 주어진 플레이리스트의 id를 가진 아이템이 있는 지 확인
+        // 아이템들 중 주어진 음악의 id를 가진 아이템이 있는 지 확인
+        // 플레이리스트 중 주어진 유저의 id를 가진 플레이리스트가 있는 지 확인
+        PlaylistIdWithMusicIdResult result = playlistItemService.getPlaylistIdAndMusicId(userId, playlistPublicId, musicPublicId);
+
+        TransactionStatus status = txManager.getTransaction(new DefaultTransactionAttribute());
+        try {
+            playlistService.decreaseItemCount(result.getPlaylistId(), userId);
+            playlistItemService.deleteMusicFromPlaylist(result.getPlaylistId(), result.getMusicId());
         } catch (RuntimeException e) {
             txManager.rollback(status);
             throw e;

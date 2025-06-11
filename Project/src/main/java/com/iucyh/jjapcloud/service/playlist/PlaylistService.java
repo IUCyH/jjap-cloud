@@ -10,6 +10,7 @@ import com.iucyh.jjapcloud.dto.playlist.CreatePlaylistDto;
 import com.iucyh.jjapcloud.dto.playlist.PlaylistDto;
 import com.iucyh.jjapcloud.dtomapper.PlaylistDtoMapper;
 import com.iucyh.jjapcloud.repository.playlist.PlaylistRepository;
+import com.iucyh.jjapcloud.repository.playlist.projection.PlaylistIdAndMusicIdProjection;
 import com.iucyh.jjapcloud.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -25,8 +26,8 @@ public class PlaylistService {
     private final PlaylistRepository playlistRepository;
     private final UserRepository userRepository;
 
-    public Long getPlaylistId(String publicId) {
-        return playlistRepository.findIdByPublicId(publicId)
+    public Long getPlaylistId(Long userId, String publicId) {
+        return playlistRepository.findIdByUserIdAndPublicId(userId, publicId)
                 .orElseThrow(() -> new ServiceException(ServiceErrorCode.PLAYLIST_NOT_FOUND));
     }
 
@@ -62,7 +63,13 @@ public class PlaylistService {
     }
 
     @Transactional
+    public void decreaseItemCount(Long id, Long userId) {
+        playlistRepository.decreaseItemCount(id, userId);
+    }
+
+    @Transactional
     public void deletePlaylist(Long userId, String publicId) {
+        // TODO: 연관된 playlist item 들도 삭제 or 논리 삭제 처리
         Long id = playlistRepository.findIdByUserIdAndPublicId(userId, publicId)
                         .orElseThrow(() -> new ServiceException(ServiceErrorCode.PLAYLIST_NOT_FOUND));
         playlistRepository.deleteById(id);
