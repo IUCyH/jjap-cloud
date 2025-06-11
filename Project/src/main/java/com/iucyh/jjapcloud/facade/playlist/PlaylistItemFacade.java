@@ -14,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.DefaultTransactionAttribute;
 
 @Service
-@Transactional
 @RequiredArgsConstructor
 public class PlaylistItemFacade {
 
@@ -23,6 +22,7 @@ public class PlaylistItemFacade {
     private final PlaylistItemService playlistItemService;
     private final MusicService musicService;
 
+    @Transactional
     public void addMusicToPlaylist(Long userId, String playlistPublicId, String musicPublicId) {
         // 유저가 해당 플레이리스트를 소유하고 있는 지 확인 및 id 반환
         Long playlistId = playlistService.getPlaylistId(userId, playlistPublicId);
@@ -33,16 +33,8 @@ public class PlaylistItemFacade {
             throw new ServiceException(ServiceErrorCode.PLAYLIST_MUSIC_EXISTS);
         }
 
-        TransactionStatus status = txManager.getTransaction(new DefaultTransactionAttribute());
-        try {
-            int count = playlistService.increaseItemCount(playlistId);
-            playlistItemService.addMusicToPlaylist(playlistId, musicId, count);
-
-            txManager.commit(status);
-        } catch (RuntimeException e) {
-            txManager.rollback(status);
-            throw e;
-        }
+        int count = playlistService.increaseItemCount(playlistId);
+        playlistItemService.addMusicToPlaylist(playlistId, musicId, count);
     }
 
     public void removeMusicFromPlaylist(Long userId, String playlistPublicId, String musicPublicId) {

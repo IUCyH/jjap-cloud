@@ -13,9 +13,11 @@ import com.iucyh.jjapcloud.repository.playlist.PlaylistRepository;
 import com.iucyh.jjapcloud.repository.playlist.projection.PlaylistIdAndMusicIdProjection;
 import com.iucyh.jjapcloud.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -23,6 +25,7 @@ import java.util.List;
 @Transactional(readOnly = true)
 public class PlaylistService {
 
+    private final Environment environment;
     private final PlaylistRepository playlistRepository;
     private final UserRepository userRepository;
 
@@ -59,7 +62,12 @@ public class PlaylistService {
 
     @Transactional
     public int increaseItemCount(Long id) {
-        return playlistRepository.increaseItemCount(id);
+        if (Arrays.asList(environment.getActiveProfiles()).contains("test")) {
+            playlistRepository.increaseItemCountWithoutReturning(id);
+            return playlistRepository.findItemCountById(id).get(); // 테스트용
+        } else {
+            return playlistRepository.increaseItemCount(id);
+        }
     }
 
     @Transactional

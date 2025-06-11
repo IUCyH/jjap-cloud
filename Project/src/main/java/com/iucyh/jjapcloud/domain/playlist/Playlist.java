@@ -45,6 +45,7 @@ public class Playlist {
     public Playlist(String name, User user) {
         this.name = name;
         this.user = user;
+        this.itemCount = 0;
         this.publicId = UUID.randomUUID().toString().replace("-", "");
     }
 

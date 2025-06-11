@@ -13,7 +13,7 @@ import java.util.UUID;
 @Table(
         name = "musics",
         indexes = {
-                @Index(name = "idx_name", columnList = "name")
+                @Index(name = "idx_title", columnList = "title")
         }
 )
 @Getter
