@@ -2,17 +2,12 @@ package com.iucyh.jjapcloud.facade.playlist;
 
 import com.iucyh.jjapcloud.common.exception.ServiceException;
 import com.iucyh.jjapcloud.common.exception.errorcode.ServiceErrorCode;
-import com.iucyh.jjapcloud.repository.playlist.PlaylistInfo;
 import com.iucyh.jjapcloud.service.music.MusicService;
 import com.iucyh.jjapcloud.service.playlist.PlaylistItemService;
 import com.iucyh.jjapcloud.service.playlist.PlaylistService;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityTransaction;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.TransactionManager;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.DefaultTransactionAttribute;
@@ -29,17 +24,17 @@ public class PlaylistItemFacade {
 
     public void addMusicToPlaylist(Long userId, String playlistPublicId, String musicPublicId) {
         Long musicId = musicService.getMusicId(musicPublicId);
-        PlaylistInfo playlistInfo = playlistService.getPlaylistInfo(userId, playlistPublicId);
+        Long playlistId = playlistService.getPlaylistId(playlistPublicId);
 
-        boolean exists = playlistItemService.isMusicExistsInPlaylist(musicId, playlistInfo.getId());
+        boolean exists = playlistItemService.isMusicExistsInPlaylist(musicId, playlistId);
         if (exists) {
             throw new ServiceException(ServiceErrorCode.PLAYLIST_MUSIC_EXISTS);
         }
 
         TransactionStatus status = txManager.getTransaction(new DefaultTransactionAttribute());
         try {
-            int count = playlistService.increaseItemCount(playlistInfo.getId());
-            playlistItemService.addMusicToPlaylist(playlistInfo.getId(), musicId, count);
+            int count = playlistService.increaseItemCount(playlistId);
+            playlistItemService.addMusicToPlaylist(playlistId, musicId, count);
 
             txManager.commit(status);
         } catch (RuntimeException e) {

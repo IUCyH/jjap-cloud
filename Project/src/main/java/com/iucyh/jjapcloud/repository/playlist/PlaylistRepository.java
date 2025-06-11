@@ -13,8 +13,6 @@ import java.util.Optional;
 public interface PlaylistRepository extends JpaRepository<Playlist, Long> {
     Optional<Playlist> findByPublicId(String publicId);
 
-    Optional<PlaylistInfo> findByUserIdAndPublicId(Long userId, String publicId);
-
     @Query("select pl.id from Playlist pl where pl.publicId = :publicId")
     Optional<Long> findIdByPublicId(@Param("publicId") String publicId);
 

@@ -8,7 +8,6 @@ import com.iucyh.jjapcloud.domain.playlist.PlaylistItem;
 import com.iucyh.jjapcloud.dto.playlist.PlaylistItemDto;
 import com.iucyh.jjapcloud.dto.playlist.query.PlaylistItemSimpleDto;
 import com.iucyh.jjapcloud.dtomapper.PlaylistDtoMapper;
-import com.iucyh.jjapcloud.repository.playlist.PlaylistInfo;
 import com.iucyh.jjapcloud.repository.playlist.PlaylistItemQueryRepository;
 import com.iucyh.jjapcloud.repository.playlist.PlaylistItemRepository;
 import jakarta.persistence.EntityManager;

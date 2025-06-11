@@ -9,7 +9,6 @@ import com.iucyh.jjapcloud.domain.user.User;
 import com.iucyh.jjapcloud.dto.playlist.CreatePlaylistDto;
 import com.iucyh.jjapcloud.dto.playlist.PlaylistDto;
 import com.iucyh.jjapcloud.dtomapper.PlaylistDtoMapper;
-import com.iucyh.jjapcloud.repository.playlist.PlaylistInfo;
 import com.iucyh.jjapcloud.repository.playlist.PlaylistRepository;
 import com.iucyh.jjapcloud.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +25,11 @@ public class PlaylistService {
     private final PlaylistRepository playlistRepository;
     private final UserRepository userRepository;
 
+    public Long getPlaylistId(String publicId) {
+        return playlistRepository.findIdByPublicId(publicId)
+                .orElseThrow(() -> new ServiceException(ServiceErrorCode.PLAYLIST_NOT_FOUND));
+    }
+
     public List<PlaylistDto> findPlaylists(Long userId) {
         List<Playlist> results = playlistRepository.findByUserId(userId)
                 .orElseThrow(() -> new ServiceException(ServiceErrorCode.PLAYLIST_NOT_FOUND));
@@ -34,11 +38,6 @@ public class PlaylistService {
                 .stream()
                 .map(PlaylistDtoMapper::toPlaylistDto)
                 .toList();
-    }
-
-    public PlaylistInfo getPlaylistInfo(Long userId, String publicId) {
-        return playlistRepository.findByUserIdAndPublicId(userId, publicId)
-                .orElseThrow(() -> new ServiceException(ServiceErrorCode.PLAYLIST_NOT_FOUND));
     }
 
     @Transactional
