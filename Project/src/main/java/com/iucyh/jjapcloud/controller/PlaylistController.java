@@ -27,7 +27,7 @@ public class PlaylistController {
                 .success("get playlist success", playlistService.findPlaylists(userId));
     }
 
-    @GetMapping("/{publicId}")
+    @GetMapping("/{publicId}/musics")
     public ResponseDto<List<PlaylistItemDto>> getPlaylistItems(@LoginUserId Long userId, @PathVariable String publicId) {
         return ResponseDto
                 .success("get items success", playlistItemService.getPlaylistItems(userId, publicId));
