@@ -27,8 +27,8 @@ public class PlaylistItemService {
     private final PlaylistItemRepository plItemRepository;
     private final PlaylistItemQueryRepository plItemQueryRepository;
 
-    public boolean isMusicExistsInPlaylist(Long playlistId, Long musicId) {
-        return plItemRepository.existsByPlaylistIdAndMusicId(playlistId, musicId);
+    public boolean isMusicExistsInPlaylist(String playlistPublicId, String musicPublicId) {
+        return plItemRepository.isMusicExistsInPlaylist(playlistPublicId, musicPublicId);
     }
 
     public List<PlaylistItemDto> getPlaylistItems(String playlistId) {

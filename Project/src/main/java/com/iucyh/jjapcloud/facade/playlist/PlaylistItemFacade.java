@@ -7,28 +7,26 @@ import com.iucyh.jjapcloud.service.playlist.PlaylistIdWithMusicIdResult;
 import com.iucyh.jjapcloud.service.playlist.PlaylistItemService;
 import com.iucyh.jjapcloud.service.playlist.PlaylistService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.interceptor.DefaultTransactionAttribute;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
+@Slf4j
 public class PlaylistItemFacade {
 
-    private final PlatformTransactionManager txManager;
     private final PlaylistService playlistService;
     private final PlaylistItemService playlistItemService;
     private final MusicService musicService;
 
-    @Transactional
     public void addMusicToPlaylist(Long userId, String playlistPublicId, String musicPublicId) {
         // 유저가 해당 플레이리스트를 소유하고 있는 지 확인 및 id 반환
         Long playlistId = playlistService.getPlaylistId(userId, playlistPublicId);
         Long musicId = musicService.getMusicId(musicPublicId);
 
-        boolean exists = playlistItemService.isMusicExistsInPlaylist(musicId, playlistId);
+        boolean exists = playlistItemService.isMusicExistsInPlaylist(playlistPublicId, musicPublicId);
         if (exists) {
             throw new ServiceException(ServiceErrorCode.PLAYLIST_MUSIC_EXISTS);
         }
@@ -43,13 +41,7 @@ public class PlaylistItemFacade {
         // 플레이리스트 중 주어진 유저의 id를 가진 플레이리스트가 있는 지 확인
         PlaylistIdWithMusicIdResult result = playlistItemService.getPlaylistIdAndMusicId(userId, playlistPublicId, musicPublicId);
 
-        TransactionStatus status = txManager.getTransaction(new DefaultTransactionAttribute());
-        try {
-            playlistService.decreaseItemCount(result.getPlaylistId(), userId);
-            playlistItemService.deleteMusicFromPlaylist(result.getPlaylistId(), result.getMusicId());
-        } catch (RuntimeException e) {
-            txManager.rollback(status);
-            throw e;
-        }
+        playlistService.decreaseItemCount(result.getPlaylistId(), userId);
+        playlistItemService.deleteMusicFromPlaylist(result.getPlaylistId(), result.getMusicId());
     }
 }
