@@ -23,22 +23,19 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseDto<LoginResultDto> login(@Validated @RequestBody LoginDto loginDto, HttpServletRequest request) {
-        UserLoginResult loginResult = authService.login(loginDto.getEmail(), loginDto.getPassword());
+        UserLoginResult result = authService.login(loginDto.getEmail(), loginDto.getPassword());
 
         HttpSession oldSession = request.getSession(false);
-        if(oldSession != null) {
+        if (oldSession != null) {
             oldSession.invalidate();
         }
 
-        String csrfToken = authService.createCsrfToken();
-
         HttpSession newSession = request.getSession();
+        newSession.setAttribute("userId", result.getUserId());
+        newSession.setAttribute("csrfToken", result.getCsrfToken());
 
-        newSession.setAttribute("userId", loginResult.getUserId());
-        newSession.setAttribute("csrfToken", csrfToken);
-
-        LoginResultDto result = new LoginResultDto(loginResult.getUser(), csrfToken);
-        return ResponseDto.success("Login success", result);
+        LoginResultDto dto = new LoginResultDto(result.getCsrfToken());
+        return ResponseDto.success("Login success", dto);
     }
 
     @PostMapping("/logout")

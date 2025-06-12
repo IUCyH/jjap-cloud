@@ -42,6 +42,10 @@ public class User {
         this.publicId = UUID.randomUUID().toString().replace("-", "");
     }
 
+    public boolean isCorrectPassword(String password) {
+        return this.password.equals(password);
+    }
+
     public void setNickname(String nickname) {
         if(nickname != null) {
             this.nickname = nickname;

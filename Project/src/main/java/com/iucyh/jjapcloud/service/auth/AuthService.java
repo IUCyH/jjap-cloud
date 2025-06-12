@@ -20,23 +20,20 @@ public class AuthService {
     private final UserRepository userRepository;
 
     public UserLoginResult login(String email, String password) {
-        Optional<User> userOptional = userRepository.findByEmail(email);
-        if(userOptional.isPresent()) {
-            User user = userOptional.get();
-            if(user.getPassword().equals(password)) {
-                MyUserDto userDto = UserDtoMapper.toMyUserDto(user);
-                return new UserLoginResult(user.getId(), userDto);
-            }
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new ServiceException(ServiceErrorCode.UNAUTHORIZED));
+
+        if (user.isCorrectPassword(password)) {
+            return new UserLoginResult(user.getId(), createCsrfToken());
         }
-
         throw new ServiceException(ServiceErrorCode.UNAUTHORIZED);
-    }
-
-    public String createCsrfToken() {
-        return UUID.randomUUID().toString().replace("-", "");
     }
 
     public void logout(HttpSession session) {
         session.invalidate();
+    }
+
+    private String createCsrfToken() {
+        return UUID.randomUUID().toString().replace("-", "");
     }
 }
