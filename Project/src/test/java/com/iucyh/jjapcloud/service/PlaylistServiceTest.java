@@ -1,7 +1,6 @@
-package com.iucyh.jjapcloud.facade;
+package com.iucyh.jjapcloud.service;
 
 import com.iucyh.jjapcloud.common.exception.ServiceException;
-import com.iucyh.jjapcloud.common.exception.errorcode.ServiceErrorCode;
 import com.iucyh.jjapcloud.domain.music.Music;
 import com.iucyh.jjapcloud.domain.playlist.Playlist;
 import com.iucyh.jjapcloud.domain.playlist.PlaylistItem;
@@ -23,7 +22,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.*;
@@ -31,7 +29,7 @@ import static org.assertj.core.api.Assertions.*;
 @SpringBootTest
 @Transactional
 @Slf4j
-class PlaylistItemFacadeTest {
+class PlaylistServiceTest {
 
     @Autowired
     private EntityManager em;
