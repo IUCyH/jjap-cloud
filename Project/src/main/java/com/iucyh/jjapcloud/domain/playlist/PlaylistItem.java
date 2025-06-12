@@ -30,4 +30,8 @@ public class PlaylistItem {
         this.music = music;
         this.playlist = playlist;
     }
+
+    public void changePosition(Integer position) {
+        this.position = position;
+    }
 }

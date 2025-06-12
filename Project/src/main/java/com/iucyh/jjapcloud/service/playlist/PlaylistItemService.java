@@ -23,13 +23,8 @@ import java.util.List;
 @Transactional(readOnly = true)
 public class PlaylistItemService {
 
-    private final EntityManager em;
     private final PlaylistItemRepository plItemRepository;
     private final PlaylistItemQueryRepository plItemQueryRepository;
-
-    public boolean isMusicExistsInPlaylist(String playlistPublicId, String musicPublicId) {
-        return plItemRepository.isMusicExistsInPlaylist(playlistPublicId, musicPublicId);
-    }
 
     public List<PlaylistItemDto> getPlaylistItems(String playlistId) {
         List<PlaylistItemSimpleDto> playlistItems = plItemQueryRepository.findPlaylistItems(playlistId);
@@ -41,25 +36,5 @@ public class PlaylistItemService {
                 .stream()
                 .map(PlaylistDtoMapper::toPlaylistItemDto)
                 .toList();
-    }
-
-    public PlaylistIdWithMusicIdResult getPlaylistIdAndMusicId(Long userId, String publicPlaylistId, String publicMusicId) {
-        PlaylistIdAndMusicIdProjection result = plItemRepository.findIdAndMusicId(userId, publicPlaylistId, publicMusicId)
-                .orElseThrow(() -> new ServiceException(ServiceErrorCode.PLAYLIST_ITEM_NOT_FOUND));
-        return new PlaylistIdWithMusicIdResult(result.getPlaylistId(), result.getMusicId());
-    }
-
-    @Transactional
-    public void addMusicToPlaylist(Long playlistId, Long musicId, int position) {
-        Playlist playlist = em.getReference(Playlist.class, playlistId);
-        Music music = em.getReference(Music.class, musicId);
-
-        PlaylistItem playlistItem = new PlaylistItem(position, music, playlist);
-        plItemRepository.save(playlistItem);
-    }
-
-    @Transactional
-    public void deleteMusicFromPlaylist(Long playlistId, Long musicId) {
-        plItemRepository.deleteByPlaylistIdAndMusicId(playlistId, musicId);
     }
 }

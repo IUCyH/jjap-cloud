@@ -6,11 +6,11 @@ import com.iucyh.jjapcloud.domain.music.Music;
 import com.iucyh.jjapcloud.domain.playlist.Playlist;
 import com.iucyh.jjapcloud.domain.playlist.PlaylistItem;
 import com.iucyh.jjapcloud.domain.user.User;
-import com.iucyh.jjapcloud.facade.playlist.PlaylistItemFacade;
 import com.iucyh.jjapcloud.repository.music.MusicRepository;
 import com.iucyh.jjapcloud.repository.playlist.PlaylistItemRepository;
 import com.iucyh.jjapcloud.repository.playlist.PlaylistRepository;
 import com.iucyh.jjapcloud.repository.user.UserRepository;
+import com.iucyh.jjapcloud.service.playlist.PlaylistService;
 import jakarta.persistence.EntityManager;
 import lombok.Getter;
 import lombok.Setter;
@@ -36,7 +36,7 @@ class PlaylistItemFacadeTest {
     @Autowired
     private EntityManager em;
     @Autowired
-    private PlaylistItemFacade playlistItemFacade;
+    private PlaylistService playlistService;
     @Autowired
     private PlaylistItemRepository playlistItemRepository;
     @Autowired
@@ -67,8 +67,8 @@ class PlaylistItemFacadeTest {
 
         playlistRepository.save(playlist);
 
-        playlistItemFacade.addMusicToPlaylist(user.getId(), playlist.getPublicId(), music1.getPublicId());
-        playlistItemFacade.addMusicToPlaylist(user.getId(), playlist.getPublicId(), music2.getPublicId());
+        playlistService.addMusicToPlaylist(user.getId(), playlist.getPublicId(), music1);
+        playlistService.addMusicToPlaylist(user.getId(), playlist.getPublicId(), music2);
 
         List<PlaylistItem> items = playlistItemRepository.findAll();
         assertThat(items).hasSize(2);
@@ -102,33 +102,7 @@ class PlaylistItemFacadeTest {
         playlistRepository.save(playlist);
 
         assertThatThrownBy(
-                () -> playlistItemFacade.addMusicToPlaylist(another.getId(), playlist.getPublicId(), music1.getPublicId())
-        ).isInstanceOf(ServiceException.class);
-    }
-
-    @Test
-    @DisplayName("플레이리스트에 아이템 추가 - 실패 (존재하지 않는 음악)")
-    void addPlaylistItemFailWithWrongMusic() {
-        User owner = new User("owner", "abc@abc.com", "abc123");
-        User singer1 = new User("singer1", "abc@abc.com", "abc123");
-        User singer2 = new User("singer2", "abc@abc.com", "abc123");
-
-        Music music1 = new Music("music1", "storename", singer1, 1000L);
-        Music music2 = new Music("music2", "storename", singer2, 1000L);
-
-        Playlist playlist = new Playlist("playlist1", owner);
-
-        userRepository.save(owner);
-        userRepository.save(singer1);
-        userRepository.save(singer2);
-
-        musicRepository.save(music1);
-
-        playlistRepository.save(playlist);
-
-        // music2 는 생성만 하고 db에 저장하지 않음 -> music2를 publicId로 db에 조회 시 오류
-        assertThatThrownBy(
-                () -> playlistItemFacade.addMusicToPlaylist(owner.getId(), playlist.getPublicId(), music2.getPublicId())
+                () -> playlistService.addMusicToPlaylist(another.getId(), playlist.getPublicId(), music1)
         ).isInstanceOf(ServiceException.class);
     }
 
@@ -142,10 +116,10 @@ class PlaylistItemFacadeTest {
 
         // 똑같은 음악을 중복 삽입
         assertThatThrownBy(
-                () -> playlistItemFacade.addMusicToPlaylist(
+                () -> playlistService.addMusicToPlaylist(
                         result.getOwner().getId(),
                         result.getPlaylist().getPublicId(),
-                        result.getMusics().get(0).getPublicId()
+                        result.getMusics().get(0)
                 )
         ).isInstanceOf(ServiceException.class);
     }
@@ -157,7 +131,7 @@ class PlaylistItemFacadeTest {
         Integer beforeCount = playlistRepository.findItemCountById(result.getPlaylist().getId()).get();
         assertThat(beforeCount).isEqualTo(1);
 
-        playlistItemFacade.removeMusicFromPlaylist(result.getOwner().getId(), result.getPlaylist().getPublicId(), result.getMusics().get(0).getPublicId());
+        playlistService.removeMusicFromPlaylist(result.getOwner().getId(), result.getPlaylist().getPublicId(), result.getMusics().get(0));
 
         Integer afterCount = playlistRepository.findItemCountById(result.getPlaylist().getId()).get();
         assertThat(afterCount).isEqualTo(0);
@@ -173,7 +147,7 @@ class PlaylistItemFacadeTest {
 
         // 쿼리 조건 중 하나만 틀리면 됨 - 유저 id를 대표로 틀림
         assertThatThrownBy(
-                () -> playlistItemFacade.removeMusicFromPlaylist(1111L, result.getPlaylist().getPublicId(), result.getMusics().get(0).getPublicId())
+                () -> playlistService.removeMusicFromPlaylist(1111L, result.getPlaylist().getPublicId(), result.getMusics().get(0))
         ).isInstanceOf(ServiceException.class);
     }
 
@@ -194,7 +168,7 @@ class PlaylistItemFacadeTest {
 
         playlistRepository.save(playlist);
 
-        playlistItemFacade.addMusicToPlaylist(owner.getId(), playlist.getPublicId(), music1.getPublicId());
+        playlistService.addMusicToPlaylist(owner.getId(), playlist.getPublicId(), music1);
 
         log.info("{}", music1.getPublicId());
         PlaylistAddResult result = new PlaylistAddResult();
