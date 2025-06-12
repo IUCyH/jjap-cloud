@@ -41,8 +41,8 @@ public class UserService {
     public IdDto createUser(CreateUserDto userDto) {
         User user = new User(userDto.getNickname(), userDto.getEmail(), userDto.getPassword());
 
-        long id = userRepository.save(user).getId();
-        return new IdDto(id);
+        String publicId = userRepository.save(user).getPublicId();
+        return new IdDto(publicId);
     }
 
     @Transactional

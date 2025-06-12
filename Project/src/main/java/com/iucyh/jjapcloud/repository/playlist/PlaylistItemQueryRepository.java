@@ -28,7 +28,7 @@ public class PlaylistItemQueryRepository {
         this.playlistRepository = playlistRepository;
     }
 
-    public List<PlaylistItemSimpleDto> findPlaylistItems(String playlistPublicId) {
+    public List<PlaylistItemSimpleDto> findPlaylistItems(Long userId, String playlistPublicId) {
         Optional<Long> id = playlistRepository.findIdByPublicId(playlistPublicId);
         if(id.isEmpty()) {
             return new ArrayList<>();
@@ -58,7 +58,7 @@ public class PlaylistItemQueryRepository {
                 .from(playlistItem)
                 .join(playlistItem.music, music)
                 .join(music.user, user)
-                .where(playlistItem.playlist.id.eq(id.get()))
+                .where(user.id.eq(userId), playlistItem.playlist.id.eq(id.get()))
                 .orderBy(playlistItem.position.asc())
                 .fetch();
     }

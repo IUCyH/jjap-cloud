@@ -5,6 +5,7 @@ import com.iucyh.jjapcloud.domain.music.Music;
 import com.iucyh.jjapcloud.domain.playlist.Playlist;
 import com.iucyh.jjapcloud.domain.playlist.PlaylistItem;
 import com.iucyh.jjapcloud.domain.user.User;
+import com.iucyh.jjapcloud.dto.playlist.AddPlaylistItemDto;
 import com.iucyh.jjapcloud.repository.music.MusicRepository;
 import com.iucyh.jjapcloud.repository.playlist.PlaylistItemRepository;
 import com.iucyh.jjapcloud.repository.playlist.PlaylistRepository;
@@ -65,8 +66,14 @@ class PlaylistServiceTest {
 
         playlistRepository.save(playlist);
 
-        playlistService.addMusicToPlaylist(user.getId(), playlist.getPublicId(), music1);
-        playlistService.addMusicToPlaylist(user.getId(), playlist.getPublicId(), music2);
+        AddPlaylistItemDto dto1 = new AddPlaylistItemDto();
+        dto1.setMusicPublicId(music1.getPublicId());
+
+        AddPlaylistItemDto dto2 = new AddPlaylistItemDto();
+        dto2.setMusicPublicId(music2.getPublicId());
+
+        playlistService.addMusicToPlaylist(user.getId(), playlist.getPublicId(), dto1);
+        playlistService.addMusicToPlaylist(user.getId(), playlist.getPublicId(), dto2);
 
         List<PlaylistItem> items = playlistItemRepository.findAll();
         assertThat(items).hasSize(2);
@@ -99,8 +106,11 @@ class PlaylistServiceTest {
 
         playlistRepository.save(playlist);
 
+        AddPlaylistItemDto dto1 = new AddPlaylistItemDto();
+        dto1.setMusicPublicId(music1.getPublicId());
+
         assertThatThrownBy(
-                () -> playlistService.addMusicToPlaylist(another.getId(), playlist.getPublicId(), music1)
+                () -> playlistService.addMusicToPlaylist(another.getId(), playlist.getPublicId(), dto1)
         ).isInstanceOf(ServiceException.class);
     }
 
@@ -112,12 +122,15 @@ class PlaylistServiceTest {
         em.flush();
         em.clear();
 
+        AddPlaylistItemDto dto1 = new AddPlaylistItemDto();
+        dto1.setMusicPublicId(result.getMusics().get(0).getPublicId());
+
         // 똑같은 음악을 중복 삽입
         assertThatThrownBy(
                 () -> playlistService.addMusicToPlaylist(
                         result.getOwner().getId(),
                         result.getPlaylist().getPublicId(),
-                        result.getMusics().get(0)
+                        dto1
                 )
         ).isInstanceOf(ServiceException.class);
     }
@@ -129,7 +142,7 @@ class PlaylistServiceTest {
         Integer beforeCount = playlistRepository.findItemCountById(result.getPlaylist().getId()).get();
         assertThat(beforeCount).isEqualTo(1);
 
-        playlistService.removeMusicFromPlaylist(result.getOwner().getId(), result.getPlaylist().getPublicId(), result.getMusics().get(0));
+        playlistService.removeMusicFromPlaylist(result.getOwner().getId(), result.getPlaylist().getPublicId(), result.getMusics().get(0).getPublicId());
 
         Integer afterCount = playlistRepository.findItemCountById(result.getPlaylist().getId()).get();
         assertThat(afterCount).isEqualTo(0);
@@ -145,7 +158,7 @@ class PlaylistServiceTest {
 
         // 쿼리 조건 중 하나만 틀리면 됨 - 유저 id를 대표로 틀림
         assertThatThrownBy(
-                () -> playlistService.removeMusicFromPlaylist(1111L, result.getPlaylist().getPublicId(), result.getMusics().get(0))
+                () -> playlistService.removeMusicFromPlaylist(1111L, result.getPlaylist().getPublicId(), result.getMusics().get(0).getPublicId())
         ).isInstanceOf(ServiceException.class);
     }
 
@@ -166,7 +179,10 @@ class PlaylistServiceTest {
 
         playlistRepository.save(playlist);
 
-        playlistService.addMusicToPlaylist(owner.getId(), playlist.getPublicId(), music1);
+        AddPlaylistItemDto dto1 = new AddPlaylistItemDto();
+        dto1.setMusicPublicId(music1.getPublicId());
+
+        playlistService.addMusicToPlaylist(owner.getId(), playlist.getPublicId(), dto1);
 
         log.info("{}", music1.getPublicId());
         PlaylistAddResult result = new PlaylistAddResult();

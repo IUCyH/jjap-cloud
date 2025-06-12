@@ -43,8 +43,6 @@ public class PlaylistItemQueryRepositoryTest {
     @Test
     @DisplayName("플레이 리스트 조회 - 1개 이상 조회 성공")
     void findPlaylistItems() {
-        String publicId = UUID.randomUUID().toString().replace("-", "");
-
         User user1 = new User(
                 "testSinger1",
                 "abc@abc.com",
@@ -73,7 +71,7 @@ public class PlaylistItemQueryRepositoryTest {
 
         log.info("==================================");
 
-        List<PlaylistItemSimpleDto> results = playlistItemQueryRepository.findPlaylistItems(playlist1.getPublicId());
+        List<PlaylistItemSimpleDto> results = playlistItemQueryRepository.findPlaylistItems(user1.getId(), playlist1.getPublicId());
 
         assertThat(results).isNotEmpty();
         assertThat(results.stream().map(r -> r.getMusic().getTitle())).containsExactly(
@@ -115,7 +113,7 @@ public class PlaylistItemQueryRepositoryTest {
         playlistItemRepository.save(item3);
 
         String wrongPublicId = UUID.randomUUID().toString().replace("-", "");
-        List<PlaylistItemSimpleDto> results = playlistItemQueryRepository.findPlaylistItems(wrongPublicId);
+        List<PlaylistItemSimpleDto> results = playlistItemQueryRepository.findPlaylistItems(user1.getId(), wrongPublicId);
 
         assertThat(results).isEmpty();
     }

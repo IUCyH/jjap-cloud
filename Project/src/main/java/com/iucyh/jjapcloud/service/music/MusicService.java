@@ -32,8 +32,8 @@ public class MusicService {
     private final UserRepository userRepository;
     private final MusicQueryRepository musicQueryRepository;
 
-    public Long getMusicId(String publicId) {
-        return musicRepository.findIdByPublicId(publicId)
+    public Music getMusicEntityByPublicId(String publicId) {
+        return musicRepository.findByPublicId(publicId)
                 .orElseThrow(() -> new ServiceException(ServiceErrorCode.MUSIC_NOT_FOUND));
     }
 
@@ -81,7 +81,7 @@ public class MusicService {
                 uploadResult.getPlaytime()
         );
         Music savedMusic = musicRepository.save(music);
-        return new IdDto(savedMusic.getId());
+        return new IdDto(savedMusic.getPublicId());
     }
 
     /**

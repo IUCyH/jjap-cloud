@@ -26,8 +26,8 @@ public class PlaylistItemService {
     private final PlaylistItemRepository plItemRepository;
     private final PlaylistItemQueryRepository plItemQueryRepository;
 
-    public List<PlaylistItemDto> getPlaylistItems(String playlistId) {
-        List<PlaylistItemSimpleDto> playlistItems = plItemQueryRepository.findPlaylistItems(playlistId);
+    public List<PlaylistItemDto> getPlaylistItems(Long userId, String playlistId) {
+        List<PlaylistItemSimpleDto> playlistItems = plItemQueryRepository.findPlaylistItems(userId, playlistId);
         if(playlistItems.isEmpty()) {
             throw new ServiceException(ServiceErrorCode.PLAYLIST_ITEM_NOT_FOUND);
         }
